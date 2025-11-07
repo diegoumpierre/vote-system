@@ -19,16 +19,13 @@ The problem is to enable a global audience to vote in real time during a Live TV
 
 ### 3. 🎯 Non-Goals
 
-List in form of bullets what non-goals do have. Here it's great to have 5-10 lines.
-Example:
-```
-1. Be perfect: There will be mistakes, we dont want have automatic-rollback for everything.
-2. DynamoDB: Dynamo is expensive, we want be away from the DB.
-3. Serverless: Serverless has high latency, we do not want to use it.
-4. Mobile-native: We want have one single codebase, therefore we will not have 2 mobile code bases(ios and android) thefore be native is not a goal.
-5. ...
-```
-Recommended Reading: http://diego-pacheco.blogspot.com/2021/01/requirements-are-dangerous.html
+1. Detailed UI/UX or native mobile apps (backend scope only)
+2. Legal/government-grade auditing - limited to entertainment context
+3. Indefinite raw data storage - retention policies will apply
+4. Scalability beyond 300M users or 250k RPS
+5. Serverless, MongoDB, OpenShift, mainframes, or monolithic solutions (per restrictions)
+6. ML-based fraud detection - only rule-based protection
+7. Payment or monetary transaction handling
 
 ### 📐 3. Principles
 
