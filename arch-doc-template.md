@@ -1,21 +1,8 @@
-# 🧬 Template
-
-This is a template created by Diego Pacheco which the goal to better describe a tought process which is called architecture. This should be used to learn software architecture and to pratice with use cases.
-
 ## 🏛️ Structure
 
 ### 1. 🎯 Problem Statement and Context
 
-What is the problem? What is the context of the problem?
-Example:
-```
-The problem is to sell shoes online, the main issue with buying shoes online is 
-how we will make our users buy shoes if they cannot make them fit? We would need
-to have a huge selectio and find ways to people find they perpect show at the 
-same time market teams would need to change campains all the time, we need to
-have way to make things fast and dynamic.
-```
-Recomended Reading: http://diego-pacheco.blogspot.com/2021/10/breaking-problems-down.html
+The problem is to enable a global audience to vote in real time during a Live TV Show. Key challenges include handling enormous, short-lived traffic spikes from a user base of hundreds of millions, guaranteeing each registered viewer can cast exactly one vote, and ensuring no votes are lost even under failures. At the same time, the system must prevent bots and bad actors from skewing results, provide near real time aggregated results for on-air presentation, and keep an audit trail for post-event review.
 
 ### 2. 🎯 Goals
 
