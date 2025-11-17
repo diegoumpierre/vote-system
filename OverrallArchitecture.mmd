@@ -1,0 +1,98 @@
+---
+config:
+  layout: elk
+  theme: redux
+---
+flowchart TB
+ subgraph Legend["📖 Legend"]
+    direction LR
+        L1["Solid Line: Synchronous HTTP"]
+        L2["Dashed Line: Async Event/Telemetry"]
+        L3["Dotted Line: Monitoring Data"]
+  end
+ subgraph Acronyms["📚 Acronyms"]
+    direction TB
+        A1["CDN: Content Delivery Network"]
+        A2["WAF: Web Application Firewall"]
+        A3["PWA: Progressive Web App"]
+        A4["2FA: Two-Factor Authentication"]
+        A5["ELK: Elasticsearch"]
+        A6["S3: Storage Service"]
+  end
+ subgraph Client["🌐 Client Layer"]
+        PWA["PWA Web App<br>(Installable, Offline-capable)"]
+  end
+ subgraph Edge["🛡️ Edge Layer"]
+        CDN["CDN + WAF<br>(CloudFront/Cloudflare)"]
+        LB["Load Balancer<br>(Multi-AZ)"]
+  end
+ subgraph API["🚪 API Layer"]
+        Gateway["API Gateway<br>(Rate: 250k RPS)"]
+        RateLimit["Rate Limiter<br>(Per IP/User)"]
+        CAPTCHA["CAPTCHA Service<br>(Bot Detection)"]
+        Auth["Auth Service<br>(2FA + Facial Recognition)"]
+  end
+ subgraph Services["⚙️ Service Layer"]
+        VoteIngestion["Vote Ingestion Service<br>(Auto-scaling: 10-100 pods)"]
+        FraudDetection["Fraud Detection<br>(Rule-based)"]
+        VoteValidator["Vote Validation Service<br>(Idempotency Check)"]
+        ResultsAggregator["Results Aggregator<br>(Real-time Stream)"]
+        AdminService["Admin Service<br>(Management API)"]
+  end
+ subgraph Messaging["📨 Message Queue"]
+    direction TB
+        MessageBroker["Node.js Options:<br>• BullMQ (Redis-based)<br>• RabbitMQ (AMQP)<br>• Apache Kafka<br>• AWS SQS/SNS"]
+        Kafka["Kafka Cluster<br>Topics:<br>- vote.submitted<br>- vote.validated<br>- vote.aggregated"]
+  end
+ subgraph Cache["⚡ Cache Layer"]
+        Redis["Redis Cluster<br>Cache:<br>• Vote Options (Candidates)<br>• Deduplication Keys<br>• Live Results<br>• User Sessions"]
+  end
+ subgraph Data["Data Layer"]
+        VoteDB["Vote DB (PostgreSQL)<br>(Read Replicas)<br>Isolated: Admin read-only"]
+        UserDB["User DB (PostgreSQL)<br>(Multi-AZ)"]
+        AuditDB["Audit Logs (S3)<br>(Immutable, Cross-Region)"]
+  end
+ subgraph Monitoring["📊 Observability"]
+        Metrics["Prometheus/Grafana<br>(System Metrics)"]
+        Tracing["Jaeger<br>(Distributed Tracing)"]
+        Logs["ELK Stack<br>(Centralized Logs)"]
+  end
+    PWA -- HTTPS --> CDN
+    CDN -- Forward --> LB
+    LB -- Distribute --> Gateway
+    Gateway -- "1. Check Limits" --> RateLimit
+    RateLimit -- "2. Verify Human" --> CAPTCHA
+    CAPTCHA -- "3. Authenticate" --> Auth
+    Auth -- Validate 2FA/Face --> UserDB
+    Auth -- Authorized --> VoteIngestion
+    VoteIngestion -- Check Cache --> Redis
+    VoteIngestion -- Detect Fraud --> FraudDetection
+    VoteIngestion -- Publish Event --> Kafka
+    Kafka -- "Consume vote.submitted" --> VoteValidator
+    VoteValidator -- Idempotency Check --> Redis
+    VoteValidator -- Persist Vote --> VoteDB
+    VoteValidator -- "Publish vote.validated" --> Kafka
+    Kafka -- "Consume vote.validated" --> ResultsAggregator
+    ResultsAggregator -- Read Aggregates --> VoteDB
+    ResultsAggregator -- Update Cache --> Redis
+    ResultsAggregator -- "Publish vote.aggregated" --> Kafka
+    AdminService -- Via Gateway --> Gateway
+    AdminService -- "Read-only Access" --> VoteDB
+    AdminService -- Write Audit --> AuditDB
+    VoteIngestion -. Metrics .-> Metrics
+    VoteValidator -. Traces .-> Tracing
+    ResultsAggregator -. Logs .-> Logs
+    Gateway -. Metrics .-> Metrics
+    Auth -. Traces .-> Tracing
+    FraudDetection -. Logs .-> Logs
+
+    style Client fill:#C8E6C9,stroke:#388E3C,stroke-width:3px
+    style Edge fill:#FFECB3,stroke:#F57C00,stroke-width:3px
+    style API fill:#BBDEFB,stroke:#1976D2,stroke-width:3px
+    style Services fill:#E1BEE7,stroke:#7B1FA2,stroke-width:3px
+    style Messaging fill:#FFE0B2,stroke:#E64A19,stroke-width:3px
+    style Cache fill:#FFCDD2,stroke:#C62828,stroke-width:3px
+    style Data fill:#B2DFDB,stroke:#00796B,stroke-width:3px
+    style Monitoring fill:#F0F4C3,stroke:#AFB42B,stroke-width:3px
+    style Legend fill:#FFF9C4,stroke:#F57F17,stroke-width:2px
+    style Acronyms fill:#FFF9C4,stroke:#F57F17,stroke-width:2px
