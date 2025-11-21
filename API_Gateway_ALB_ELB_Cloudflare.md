@@ -1,24 +1,89 @@
-API Gateway vs ALB vs ELB, CloudflareAPI gateway
-É um serviço da AWS para criação, publicação, manutenção, monitoramento e proteção de APIs REST e WebSocket. É uma camada de software que apresenta um único ponto de entrada para os clientes acessarem vários serviços de back-end, ao mesmo tempo em que gerencia as interações cliente/servidor.
-Algumas funções:
-- gerenciamento de tráfego
-- controle de autorização e acesso
-- monitoramento
-- gerenciamento de versão de APIs
+# AWS: API Gateway vs ALB vs ELB + Cloudflare Overview
 
+## API Gateway
+API Gateway is an AWS service used to create, publish, maintain, monitor, and secure REST and WebSocket APIs. It acts as a centralized entry point for clients, handling communication between external consumers and backend services.
 
-ALB
-O Application Load Balancer é um serviço de balanceamento de carga projetado especificamente para distribuir o tráfego de aplicativos baseados em HTTP e HTTPS em nível de aplicativo. Ele distribuir o tráfego de aplicativos entre várias instâncias de servidores com o objetivo de melhorar a escalabilidade, a disponibilidade e o desempenho do aplicativo. O ALB opera no nível da camada 7 do modelo OSI, o que significa que ele é capaz de tomar decisões de roteamento com base em informações do aplicativo, como o conteúdo do cabeçalho HTTP, o caminho da URL ou as informações do cookie. Isso permite que o ALB distribua o tráfego de forma inteligente, direcionando solicitações específicas para servidores apropriados.
+### Key Capabilities
+- Traffic management  
+- Authorization and access control  
+- Monitoring and logging  
+- API version management  
+- Request/response transformation  
+- Throttling and rate limiting  
 
+API Gateway is commonly used for:
+- Public APIs  
+- Serverless applications (Lambda)  
+- Fine-grained access control  
+- API lifecycle management  
 
-ELB
-O Elastic Load Balancing é um serviço que distribui automaticamente o tráfego de entrada para várias instâncias EC2 (Elastic Compute Cloud) ou contêineres, ajudando a melhorar a escalabilidade, a disponibilidade e a resiliência de aplicações. Ele é usado para aumentar a escalabilidade e a disponibilidade dos aplicativos, roteando requisições apenas para destinos saudáveis e gerenciando picos de demanda de forma eficiente.
+---
 
+## Application Load Balancer (ALB)
+The Application Load Balancer is a Layer 7 AWS load balancer designed to distribute HTTP and HTTPS traffic. It understands application-level content (headers, paths, hostnames, cookies), enabling intelligent routing.
 
-API gateway vs ALB vs ELB
-Embora as 3 lidem com o request do client, elas são usadas em diferentes etapas desse request.
-Ao realizar uma requisição para uma aplicação, a primeira etapa é o ELB, é ele quem vai dizer para qual maquina (EC2) deve seguir o request. Definido a maquina, a próxima etapa é o ALB, que vai pegar as informações contidas no HTTP/HTTPS do request e com base nisso dizer qual o melhor caminho para o request continuar seguindo. Chegando assim a ultima etapa, que é o API gateway, que vai guiar para qual serviço especifico deve bater a requisição.
+### What ALB Provides
+- Path-based and host-based routing  
+- Header and cookie-based routing  
+- Load distribution across EC2, ECS, EKS, or IP targets  
+- Health checks  
+- WebSocket support  
+- Basic authentication via Amazon Cognito  
 
+ALB is ideal for:
+- Microservices  
+- Containerized applications  
+- Routing logic based on URL or headers  
 
-CloudFlare
-É um proxy reverso com funções CDN. Ele atua entre o client request e o servidor, criando versões em cache do conteúdo estático de aplicações e espalhando-as por uma rede de servidores, agilizando o seu desempenho da aplicação, pois o retorno cache sera do servidor que estiver mais proximo da localização da origem do request.
+---
+
+## Elastic Load Balancing (ELB)
+Elastic Load Balancing is the overarching AWS service that includes several load balancer types. The term "ELB" is often used ambiguously.
+
+### ELB Includes
+- **CLB (Classic Load Balancer)** — older, limited L4/L7  
+- **ALB (Application Load Balancer)** — modern L7  
+- **NLB (Network Load Balancer)** — ultra-fast L4  
+
+### General Features
+- Automatic traffic distribution  
+- Health checks  
+- Scalability and availability  
+
+---
+
+## API Gateway vs ALB vs ELB
+
+These services all handle incoming client requests, but they operate at different layers and serve different purposes.
+
+### Comparison by Layer
+
+| Service | Layer | Primary Purpose |
+|--------|--------|----------------------------|
+| NLB / CLB (ELB family) | L4 | Route traffic to the correct machine or container |
+| ALB | L7 | Route HTTP/HTTPS traffic based on application data |
+| API Gateway | API Layer | Manage, secure, and expose APIs |
+
+### Conceptual Flow
+These services are **not** always used sequentially. Architectures typically use:
+- **API Gateway + Lambda** for serverless APIs  
+- **ALB** for containerized workloads (ECS/EKS)  
+- **NLB** for high-performance network-level routing  
+
+---
+
+## Cloudflare
+Cloudflare is a globally distributed reverse proxy and CDN that sits in front of your application. It accelerates performance and enhances security by caching static content and serving it from the closest edge location.
+
+### Main Functions
+- Global CDN  
+- Reverse proxy  
+- DDoS mitigation  
+- WAF (Web Application Firewall)  
+- DNS management  
+- Performance optimization  
+- Caching (static + optional dynamic)  
+
+Cloudflare usually sits **before AWS**, handling edge caching and security before traffic reaches your infrastructure.
+
+---
