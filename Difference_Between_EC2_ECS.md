@@ -1,22 +1,34 @@
-Difference Between EC2 & ECS
-* O que são
-* EC2: máquinas virtuais (instâncias), VMs gerenciadas por mim.
-* ECS: serviço de orquestração de containers (executa tasks/serviços Docker). Não é VM, roda containers em cima de instâncias (EC2) ou no modo serverless (Fargate).
-** AWS Fargate é um motor de execução "serverless" para containers que permite rodar containers sem gerenciar instâncias EC2
-* Nível de abstração
-* EC2 = infraestrutura (instância, SO, rede, storage).
-* ECS = plataforma para executar e orquestrar containers (tasks, serviços, auto-restart, balanceamento).
-* Modos de execução do ECS
-* Launch type EC2: você provisiona instâncias EC2 no cluster e o ECS agenda containers nelas.
-* Fargate: serverless, não gerencia instâncias; paga por CPU/memória por task.
-* Operação e responsabilidade
-* EC2: mais controle (kernel, security, agentes).
-* ECS+Fargate: menos operação, foco na aplicação; ECS+EC2: ainda delega orquestração, mas você gerencia instâncias.
-* Escalabilidade e custo
-* EC2: custo por instância; pode ser mais barato em cargas estáveis (reservations/spot).
-* Fargate: custo por recurso usado por task; bom para variabilidade e menor overhead operacional.
-* Casos típicos
-* Use EC2 direto quando precisa de VMs para rodar aplicações não conteinerizadas ou controle total.
-* Use ECS+EC2 quando quer orquestração de containers mas precisa controlar instâncias (custom AMIs, drivers, GPUs).
-* Use ECS+Fargate quando quer minimizar operação e pagar por uso por container.
+# Difference Between EC2 and ECS
 
+## What they are
+
+- **EC2**: Virtual machines (instances). You manage VMs (OS, kernel, agents).
+- **ECS**: Container orchestration service for running Docker tasks/services. ECS schedules containers on instances (EC2) or in serverless mode (Fargate).
+- **AWS Fargate**: A serverless compute engine for containers that lets you run containers without managing EC2 instances.
+
+## Level of abstraction
+
+- **EC2** = infrastructure (instance, OS, network, storage).
+- **ECS** = platform to run and orchestrate containers (tasks, services, auto-restart, load balancing).
+
+## ECS launch modes
+
+- **Launch type: EC2** — you provision EC2 instances in a cluster and ECS schedules containers onto them.
+- **Fargate** — serverless: no instance management, billed per CPU/memory per task.
+
+## Operation & responsibility
+
+- **EC2**: more operational responsibility and control (kernel, security, agents).
+- **ECS + Fargate**: less operational overhead; focus on the application.
+- **ECS + EC2**: ECS handles orchestration, but you still manage instances.
+
+## Scalability & cost
+
+- **EC2**: cost per instance; may be cheaper for steady workloads (reservations / Spot).
+- **Fargate**: cost per resource used by each task; good for variable workloads and lower ops overhead.
+
+## Typical use cases
+
+- Use **EC2** when you need VMs for non-containerized apps or complete control.
+- Use **ECS + EC2** when you want container orchestration but need control over instances (custom AMIs, drivers, GPUs).
+- Use **ECS + Fargate** when you want to minimize operations and pay per
