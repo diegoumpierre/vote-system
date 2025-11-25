@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram name="Page-1" id="JrTwzRF0q1NG6DUn1VT4">
-        <mxGraphModel dx="3495" dy="3073" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+        <mxGraphModel dx="1796" dy="1881" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -330,6 +330,15 @@
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="354" y="739" as="targetPoint"/>
                     </mxGeometry>
+                </mxCell>
+                <mxCell id="9" value="" style="group" vertex="1" connectable="0" parent="1">
+                    <mxGeometry x="-377" y="-524" width="452" height="299" as="geometry"/>
+                </mxCell>
+                <mxCell id="8" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="9">
+                    <mxGeometry width="452" height="299" as="geometry"/>
+                </mxCell>
+                <mxCell id="7" value="&lt;h1 style=&quot;margin-top: 0px;&quot;&gt;Project Restrictions&lt;/h1&gt;&lt;div&gt;You must design a Real-time voting system with the following requirements:&lt;br&gt; 1. Never lose Data&lt;br&gt; 2. Be secure and prevent bots and bad actors&lt;br&gt; 3. Handle 300M users &lt;br&gt; 4. Handle peak of 250k RPS&lt;br&gt; 5. Must ensure users vote only once&lt;br&gt; 6. Should be Realtime&lt;br&gt;&lt;br&gt;Restrictions:&lt;br&gt; • Serverless&lt;br&gt; • MongoDB&lt;br&gt; • On-Premise, Google Cloude, Azure&lt;br&gt; • OpenShift&lt;br&gt; • Mainframes&lt;br&gt; • Monolith Solutions&lt;br&gt;&lt;/div&gt;" style="text;html=1;whiteSpace=wrap;overflow=hidden;rounded=0;" vertex="1" parent="9">
+                    <mxGeometry x="7" y="11.5" width="438" height="276" as="geometry"/>
                 </mxCell>
             </root>
         </mxGraphModel>
