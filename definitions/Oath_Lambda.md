@@ -108,3 +108,5 @@ https://aws.amazon.com/blogs/security/building-fine-grained-authorization-using-
 https://stackoverflow.com/questions/33702826/oauth-authorization-vs-authentication#:~:text=Comments,-Add%20a%20comment&text=To%20me%2C%20this%20is%20a,providers%22%2Dstep%20for%20authentication.
 https://docs.aws.amazon.com/pt_br/apigateway/latest/developerguide/apigateway-use-lambda-authorizer.html
 https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-use-lambda-authorizer.html
+
+
