@@ -1,5 +1,3 @@
-# Difference Between EC2 and ECS
-
 ## What they are
 
 - **EC2**: Virtual machines (instances). You manage VMs (OS, kernel, agents).
