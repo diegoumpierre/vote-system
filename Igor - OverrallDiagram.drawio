@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram name="Page-1" id="JrTwzRF0q1NG6DUn1VT4">
-        <mxGraphModel dx="15821" dy="8329" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+        <mxGraphModel dx="4664" dy="3215" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -224,11 +224,6 @@
                 </mxCell>
                 <mxCell id="oJs2A4zfYpTVFzXtk8Sa-59" value="DBs Layer" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;rounded=0;" parent="1" vertex="1">
                     <mxGeometry x="-27.549999999999997" y="1317.33" width="102" height="30" as="geometry"/>
-                </mxCell>
-                <mxCell id="40" style="edgeStyle=none;html=1;" edge="1" parent="1" source="oJs2A4zfYpTVFzXtk8Sa-60">
-                    <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="2149" y="1791" as="targetPoint"/>
-                    </mxGeometry>
                 </mxCell>
                 <mxCell id="oJs2A4zfYpTVFzXtk8Sa-60" value="&lt;h1 style=&quot;margin-top: 0px;&quot;&gt;TODO&lt;/h1&gt;&lt;p&gt;Observabilidade&lt;/p&gt;&lt;p&gt;Circuit Breaker&lt;/p&gt;&lt;p&gt;Fila, como funciona e o que colocar&lt;/p&gt;&lt;p&gt;Cache&lt;/p&gt;&lt;p&gt;Comunicação entre serviços&lt;/p&gt;&lt;p&gt;Colocar o route 53&lt;/p&gt;&lt;p&gt;Revisar conceito de gatway&lt;/p&gt;&lt;p&gt;Usar Aurora&lt;/p&gt;" style="text;html=1;whiteSpace=wrap;overflow=hidden;rounded=0;" parent="1" vertex="1">
                     <mxGeometry x="-1137" y="-322" width="317" height="342" as="geometry"/>
