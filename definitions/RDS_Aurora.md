@@ -12,10 +12,10 @@ Amazon Aurora is AWS's own proprietary relational database engine, designed spec
 
 #### Key features:
 
-Performance: Up to 5x faster than standard MySQL, 3x faster than PostgreSQL
-Availability: Data is replicated 6 ways across 3 availability zones automatically
-Scalability: Storage auto-scales up to 128TB, and you can add read replicas easily
-Serverless option: Aurora Serverless automatically scales capacity based on demand
+- Performance: Up to 5x faster than standard MySQL, 3x faster than PostgreSQL
+- Availability: Data is replicated 6 ways across 3 availability zones automatically
+- Scalability: Storage auto-scales up to 128TB, and you can add read replicas easily
+- Serverless option: Aurora Serverless automatically scales capacity based on demand
 
 Aurora is available through RDS - it's one of the database engine options you can choose when using RDS.
 
