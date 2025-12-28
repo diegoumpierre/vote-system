@@ -1,15 +1,9 @@
 <mxfile host="65bd71144e">
     <diagram name="Page-1" id="5SWeNEhK7nn3D6xAScoX">
-        <mxGraphModel dx="2936" dy="2820" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+        <mxGraphModel dx="3265" dy="2985" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
-                <mxCell id="XRay" value="&lt;b&gt;X-Ray&lt;/b&gt;&lt;div&gt;&lt;b&gt;(Distributed Tracing)&lt;/b&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=right;spacingRight=15;" vertex="1" parent="1">
-                    <mxGeometry x="1382.82" y="96" width="250" height="80" as="geometry"/>
-                </mxCell>
-                <mxCell id="344" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#E5CCFF;strokeColor=#FFFFCC;opacity=50;" vertex="1" parent="1">
-                    <mxGeometry x="2000" y="-260" width="865" height="520" as="geometry"/>
-                </mxCell>
                 <mxCell id="WhwibwrtEBXQmAW8Dtkf-229" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;glass=0;shadow=0;fillStyle=auto;opacity=70;container=0;" parent="1" vertex="1">
                     <mxGeometry x="-330" y="650" width="1150" height="500" as="geometry"/>
                 </mxCell>
@@ -51,54 +45,135 @@
                 <mxCell id="19" value="&lt;h2 style=&quot;margin-top: 0px;&quot;&gt;Acronyms&lt;/h2&gt;&lt;p&gt;&lt;b&gt;PWA&lt;/b&gt;: Progressive Web App&lt;/p&gt;&lt;p&gt;&lt;b&gt;ELK&lt;/b&gt;: Elasticsearch, Logstash, Kibana&lt;br&gt;&lt;b&gt;S3&lt;/b&gt;: Simple Storage Service&lt;/p&gt;&lt;p&gt;&lt;b&gt;CDN&lt;/b&gt;: Content Delivery Network&lt;/p&gt;&lt;p&gt;&lt;b&gt;WAF&lt;/b&gt;: Web Application Firewall&lt;/p&gt;&lt;p&gt;&lt;b&gt;2FA&lt;/b&gt;: Two-Factor Authentication&lt;/p&gt;&lt;p&gt;&lt;b&gt;RPS&lt;/b&gt;: Requests Per Second&lt;/p&gt;&lt;p&gt;&lt;b&gt;ALB&lt;/b&gt;: Application Load Balancer&lt;/p&gt;&lt;p&gt;&lt;b&gt;ECS&lt;/b&gt;: Elastic Container Service&lt;/p&gt;&lt;p&gt;&lt;b&gt;RDS&lt;/b&gt;: Relational Database Service&lt;/p&gt;&lt;p&gt;&lt;b&gt;A-Z&lt;/b&gt;: Availability Zone&lt;/p&gt;&lt;p&gt;&lt;b&gt;SNS: &lt;/b&gt;Simple Notification Servic&lt;b&gt;e&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&lt;b&gt;SQS: &lt;/b&gt;Simple Queue Service&lt;/p&gt;" style="text;html=1;whiteSpace=wrap;overflow=hidden;rounded=0;fillColor=default;glass=1;shadow=0;dashed=1;spacing=2;spacingLeft=10;spacingRight=10;spacingBottom=10;strokeColor=#5339FF;" parent="1" vertex="1">
                     <mxGeometry x="-1370" y="-740" width="350" height="410" as="geometry"/>
                 </mxCell>
-                <mxCell id="CloudWatchLogs" value="&lt;b&gt;CloudWatch Logs&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=right;spacingRight=15;" vertex="1" parent="1">
-                    <mxGeometry x="862.82" y="96" width="210" height="80" as="geometry"/>
+                <mxCell id="ObsBox" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;opacity=30;" parent="1" vertex="1">
+                    <mxGeometry x="700" y="-180" width="1280" height="720" as="geometry"/>
                 </mxCell>
-                <mxCell id="CloudWatchLogsIcon" value="" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;fillColor=#E7157B;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.cloudwatch_2;" vertex="1" parent="1">
-                    <mxGeometry x="872.82" y="106" width="60" height="60" as="geometry"/>
+                <mxCell id="ObsTitle" value="Observability &amp; Operations Layer" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1;fontSize=16;" parent="1" vertex="1">
+                    <mxGeometry x="720" y="-160" width="350" height="40" as="geometry"/>
                 </mxCell>
-                <mxCell id="CloudWatchMetrics" value="&lt;b&gt;CloudWatch Metrics&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=right;spacingRight=15;" vertex="1" parent="1">
-                    <mxGeometry x="1102.82" y="96" width="250" height="80" as="geometry"/>
+                <mxCell id="CloudWatchLogs" value="&lt;b&gt;CloudWatch Logs&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=right;spacingRight=15;" parent="1" vertex="1">
+                    <mxGeometry x="740" y="-90" width="220" height="80" as="geometry"/>
                 </mxCell>
-                <mxCell id="SystemsManager" value="&lt;b&gt;Systems Manager&lt;/b&gt;&lt;div&gt;&lt;b&gt;(Operations)&lt;/b&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=right;spacingRight=15;" vertex="1" parent="1">
-                    <mxGeometry x="1652.82" y="299" width="250" height="80" as="geometry"/>
+                <mxCell id="CloudWatchLogsIcon" value="" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;fillColor=#E7157B;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.cloudwatch_2;" parent="1" vertex="1">
+                    <mxGeometry x="750" y="-80" width="60" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="SystemsManagerIcon" value="" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;fillColor=#E7157B;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.systems_manager;" vertex="1" parent="1">
-                    <mxGeometry x="1672.82" y="309" width="60" height="60" as="geometry"/>
+                <mxCell id="CloudWatchMetrics" value="&lt;b&gt;CloudWatch Metrics&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=right;spacingRight=15;" parent="1" vertex="1">
+                    <mxGeometry x="1000" y="-90" width="220" height="80" as="geometry"/>
                 </mxCell>
-                <mxCell id="LogstoS3" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#E05243;strokeWidth=2;dashed=1;endArrow=classic;endFill=1;" edge="1" parent="1" source="CloudWatchLogs">
-                    <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="952.82" y="366" as="targetPoint"/>
-                    </mxGeometry>
+                <mxCell id="CloudWatchMetricsIcon" value="" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#E7157B;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;pointerEvents=1;shape=mxgraph.aws4.cloudwatch_metrics_insights;" parent="1" vertex="1">
+                    <mxGeometry x="1010" y="-76" width="58" height="58" as="geometry"/>
                 </mxCell>
-                <mxCell id="MetricstoGrafana" style="edgeStyle=elbowEdgeStyle;html=1;strokeColor=#E7157B;strokeWidth=2;dashed=1;endArrow=classic;endFill=1;" edge="1" parent="1" source="CloudWatchMetrics" target="Grafana">
+                <mxCell id="XRay" value="&lt;b&gt;X-Ray&lt;/b&gt;&lt;div&gt;&lt;b&gt;(Tracing)&lt;/b&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=right;spacingRight=15;" parent="1" vertex="1">
+                    <mxGeometry x="1260" y="-90" width="220" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="XRayIcon" value="" style="outlineConnect=0;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;shape=mxgraph.aws3.x_ray;fillColor=#759C3E;gradientColor=none;" parent="1" vertex="1">
+                    <mxGeometry x="1270" y="-80" width="50" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="CloudWatchAlarms" value="&lt;b&gt;CloudWatch Alarms&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=right;spacingRight=15;" parent="1" vertex="1">
+                    <mxGeometry x="1520" y="-90" width="220" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="CloudWatchAlarmsIcon" value="" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;fillColor=#E7157B;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.cloudwatch_2;" parent="1" vertex="1">
+                    <mxGeometry x="1530" y="-80" width="60" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="CloudTrail" value="&lt;b&gt;CloudTrail&lt;/b&gt;&lt;div&gt;&lt;b&gt;(Audit)&lt;/b&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=right;spacingRight=15;" parent="1" vertex="1">
+                    <mxGeometry x="740" y="60" width="220" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="CloudTrailIcon" value="" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;fillColor=#E7157B;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.cloudtrail;" parent="1" vertex="1">
+                    <mxGeometry x="750" y="70" width="60" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="EventBridge" value="&lt;b&gt;EventBridge&lt;/b&gt;&lt;div&gt;&lt;b&gt;(Events)&lt;/b&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=right;spacingRight=15;" parent="1" vertex="1">
+                    <mxGeometry x="1000" y="60" width="220" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="EventBridgeIcon" value="" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;fillColor=#E7157B;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.eventbridge;" parent="1" vertex="1">
+                    <mxGeometry x="1010" y="70" width="60" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="SystemsManager" value="&lt;b&gt;Systems Manager&lt;/b&gt;&lt;div&gt;&lt;b&gt;(Automation)&lt;/b&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=right;spacingRight=15;" parent="1" vertex="1">
+                    <mxGeometry x="1260" y="60" width="220" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="SystemsManagerIcon" value="" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;fillColor=#E7157B;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.systems_manager;" parent="1" vertex="1">
+                    <mxGeometry x="1270" y="70" width="60" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="AutoScaling" value="&lt;b&gt;Auto Scaling&lt;/b&gt;&lt;div&gt;&lt;b&gt;(250k RPS)&lt;/b&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=right;spacingRight=15;" parent="1" vertex="1">
+                    <mxGeometry x="1520" y="60" width="220" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="AutoScalingIcon" value="" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;fillColor=#ED7100;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.auto_scaling2;" parent="1" vertex="1">
+                    <mxGeometry x="1530" y="70" width="60" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="S3Logs" value="&lt;b&gt;S3&lt;/b&gt;&lt;div&gt;&lt;b&gt;(Log Storage)&lt;/b&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=right;spacingRight=15;" parent="1" vertex="1">
+                    <mxGeometry x="740" y="200" width="220" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="S3LogsIcon" value="" style="outlineConnect=0;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;shape=mxgraph.aws3.s3;fillColor=#E05243;gradientColor=none;" parent="1" vertex="1">
+                    <mxGeometry x="750" y="210" width="50" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="ContainerInsights" value="&lt;b&gt;Container Insights&lt;/b&gt;&lt;div&gt;&lt;b&gt;(ECS Metrics)&lt;/b&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=right;spacingRight=15;" parent="1" vertex="1">
+                    <mxGeometry x="1000" y="200" width="220" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="ContainerInsightsIcon" value="" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;fillColor=#E7157B;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.cloudwatch_2;" parent="1" vertex="1">
+                    <mxGeometry x="1010" y="210" width="60" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="Grafana" value="&lt;b&gt;Grafana&lt;/b&gt;&lt;div&gt;&lt;b&gt;(Dashboards)&lt;/b&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=right;spacingRight=15;" parent="1" vertex="1">
+                    <mxGeometry x="1260" y="200" width="220" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="GrafanaIcon" value="" style="image;aspect=fixed;html=1;points=[];align=center;fontSize=12;image=img/lib/azure2/other/Grafana.svg;" parent="1" vertex="1">
+                    <mxGeometry x="1270" y="216" width="68" height="52.8" as="geometry"/>
+                </mxCell>
+                <mxCell id="LogstoS3" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#E05243;strokeWidth=2;dashed=1;endArrow=classic;endFill=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="CloudWatchLogs" target="S3Logs" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="AlarmstoAutoScaling" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#ED7100;strokeWidth=2;dashed=1;endArrow=classic;endFill=1;" edge="1" parent="1" source="CloudWatchAlarms" target="AutoScaling">
+                <mxCell id="CloudTrailtoS3" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#E05243;strokeWidth=2;dashed=1;endArrow=classic;endFill=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="CloudTrail" target="S3Logs" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="MetricstoAlarms" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#E7157B;strokeWidth=2;dashed=1;endArrow=classic;endFill=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="CloudWatchMetrics" target="CloudWatchAlarms" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="AlarmstoEventBridge" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#E7157B;strokeWidth=2;dashed=1;endArrow=classic;endFill=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="CloudWatchAlarms" target="EventBridge" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <Array as="points">
-                            <mxPoint x="1510" y="-30"/>
-                            <mxPoint x="1510" y="-30"/>
+                            <mxPoint x="1630" y="30"/>
+                            <mxPoint x="1110" y="30"/>
                         </Array>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="AlarmstoEventBridge" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#E7157B;strokeWidth=2;dashed=1;endArrow=classic;endFill=1;" edge="1" parent="1" target="EventBridge">
+                <mxCell id="EventBridgetoSystemsManager" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#ED7100;strokeWidth=2;dashed=1;endArrow=classic;endFill=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="EventBridge" target="SystemsManager" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="SystemsManagertoSNS" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#D9A741;strokeWidth=2;dashed=1;endArrow=classic;endFill=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;" parent="1" source="SystemsManager" edge="1">
                     <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="1382.82" y="136" as="sourcePoint"/>
+                        <mxPoint x="760" y="860" as="targetPoint"/>
                         <Array as="points">
-                            <mxPoint x="1382.82" y="206"/>
-                            <mxPoint x="1227.82" y="206"/>
+                            <mxPoint x="1260" y="380"/>
+                            <mxPoint x="600" y="380"/>
+                            <mxPoint x="600" y="860"/>
                         </Array>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="EventBridgetoLambda" style="edgeStyle=none;html=1;strokeColor=#ED7100;strokeWidth=2;dashed=1;endArrow=classic;endFill=1;" edge="1" parent="1" source="EventBridge" target="Lambda">
-                    <mxGeometry relative="1" as="geometry"/>
-                </mxCell>
-                <mxCell id="349" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#E7157B;strokeWidth=2;dashed=1;endArrow=classic;endFill=1;" edge="1" parent="1" source="CloudWatchAlarms" target="XRay">
+                <mxCell id="AlarmstoAutoScaling" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#ED7100;strokeWidth=2;dashed=1;endArrow=classic;endFill=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="CloudWatchAlarms" target="AutoScaling" edge="1">
                     <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="1630" y="100" as="sourcePoint"/>
-                        <mxPoint x="1610" y="100" as="targetPoint"/>
+                        <Array as="points">
+                            <mxPoint x="1750" y="-50"/>
+                            <mxPoint x="1750" y="30"/>
+                            <mxPoint x="1630" y="30"/>
+                        </Array>
                     </mxGeometry>
+                </mxCell>
+                <mxCell id="MetricstoGrafana" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#E7157B;strokeWidth=2;dashed=1;endArrow=classic;endFill=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="CloudWatchMetrics" target="Grafana" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="1110" y="170"/>
+                            <mxPoint x="1370" y="170"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="APIGatewaytoXRay" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#759C3E;strokeWidth=2;dashed=1;endArrow=classic;endFill=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="104" target="XRay" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="680" y="126"/>
+                            <mxPoint x="680" y="-50"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="FlowDesc" value="&lt;b&gt;Data Flow:&lt;/b&gt; ECS Services → CloudWatch Logs/Metrics → Alarms → EventBridge → Systems Manager (auto-remediation) → SNS | CloudWatch Alarms → Auto Scaling (250k RPS) | API Gateway → X-Ray (tracing) | Metrics → Grafana (dashboards)" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;" parent="1" vertex="1">
+                    <mxGeometry x="1250" y="421.42" width="1200" height="80" as="geometry"/>
                 </mxCell>
                 <mxCell id="24" value="Forward" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;startArrow=classic;startFill=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" parent="1" source="25" target="97" edge="1">
                     <mxGeometry relative="1" as="geometry">
@@ -404,7 +479,7 @@
                 <mxCell id="WhwibwrtEBXQmAW8Dtkf-234" value="&lt;h3 style=&quot;margin-top: 0px;&quot;&gt;BackOffice Database&lt;/h3&gt;&lt;p&gt;Contains admin users, metrics, schduled elections, administrative entities&lt;/p&gt;" style="text;html=1;whiteSpace=wrap;overflow=hidden;rounded=0;container=0;" parent="1" vertex="1">
                     <mxGeometry x="-260" y="900" width="180" height="120" as="geometry"/>
                 </mxCell>
-                <mxCell id="ECStoLogs1" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#E7157B;strokeWidth=2;rounded=0;dashed=1;endArrow=classic;endFill=1;" edge="1" parent="1" source="WhwibwrtEBXQmAW8Dtkf-252" target="CloudWatchLogs">
+                <mxCell id="ECStoLogs1" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#E7157B;strokeWidth=2;rounded=0;dashed=1;endArrow=classic;endFill=1;" parent="1" source="WhwibwrtEBXQmAW8Dtkf-252" target="CloudWatchLogs" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <Array as="points">
                             <mxPoint x="-87" y="600"/>
@@ -412,7 +487,7 @@
                         </Array>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="ECStoLogs2" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#E7157B;strokeWidth=2;rounded=0;dashed=1;endArrow=classic;endFill=1;exitX=0.75;exitY=0;exitDx=0;exitDy=0;" edge="1" parent="1" source="WhwibwrtEBXQmAW8Dtkf-246" target="CloudWatchLogs">
+                <mxCell id="ECStoLogs2" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#E7157B;strokeWidth=2;rounded=0;dashed=1;endArrow=classic;endFill=1;exitX=0.75;exitY=0;exitDx=0;exitDy=0;" parent="1" source="WhwibwrtEBXQmAW8Dtkf-246" target="CloudWatchLogs" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <Array as="points">
                             <mxPoint x="280" y="720"/>
@@ -421,7 +496,7 @@
                         </Array>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="ECStoLogs3" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#E7157B;strokeWidth=2;rounded=0;dashed=1;endArrow=classic;endFill=1;exitX=0.75;exitY=0;exitDx=0;exitDy=0;" edge="1" parent="1" source="WhwibwrtEBXQmAW8Dtkf-249" target="CloudWatchLogs">
+                <mxCell id="ECStoLogs3" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#E7157B;strokeWidth=2;rounded=0;dashed=1;endArrow=classic;endFill=1;exitX=0.75;exitY=0;exitDx=0;exitDy=0;" parent="1" source="WhwibwrtEBXQmAW8Dtkf-249" target="CloudWatchLogs" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <Array as="points">
                             <mxPoint x="630" y="600"/>
@@ -429,7 +504,7 @@
                         </Array>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="ECStoMetrics1" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#E7157B;strokeWidth=2;rounded=0;dashed=1;endArrow=classic;endFill=1;" edge="1" parent="1" source="WhwibwrtEBXQmAW8Dtkf-252" target="CloudWatchMetrics">
+                <mxCell id="ECStoMetrics1" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#E7157B;strokeWidth=2;rounded=0;dashed=1;endArrow=classic;endFill=1;" parent="1" source="WhwibwrtEBXQmAW8Dtkf-252" target="CloudWatchMetrics" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <Array as="points">
                             <mxPoint x="-30" y="600"/>
@@ -437,7 +512,7 @@
                         </Array>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="ECStoMetrics2" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#E7157B;strokeWidth=2;rounded=0;dashed=1;endArrow=classic;endFill=1;exitX=0.634;exitY=-0.014;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="1" source="WhwibwrtEBXQmAW8Dtkf-246" target="CloudWatchMetrics">
+                <mxCell id="ECStoMetrics2" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#E7157B;strokeWidth=2;rounded=0;dashed=1;endArrow=classic;endFill=1;exitX=0.634;exitY=-0.014;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="WhwibwrtEBXQmAW8Dtkf-246" target="CloudWatchMetrics" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <Array as="points">
                             <mxPoint x="260" y="720"/>
@@ -446,7 +521,7 @@
                         </Array>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="ECStoMetrics3" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#E7157B;strokeWidth=2;rounded=0;dashed=1;endArrow=classic;endFill=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="WhwibwrtEBXQmAW8Dtkf-249" target="EventBridge">
+                <mxCell id="ECStoMetrics3" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#E7157B;strokeWidth=2;rounded=0;dashed=1;endArrow=classic;endFill=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" parent="1" source="WhwibwrtEBXQmAW8Dtkf-249" target="EventBridge" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <Array as="points">
                             <mxPoint x="610" y="600"/>
@@ -454,7 +529,7 @@
                         </Array>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="LambdatoSNS" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#D9A741;strokeWidth=2;dashed=1;endArrow=classic;endFill=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="Lambda" target="274">
+                <mxCell id="LambdatoSNS" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#D9A741;strokeWidth=2;dashed=1;endArrow=classic;endFill=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" parent="1" target="274" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <Array as="points">
                             <mxPoint x="1320" y="860"/>
@@ -513,7 +588,7 @@
                         <mxPoint x="570" y="779.8299999999999" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="341" value="" style="group" vertex="1" connectable="0" parent="1">
+                <mxCell id="341" value="" style="group" parent="1" vertex="1" connectable="0">
                     <mxGeometry x="-450" y="360" width="423" height="190" as="geometry"/>
                 </mxCell>
                 <mxCell id="242" value="" style="rounded=0;whiteSpace=wrap;html=1;glass=1;shadow=1;fillStyle=auto;fillColor=none;strokeWidth=1;container=0;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" parent="341" vertex="1">
@@ -558,7 +633,7 @@
                 <mxCell id="247" value="BackofficeService" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;container=0;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" parent="341" vertex="1">
                     <mxGeometry x="313" y="130" width="100" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="339" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#E7157B;strokeWidth=2;rounded=0;curved=0;dashed=1;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" edge="1" parent="341">
+                <mxCell id="339" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#E7157B;strokeWidth=2;rounded=0;curved=0;dashed=1;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" parent="341" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <Array as="points">
                             <mxPoint x="70.5" y="80"/>
@@ -568,101 +643,8 @@
                         <mxPoint x="70" y="30" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="340" value="Observability Service" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;container=0;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" vertex="1" parent="341">
+                <mxCell id="340" value="Observability Service" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;container=0;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" parent="341" vertex="1">
                     <mxGeometry x="2" y="135" width="118" height="20" as="geometry"/>
-                </mxCell>
-                <mxCell id="FlowDesc" value="&lt;b&gt;Data Flow:&lt;/b&gt; ECS Services → CloudWatch Logs/Metrics → Alarms → EventBridge → Lambda (auto-remediation) → SNS → Grafana Dashboards" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;" vertex="1" parent="1">
-                    <mxGeometry x="1307.9970588235294" y="520.0005263157894" width="1082.8235294117649" height="80.52631578947368" as="geometry"/>
-                </mxCell>
-                <mxCell id="ObsTitle" value="Observability &amp; Operations Layer" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1;fontSize=14;" vertex="1" parent="1">
-                    <mxGeometry x="710" y="-65" width="350" height="40" as="geometry"/>
-                </mxCell>
-                <mxCell id="338" value="" style="group" vertex="1" connectable="0" parent="1">
-                    <mxGeometry x="1122.82" y="366" width="200" height="80" as="geometry"/>
-                </mxCell>
-                <mxCell id="ContainerInsights" value="&lt;b&gt;Container Insights&lt;/b&gt;&lt;div&gt;&lt;b&gt;(ECS Metrics)&lt;/b&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=right;spacingRight=15;" vertex="1" parent="338">
-                    <mxGeometry width="199.18" height="79.21" as="geometry"/>
-                </mxCell>
-                <mxCell id="ContainerInsightsIcon" value="" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;fillColor=#E7157B;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.cloudwatch_2;" vertex="1" parent="338">
-                    <mxGeometry x="13.980000000000018" y="14.269999999999982" width="49.35" height="49.35" as="geometry"/>
-                </mxCell>
-                <mxCell id="CloudTrailtoS3" style="edgeStyle=none;html=1;strokeColor=#E05243;strokeWidth=2;dashed=1;endArrow=classic;endFill=1;" edge="1" parent="1" source="CloudTrail" target="S3Logs">
-                    <mxGeometry relative="1" as="geometry"/>
-                </mxCell>
-                <mxCell id="CloudTrail" value="&lt;b&gt;CloudTrail&lt;/b&gt;&lt;div&gt;&lt;b&gt;(Audit &amp; Compliance)&lt;/b&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=right;spacingRight=15;" vertex="1" parent="1">
-                    <mxGeometry x="842.82" y="236" width="230" height="80" as="geometry"/>
-                </mxCell>
-                <mxCell id="CloudTrailIcon" value="" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;fillColor=#E7157B;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.cloudtrail;" vertex="1" parent="1">
-                    <mxGeometry x="862.82" y="246" width="60" height="60" as="geometry"/>
-                </mxCell>
-                <mxCell id="348" value="" style="outlineConnect=0;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;shape=mxgraph.aws3.x_ray;fillColor=#759C3E;gradientColor=none;" vertex="1" parent="1">
-                    <mxGeometry x="1402.82" y="99.62" width="60" height="72.75" as="geometry"/>
-                </mxCell>
-                <mxCell id="350" value="" style="group" vertex="1" connectable="0" parent="1">
-                    <mxGeometry x="842.82" y="366" width="190" height="80" as="geometry"/>
-                </mxCell>
-                <mxCell id="S3Logs" value="&lt;b&gt;S3&lt;/b&gt;&lt;div&gt;&lt;b&gt;(Log Storage)&lt;/b&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=right;spacingRight=15;container=0;" vertex="1" parent="350">
-                    <mxGeometry width="190" height="80" as="geometry"/>
-                </mxCell>
-                <mxCell id="S3LogsIcon" value="" style="outlineConnect=0;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;shape=mxgraph.aws3.s3;fillColor=#E05243;gradientColor=none;container=0;" vertex="1" parent="350">
-                    <mxGeometry x="20" y="10" width="50" height="60" as="geometry"/>
-                </mxCell>
-                <mxCell id="351" value="" style="group" vertex="1" connectable="0" parent="1">
-                    <mxGeometry x="1132.82" y="216" width="190" height="80" as="geometry"/>
-                </mxCell>
-                <mxCell id="EventBridge" value="&lt;b&gt;EventBridge&lt;/b&gt;&lt;div&gt;&lt;b&gt;(Event-driven)&lt;/b&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=right;spacingRight=15;" vertex="1" parent="351">
-                    <mxGeometry width="190" height="80" as="geometry"/>
-                </mxCell>
-                <mxCell id="EventBridgeIcon" value="" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;fillColor=#E7157B;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.eventbridge;" vertex="1" parent="351">
-                    <mxGeometry x="11.799999999999955" y="10" width="56.4" height="56.4" as="geometry"/>
-                </mxCell>
-                <mxCell id="352" value="" style="group" vertex="1" connectable="0" parent="1">
-                    <mxGeometry x="1422.82" y="396" width="210" height="80" as="geometry"/>
-                </mxCell>
-                <mxCell id="Lambda" value="&lt;b&gt;Lambda&lt;/b&gt;&lt;div&gt;&lt;b&gt;(Auto-remediation)&lt;/b&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=right;spacingRight=15;" vertex="1" parent="352">
-                    <mxGeometry width="210" height="80" as="geometry"/>
-                </mxCell>
-                <mxCell id="LambdaIcon" value="" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;fillColor=#ED7100;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.lambda;" vertex="1" parent="352">
-                    <mxGeometry x="8" y="16.400000000000006" width="50" height="50" as="geometry"/>
-                </mxCell>
-                <mxCell id="353" value="" style="group" vertex="1" connectable="0" parent="1">
-                    <mxGeometry x="1426" y="-240" width="178" height="80" as="geometry"/>
-                </mxCell>
-                <mxCell id="AutoScaling" value="&lt;b&gt;Auto Scaling&lt;/b&gt;&lt;div&gt;&lt;b&gt;(250k RPS)&lt;/b&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=right;spacingRight=15;" vertex="1" parent="353">
-                    <mxGeometry width="178" height="80" as="geometry"/>
-                </mxCell>
-                <mxCell id="AutoScalingIcon" value="" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;fillColor=#ED7100;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.auto_scaling2;" vertex="1" parent="353">
-                    <mxGeometry x="10" y="10" width="60" height="60" as="geometry"/>
-                </mxCell>
-                <mxCell id="355" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#E7157B;strokeWidth=2;rounded=0;dashed=1;endArrow=classic;endFill=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="104" target="CloudWatchMetrics">
-                    <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="328" y="100" as="sourcePoint"/>
-                        <mxPoint x="1080" y="100" as="targetPoint"/>
-                        <Array as="points">
-                            <mxPoint x="1080" y="126"/>
-                        </Array>
-                    </mxGeometry>
-                </mxCell>
-                <mxCell id="354" value="" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#E7157B;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;pointerEvents=1;shape=mxgraph.aws4.cloudwatch_metrics_insights;" vertex="1" parent="1">
-                    <mxGeometry x="1132.82" y="100.99" width="69.1" height="70" as="geometry"/>
-                </mxCell>
-                <mxCell id="358" value="" style="group" vertex="1" connectable="0" parent="1">
-                    <mxGeometry x="1150" y="-100" width="190" height="80" as="geometry"/>
-                </mxCell>
-                <mxCell id="Grafana" value="&lt;b&gt;Grafana&lt;/b&gt;&lt;div&gt;&lt;b&gt;(Visualization)&lt;/b&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=right;spacingRight=15;" vertex="1" parent="358">
-                    <mxGeometry width="190" height="80" as="geometry"/>
-                </mxCell>
-                <mxCell id="347" value="" style="image;aspect=fixed;html=1;points=[];align=center;fontSize=12;image=img/lib/azure2/other/Grafana.svg;" vertex="1" parent="358">
-                    <mxGeometry x="10" y="13.599999999999994" width="68" height="52.800000000000004" as="geometry"/>
-                </mxCell>
-                <mxCell id="359" value="" style="group" vertex="1" connectable="0" parent="1">
-                    <mxGeometry x="1410" y="-100" width="210" height="80" as="geometry"/>
-                </mxCell>
-                <mxCell id="CloudWatchAlarms" value="&lt;b&gt;CloudWatch Alarms&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=right;spacingRight=15;" vertex="1" parent="359">
-                    <mxGeometry x="-7.18" width="210" height="80" as="geometry"/>
-                </mxCell>
-                <mxCell id="CloudWatchAlarmsIcon" value="" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;fillColor=#E7157B;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.cloudwatch_2;" vertex="1" parent="359">
-                    <mxGeometry x="10" y="10" width="60" height="60" as="geometry"/>
                 </mxCell>
             </root>
         </mxGraphModel>
