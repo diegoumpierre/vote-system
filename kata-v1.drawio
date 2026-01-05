@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram name="Page-1" id="5SWeNEhK7nn3D6xAScoX">
-        <mxGraphModel dx="3265" dy="2985" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+        <mxGraphModel dx="3506" dy="3106" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -164,7 +164,7 @@
                         </Array>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="APIGatewaytoXRay" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#759C3E;strokeWidth=2;dashed=1;endArrow=classic;endFill=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="104" target="XRay" edge="1">
+                <mxCell id="APIGatewaytoXRay" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#759C3E;strokeWidth=2;dashed=1;endArrow=classic;endFill=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="104" target="XRay">
                     <mxGeometry relative="1" as="geometry">
                         <Array as="points">
                             <mxPoint x="680" y="126"/>
