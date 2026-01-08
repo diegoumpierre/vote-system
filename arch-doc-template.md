@@ -181,7 +181,92 @@ For each different kind of data store i.e (Postgres, Memcached, Elasticache, S3,
 
 ### 🖹 11. Technology Stack
 
-Describe your stack, what databases would be used, what servers, what kind of components, mobile/ui approach, general architecture components, frameworks and libs to be used or not be used and why.
+#### Backend
+Language: Java 25 (LTS)
+* Strong performance under high concurrency.
+* Modern language features improve domain expressiveness.
+* Virtual Threads (Project Loom) enable high throughput using a simple blocking programming model.
+
+Framework: Spring Boot
+* Orchestrates use cases.
+* Coordinates domain logic through clearly defined ports.
+* Thread-per-request using Virtual Threads.
+
+REST API: Spring MVC
+* Exposes HTTP endpoints.
+* Translates external requests into domain use case calls.
+
+API Contracts: OpenAPI (Swagger)
+
+Database: PostgreSQL (Amazon RDS)
+* Spring Data JPA + Hibernate.
+* ACID guarantees ensure vote integrity and exactness.
+
+Cache: Redis
+* Cached vote aggregates.
+* Session data.
+
+Messaging: Amazon SQS
+* Buffers vote submissions.
+* Decouples ingestion from processing.
+* Protects the system from traffic spikes.
+
+Security:
+* Spring Security
+* JWT
+* Auth0
+
+#### Frontend
+Framework: React.js
+
+State Management: Redux Toolkit
+
+Styling: Tailwind CSS
+
+Data Fetching: Axios
+
+#### Infrastructure & Deployment
+Containerization: Docker
+
+Orchestration: Amazon ECS Fargate
+
+Load Balancing / Gateway:
+
+* AWS Application Load Balancer
+* AWS API Gateway (rate limiting, edge security)
+
+Secrets & Configuration: AWS Secrets Manager
+
+#### Security
+* JWT authentication
+* TLS for all communications
+* AWS WAF for DDoS and abuse protection
+
+#### Observability & Operations
+* TODO
+
+#### Development & CI/CD
+Build Tools: Maven
+
+CI/CD: GitHub Actions
+
+#### Architectural Rationale
+
+Hexagonal Architecture:
+* Ensures business logic is independent of frameworks and infrastructure.
+* Simplifies testing by mocking ports instead of infrastructure.
+
+Scalability:
+* Stateless Spring Boot services scale horizontally under load.
+
+Reliability:
+* PostgreSQL transactions + SQS buffering prevent vote loss or duplication.
+
+Maintainability:
+* Clear separation of concerns reduces long-term complexity.
+
+Frontend Decoupling:
+* React frontend interacts exclusively through APIs, enabling independent evolution.
 
 ### 🖹 12. References
 
