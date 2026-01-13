@@ -187,22 +187,22 @@ Language: Java 25 (LTS)
 * Modern language features improve domain expressiveness.
 * Virtual Threads (Project Loom) enable high throughput using a simple blocking programming model.
 
-Framework: Spring Boot
+Framework: Spring Boot 4.0.1
 * Orchestrates use cases.
 * Coordinates domain logic through clearly defined ports.
 * Thread-per-request using Virtual Threads.
 
-REST API: Spring MVC
+REST API: Spring MVC 7.0.2
 * Exposes HTTP endpoints.
 * Translates external requests into domain use case calls.
 
-API Contracts: OpenAPI (Swagger)
+API Contracts: OpenAPI (Swagger) 3.0.4
 
-Database: PostgreSQL (Amazon RDS)
+Database: PostgreSQL 17.6 (Amazon RDS)
 * Spring Data JPA + Hibernate.
 * ACID guarantees ensure vote integrity and exactness.
 
-Cache: Redis
+Cache: Redis 8.4
 * Cached vote aggregates.
 * Session data.
 
@@ -243,7 +243,8 @@ Secrets & Configuration: AWS Secrets Manager
 * AWS WAF for DDoS and abuse protection
 
 #### Observability & Operations
-* TODO
+* Metrics: Prometheus
+* Dashboards: Grafana
 
 #### Development & CI/CD
 Build Tools: Maven
