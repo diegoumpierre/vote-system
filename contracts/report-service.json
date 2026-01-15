@@ -1,0 +1,308 @@
+{
+  "openapi": "3.0.4",
+  "info": {
+    "title": "Report Service API",
+    "version": "0.1.0",
+    "description": "Aggregated and live results for elections in the vote system POC."
+  },
+  "servers": [
+    {
+      "url": "https://report-api.vote-system-example.com",
+      "description": "Production placeholder"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Reports",
+      "description": "Reporting operations"
+    }
+  ],
+  "paths": {
+    "/api/v1/reports/results/{electionId}": {
+      "get": {
+        "tags": ["Reports"],
+        "summary": "Retrieve aggregated results for an election",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "electionId",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Aggregated results",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ElectionResults"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid election id",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Election not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/reports/live/{electionId}": {
+      "get": {
+        "tags": ["Reports"],
+        "summary": "Retrieve live count for an election",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "electionId",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Live count",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LiveCount"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid election id",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Election not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/reports/statistics/{electionId}": {
+      "get": {
+        "tags": ["Reports"],
+        "summary": "Retrieve detailed statistics for an election",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "electionId",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Election statistics",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ElectionStatistics"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid election id",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Election not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ElectionResults": {
+        "type": "object",
+        "required": ["electionId", "totals", "generatedAt"],
+        "properties": {
+          "electionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "totals": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CandidateTotal"
+            }
+          },
+          "generatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "CandidateTotal": {
+        "type": "object",
+        "required": ["candidateId", "votes"],
+        "properties": {
+          "candidateId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "votes": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "LiveCount": {
+        "type": "object",
+        "required": ["electionId", "currentVotes", "lastUpdated"],
+        "properties": {
+          "electionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "currentVotes": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "lastUpdated": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "ElectionStatistics": {
+        "type": "object",
+        "required": ["electionId", "totalVotes", "totalEligibleVoters", "turnoutPercentage", "candidateStats", "generatedAt"],
+        "properties": {
+          "electionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "totalVotes": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "totalEligibleVoters": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "turnoutPercentage": {
+            "type": "number",
+            "format": "float",
+            "description": "Percentage of eligible voters who voted"
+          },
+          "candidateStats": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CandidateTotal"
+            }
+          },
+          "votesPerHour": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "hour": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "count": {
+                  "type": "integer"
+                }
+              }
+            }
+          },
+          "generatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "required": ["code", "message"],
+        "properties": {
+          "code": {
+            "type": "string",
+            "example": "REPORT_NOT_FOUND"
+          },
+          "message": {
+            "type": "string"
+          },
+          "traceId": {
+            "type": "string",
+            "description": "Correlation id for troubleshooting"
+          }
+        }
+      }
+    }
+  }
+}
