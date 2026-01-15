@@ -20,3 +20,6 @@ resultados deveriam fornecer estatisticas também em tempo real?
 lembrando, temos vote service, results e back office, as apis deveriam refletir isso?
 Melhor que sim,
 devemos representar comunicação sns e sqs nesse modelo?
+
+Acho que é preciso ter um limite de requests por usuário, 
+Tenho que pesquisar sobre captcha
