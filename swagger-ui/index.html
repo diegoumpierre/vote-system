@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Vote System - Swagger UI</title>
+  <link rel="stylesheet" href="/swagger-ui/node_modules/swagger-ui-dist/swagger-ui.css" />
+  <style>
+    body { margin: 0; padding: 0; }
+    #swagger-ui { min-height: 100vh; }
+  </style>
+</head>
+<body>
+  <div id="swagger-ui"></div>
+  <script src="/swagger-ui/node_modules/swagger-ui-dist/swagger-ui-bundle.js"></script>
+  <script src="/swagger-ui/node_modules/swagger-ui-dist/swagger-ui-standalone-preset.js"></script>
+  <script>
+    window.onload = () => {
+      window.ui = SwaggerUIBundle({
+        urls: [
+          { url: '/contracts/auth-service.json', name: 'Auth Service' },
+          { url: '/contracts/user-service.json', name: 'User Management' },
+          { url: '/contracts/vote-service.json', name: 'Vote Service' },
+          { url: '/contracts/report-service.json', name: 'Report Service' },
+          { url: '/contracts/election-service.json', name: 'Election Service' }
+        ],
+        dom_id: '#swagger-ui',
+        deepLinking: true,
+        presets: [SwaggerUIBundle.presets.apis, SwaggerUIStandalonePreset],
+        layout: 'StandaloneLayout',
+        docExpansion: 'none'
+      });
+    };
+  </script>
+</body>
+</html>
