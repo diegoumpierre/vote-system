@@ -1,0 +1,587 @@
+openapi: 3.0.4
+info:
+  title: Backoffice Service API
+  description: |
+    backfoffice API for election and management
+
+servers:
+  - url: http://localhost:8083
+    description: Local development
+
+security:
+  - bearerAuth: []
+
+paths:
+  /api/v1/elections:
+    get:
+      tags:
+        - Elections
+      summary: List all elections
+      description: Retrieve a paginated list of all elections with optional filtering
+      operationId: listElections
+      parameters:
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/SizeParam'
+        - name: status
+          in: query
+          description: Filter by election status
+          schema:
+            type: string
+            enum: [DRAFT, SCHEDULED, ACTIVE, CLOSED, CANCELLED]
+        - name: sortBy
+          in: query
+          description: Sort field
+          schema:
+            type: string
+            default: createdAt
+            enum: [createdAt, startDate, endDate, title]
+        - name: sortOrder
+          in: query
+          description: Sort order
+          schema:
+            type: string
+            default: desc
+            enum: [asc, desc]
+      responses:
+        '200':
+          $ref: '#/components/responses/ElectionListResponse'
+    
+    post:
+      tags:
+        - Elections
+      summary: Create a new election
+      description: Create a new election with candidates and configuration
+      operationId: createElection
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateElectionRequest'
+      responses:
+        '201':
+          $ref: '#/components/responses/ElectionResponse'
+
+  /api/v1/elections/{electionId}:
+    put:
+      tags:
+        - Elections
+      summary: Update an election
+      description: Update election details (not allowed once voting has started)
+      operationId: updateElection
+      parameters:
+        - $ref: '#/components/parameters/ElectionIdParam'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateElectionRequest'
+      responses:
+        '200':
+          $ref: '#/components/responses/ElectionResponse'
+    
+    delete:
+      tags:
+        - Elections
+      summary: Delete an election
+      description: Soft delete an election (changes status to CANCELLED)
+      operationId: deleteElection
+      parameters:
+        - $ref: '#/components/parameters/ElectionIdParam'
+      responses:
+        '204':
+          description: Election successfully deleted
+
+  /api/v1/elections/{electionId}/candidates:
+    post:
+      tags:
+        - Candidates
+      summary: Add a candidate to an election
+      description: Add a new candidate to an existing election
+      operationId: addCandidate
+      parameters:
+        - $ref: '#/components/parameters/ElectionIdParam'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCandidateRequest'
+      responses:
+        '201':
+          $ref: '#/components/responses/CandidateResponse'
+
+  /api/v1/elections/{electionId}/candidates/{candidateId}:
+    put:
+      tags:
+        - Candidates
+      summary: Update candidate information
+      description: Update candidate details (not allowed once voting has started)
+      operationId: updateCandidate
+      parameters:
+        - $ref: '#/components/parameters/ElectionIdParam'
+        - $ref: '#/components/parameters/CandidateIdParam'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateCandidateRequest'
+      responses:
+        '200':
+          $ref: '#/components/responses/CandidateResponse'
+    
+    delete:
+      tags:
+        - Candidates
+      summary: Remove a candidate
+      description: Remove a candidate from an election (not allowed once voting has started)
+      operationId: deleteCandidate
+      parameters:
+        - $ref: '#/components/parameters/ElectionIdParam'
+        - $ref: '#/components/parameters/CandidateIdParam'
+      responses:
+        '204':
+          description: Candidate successfully removed
+
+  /api/v1/users:
+    get:
+      tags:
+        - Users
+      summary: List all users
+      description: Retrieve a paginated list of all users
+      operationId: listUsers
+      parameters:
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/SizeParam'
+        - name: role
+          in: query
+          description: Filter by user role
+          schema:
+            type: string
+            enum: [ADMIN, OPERATOR, AUDITOR, VOTER]
+        - name: status
+          in: query
+          description: Filter by user status
+          schema:
+            type: string
+            enum: [ACTIVE, INACTIVE, SUSPENDED]
+      responses:
+        '200':
+          $ref: '#/components/responses/UserListResponse'
+
+  /api/v1/users/{userId}:
+    put:
+      tags:
+        - Users
+      summary: Update user information
+      description: Update user details and permissions
+      operationId: updateUser
+      parameters:
+        - $ref: '#/components/parameters/UserIdParam'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateUserRequest'
+      responses:
+        '200':
+          $ref: '#/components/responses/UserResponse'
+    
+    delete:
+      tags:
+        - Users
+      summary: Delete a user
+      description: Soft delete a user (changes status to INACTIVE)
+      operationId: deleteUser
+      parameters:
+        - $ref: '#/components/parameters/UserIdParam'
+      responses:
+        '204':
+          description: User successfully deleted
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT token obtained from Auth0
+
+  parameters:
+    ElectionIdParam:
+      name: electionId
+      in: path
+      required: true
+      description: Unique identifier of the election
+      schema:
+        type: string
+        format: uuid
+        example: "550e8400-e29b-41d4-a716-446655440000"
+    
+    CandidateIdParam:
+      name: candidateId
+      in: path
+      required: true
+      description: Unique identifier of the candidate
+      schema:
+        type: string
+        format: uuid
+        example: "660e8400-e29b-41d4-a716-446655440000"
+    
+    UserIdParam:
+      name: userId
+      in: path
+      required: true
+      description: Unique identifier of the user
+      schema:
+        type: string
+        format: uuid
+        example: "770e8400-e29b-41d4-a716-446655440000"
+    
+    PageParam:
+      name: page
+      in: query
+      description: Page number (0-based)
+      schema:
+        type: integer
+        minimum: 0
+        default: 0
+    
+    SizeParam:
+      name: size
+      in: query
+      description: Number of items per page
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 20
+
+  responses:
+    ElectionResponse:
+      description: Election details
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Election'
+    
+    ElectionListResponse:
+      description: Paginated list of elections
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ElectionListPage'
+    
+    CandidateResponse:
+      description: Candidate details
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Candidate'
+    
+    UserResponse:
+      description: User details
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/User'
+    
+    UserListResponse:
+      description: Paginated list of users
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/UserListPage'
+
+  schemas:
+    CreateElectionRequest:
+      type: object
+      required:
+        - title
+        - description
+        - startDate
+        - endDate
+      properties:
+        title:
+          type: string
+          minLength: 3
+          maxLength: 200
+          example: "Presidential Election 2026"
+        description:
+          type: string
+          maxLength: 2000
+          example: "National presidential election for the term 2026-2030"
+        startDate:
+          type: string
+          format: date-time
+          example: "2026-11-01T08:00:00Z"
+        endDate:
+          type: string
+          format: date-time
+          example: "2026-11-01T20:00:00Z"
+        allowedRegions:
+          type: array
+          items:
+            type: string
+          example: ["US-EAST", "EU-WEST", "AP-SOUTHEAST"]
+        maxVotesPerUser:
+          type: integer
+          minimum: 1
+          default: 1
+          example: 1
+    
+    UpdateElectionRequest:
+      type: object
+      properties:
+        title:
+          type: string
+          minLength: 3
+          maxLength: 200
+        description:
+          type: string
+          maxLength: 2000
+        startDate:
+          type: string
+          format: date-time
+        endDate:
+          type: string
+          format: date-time
+        status:
+          type: string
+          enum: [DRAFT, SCHEDULED, ACTIVE, CLOSED, CANCELLED]
+        allowedRegions:
+          type: array
+          items:
+            type: string
+    
+    Election:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: "550e8400-e29b-41d4-a716-446655440000"
+        title:
+          type: string
+          example: "Presidential Election 2026"
+        description:
+          type: string
+          example: "National presidential election for the term 2026-2030"
+        status:
+          type: string
+          enum: [DRAFT, SCHEDULED, ACTIVE, CLOSED, CANCELLED]
+          example: "SCHEDULED"
+        startDate:
+          type: string
+          format: date-time
+          example: "2026-11-01T08:00:00Z"
+        endDate:
+          type: string
+          format: date-time
+          example: "2026-11-01T20:00:00Z"
+        allowedRegions:
+          type: array
+          items:
+            type: string
+          example: ["US-EAST", "EU-WEST"]
+        maxVotesPerUser:
+          type: integer
+          example: 1
+        totalVotes:
+          type: integer
+          example: 1250000
+        candidates:
+          type: array
+          items:
+            $ref: '#/components/schemas/Candidate'
+        createdAt:
+          type: string
+          format: date-time
+          example: "2026-01-15T10:00:00Z"
+        updatedAt:
+          type: string
+          format: date-time
+          example: "2026-01-15T10:00:00Z"
+    
+    ElectionListPage:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/Election'
+        page:
+          type: integer
+          example: 0
+        size:
+          type: integer
+          example: 20
+        totalElements:
+          type: integer
+          example: 150
+        totalPages:
+          type: integer
+          example: 8
+    
+    CreateCandidateRequest:
+      type: object
+      required:
+        - name
+        - party
+      properties:
+        name:
+          type: string
+          minLength: 3
+          maxLength: 200
+          example: "Jane Doe"
+        party:
+          type: string
+          maxLength: 100
+          example: "Progressive Party"
+        photoUrl:
+          type: string
+          format: uri
+          example: "https://cdn.votesystem.com/candidates/jane-doe.jpg"
+        biography:
+          type: string
+          maxLength: 5000
+          example: "Former governor and senator with 20 years of public service experience"
+        platformUrl:
+          type: string
+          format: uri
+          example: "https://www.janedoe2026.com/platform"
+    
+    UpdateCandidateRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 3
+          maxLength: 200
+        party:
+          type: string
+          maxLength: 100
+        photoUrl:
+          type: string
+          format: uri
+        biography:
+          type: string
+          maxLength: 5000
+        platformUrl:
+          type: string
+          format: uri
+    
+    Candidate:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: "660e8400-e29b-41d4-a716-446655440000"
+        electionId:
+          type: string
+          format: uuid
+          example: "550e8400-e29b-41d4-a716-446655440000"
+        name:
+          type: string
+          example: "Jane Doe"
+        party:
+          type: string
+          example: "Progressive Party"
+        photoUrl:
+          type: string
+          format: uri
+          example: "https://cdn.votesystem.com/candidates/jane-doe.jpg"
+        biography:
+          type: string
+          example: "Former governor and senator with 20 years of public service experience"
+        platformUrl:
+          type: string
+          format: uri
+          example: "https://www.janedoe2026.com/platform"
+        voteCount:
+          type: integer
+          example: 325000
+        createdAt:
+          type: string
+          format: date-time
+          example: "2026-01-15T10:00:00Z"
+        updatedAt:
+          type: string
+          format: date-time
+          example: "2026-01-15T10:00:00Z"
+    
+    UpdateUserRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+        name:
+          type: string
+          minLength: 3
+          maxLength: 200
+        role:
+          type: string
+          enum: [ADMIN, OPERATOR, AUDITOR, VOTER]
+        status:
+          type: string
+          enum: [ACTIVE, INACTIVE, SUSPENDED]
+    
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: "770e8400-e29b-41d4-a716-446655440000"
+        email:
+          type: string
+          format: email
+          example: "admin@votesystem.com"
+        name:
+          type: string
+          example: "John Administrator"
+        role:
+          type: string
+          enum: [ADMIN, OPERATOR, AUDITOR, VOTER]
+          example: "ADMIN"
+        status:
+          type: string
+          enum: [ACTIVE, INACTIVE, SUSPENDED]
+          example: "ACTIVE"
+        lastLoginAt:
+          type: string
+          format: date-time
+          example: "2026-01-15T09:30:00Z"
+        createdAt:
+          type: string
+          format: date-time
+          example: "2025-06-01T12:00:00Z"
+        updatedAt:
+          type: string
+          format: date-time
+          example: "2026-01-15T09:30:00Z"
+    
+    UserListPage:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/User'
+        page:
+          type: integer
+          example: 0
+        size:
+          type: integer
+          example: 20
+        totalElements:
+          type: integer
+          example: 2500
+        totalPages:
+          type: integer
+          example: 125
