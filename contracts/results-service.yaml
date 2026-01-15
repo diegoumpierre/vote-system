@@ -1,0 +1,471 @@
+openapi: 3.0.4
+info:
+  title: Results Service API
+  description: |
+    API for election results
+
+servers:
+  - url: http://localhost:8082
+    description: Local development
+  - url: ws://localhost:8082
+    description: Local WebSocket
+
+tags:
+  - name: Results
+    description: Election results operations
+  - name: Live Updates
+    description: Real-time result streaming
+  - name: Statistics
+    description: Statistical analysis and reports
+
+paths:
+  /api/v1/results/{electionId}:
+    get:
+      tags:
+        - Results
+      summary: Get aggregated election results
+      description: |
+        Retrieve complete aggregated results for a finished election.
+        
+        **Caching:**
+        - Results are cached in Redis for 5 minutes
+        - Cache key: `election:results:{electionId}`
+        - Cache invalidated on status change
+        
+        **Access:**
+        - Public endpoint (no authentication required)
+        - Rate limited to 100 requests per minute per IP
+      operationId: getElectionResults
+      parameters:
+        - name: electionId
+          in: path
+          required: true
+          description: Unique identifier of the election
+          schema:
+            type: string
+            format: uuid
+            example: "550e8400-e29b-41d4-a716-446655440000"
+        - name: includePercentages
+          in: query
+          description: Include vote percentages in response
+          schema:
+            type: boolean
+            default: true
+      responses:
+        '200':
+          description: Aggregated election results
+          headers:
+            Cache-Control:
+              description: Caching directives
+              schema:
+                type: string
+                example: "public, max-age=300"
+            ETag:
+              description: Resource version for cache validation
+              schema:
+                type: string
+                example: "\"550e8400-v3\""
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ElectionResults'
+              example:
+                electionId: "550e8400-e29b-41d4-a716-446655440000"
+                electionTitle: "Presidential Election 2026"
+                status: "CLOSED"
+                totals:
+                  - candidateId: "660e8400-e29b-41d4-a716-446655440000"
+                    name: "Jane Doe"
+                    party: "Progressive Party"
+                    votes: 1250000
+                    percentage: 52.5
+                  - candidateId: "661e8400-e29b-41d4-a716-446655440001"
+                    name: "John Smith"
+                    party: "Conservative Party"
+                    votes: 1130000
+                    percentage: 47.5
+                totalVotes: 2380000
+                generatedAt: "2026-11-01T20:15:00Z"
+
+  /api/v1/results/live/{electionId}:
+    get:
+      tags:
+        - Results
+        - Live Updates
+      summary: Get live vote count
+      description: |
+        Retrieve current vote count for an active election (polling-based).
+        
+        **Refresh Rate:**
+        - Recommended polling interval: 10 seconds
+        - Data refreshed every 5 seconds in Redis
+        
+        **Access:**
+        - Public endpoint (no authentication required)
+        - Rate limited to 200 requests per minute per IP
+        
+        **Note:** For continuous updates, use WebSocket endpoint `/api/v1/results/stream/{electionId}`
+      operationId: getLiveCount
+      parameters:
+        - name: electionId
+          in: path
+          required: true
+          description: Unique identifier of the election
+          schema:
+            type: string
+            format: uuid
+            example: "550e8400-e29b-41d4-a716-446655440000"
+      responses:
+        '200':
+          description: Current vote count
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+                example: "no-cache, no-store, must-revalidate"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LiveCount'
+              example:
+                electionId: "550e8400-e29b-41d4-a716-446655440000"
+                currentVotes: 1847562
+                lastUpdated: "2026-11-01T14:32:15Z"
+
+  /api/v1/results/stream/{electionId}:
+    get:
+      tags:
+        - Live Updates
+      summary: Stream real-time results via WebSocket
+      description: |
+        WebSocket endpoint for real-time election result updates.
+        
+        **Connection:**
+        - Protocol: WebSocket (ws:// or wss://)
+        - URL: `ws://api.votesystem.com/api/v1/results/stream/{electionId}`
+        - Authentication: JWT token via query parameter `?token=<jwt>`
+        
+        **Message Format:**
+        - JSON objects sent every 5 seconds or when vote threshold reached
+        - Includes incremental updates with candidate vote counts
+        
+        **Example Connection:**
+        ```javascript
+        const ws = new WebSocket('wss://api.votesystem.com/api/v1/results/stream/550e8400?token=eyJhbG...');
+        ws.onmessage = (event) => {
+          const data = JSON.parse(event.data);
+          console.log('Vote update:', data);
+        };
+        ```
+        
+        **Rate Limiting:**
+        - Maximum 5 concurrent connections per user
+        - Automatic reconnection with exponential backoff recommended
+      operationId: streamResults
+      parameters:
+        - name: electionId
+          in: path
+          required: true
+          description: Unique identifier of the election
+          schema:
+            type: string
+            format: uuid
+            example: "550e8400-e29b-41d4-a716-446655440000"
+        - name: token
+          in: query
+          required: true
+          description: JWT authentication token
+          schema:
+            type: string
+            example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+      responses:
+        '101':
+          description: Switching Protocols - WebSocket connection established
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResultsStreamMessage'
+              examples:
+                voteUpdate:
+                  summary: Vote count update
+                  value:
+                    type: "VOTE_UPDATE"
+                    electionId: "550e8400-e29b-41d4-a716-446655440000"
+                    timestamp: "2026-11-01T14:32:20Z"
+                    candidates:
+                      - candidateId: "660e8400-e29b-41d4-a716-446655440000"
+                        votes: 1250120
+                        delta: 15
+                      - candidateId: "661e8400-e29b-41d4-a716-446655440001"
+                        votes: 1130085
+                        delta: 8
+                    totalVotes: 2380205
+                statusChange:
+                  summary: Election status change
+                  value:
+                    type: "STATUS_CHANGE"
+                    electionId: "550e8400-e29b-41d4-a716-446655440000"
+                    timestamp: "2026-11-01T20:00:00Z"
+                    newStatus: "CLOSED"
+                    message: "Voting has ended. Final results being calculated."
+
+  /api/v1/results/statistics/{electionId}:
+    get:
+      tags:
+        - Statistics
+      summary: Get detailed election statistics
+      description: |
+        Retrieve comprehensive statistical analysis for an election.
+        
+        **Access:**
+        - Requires authentication (ADMIN or AUDITOR role)
+        - Includes demographic breakdowns and temporal analysis
+        
+        **Use Cases:**
+        - Administrative reporting
+        - Audit trails
+        - Performance analysis
+      operationId: getElectionStatistics
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: electionId
+          in: path
+          required: true
+          description: Unique identifier of the election
+          schema:
+            type: string
+            format: uuid
+            example: "550e8400-e29b-41d4-a716-446655440000"
+        - name: includeHourly
+          in: query
+          description: Include hourly vote distribution
+          schema:
+            type: boolean
+            default: false
+        - name: includeRegional
+          in: query
+          description: Include regional breakdowns
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          description: Detailed election statistics
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ElectionStatistics'
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT token obtained from Auth0
+
+  schemas:
+    ElectionResults:
+      type: object
+      required:
+        - electionId
+        - electionTitle
+        - status
+        - totals
+        - totalVotes
+        - generatedAt
+      properties:
+        electionId:
+          type: string
+          format: uuid
+          example: "550e8400-e29b-41d4-a716-446655440000"
+        electionTitle:
+          type: string
+          example: "Presidential Election 2026"
+        status:
+          type: string
+          enum: [ACTIVE, CLOSED]
+          example: "CLOSED"
+        totals:
+          type: array
+          items:
+            $ref: '#/components/schemas/CandidateTotal'
+        totalVotes:
+          type: integer
+          format: int64
+          example: 2380000
+        generatedAt:
+          type: string
+          format: date-time
+          example: "2026-11-01T20:15:00Z"
+    
+    CandidateTotal:
+      type: object
+      required:
+        - candidateId
+        - name
+        - votes
+      properties:
+        candidateId:
+          type: string
+          format: uuid
+          example: "660e8400-e29b-41d4-a716-446655440000"
+        name:
+          type: string
+          example: "Jane Doe"
+        party:
+          type: string
+          example: "Progressive Party"
+        votes:
+          type: integer
+          format: int64
+          example: 1250000
+        percentage:
+          type: number
+          format: float
+          description: Percentage of total votes
+          example: 52.5
+    
+    LiveCount:
+      type: object
+      required:
+        - electionId
+        - currentVotes
+        - lastUpdated
+      properties:
+        electionId:
+          type: string
+          format: uuid
+          example: "550e8400-e29b-41d4-a716-446655440000"
+        currentVotes:
+          type: integer
+          format: int64
+          description: Total votes counted so far
+          example: 1847562
+        lastUpdated:
+          type: string
+          format: date-time
+          example: "2026-11-01T14:32:15Z"
+    
+    ResultsStreamMessage:
+      type: object
+      required:
+        - type
+        - electionId
+        - timestamp
+      properties:
+        type:
+          type: string
+          enum: [VOTE_UPDATE, STATUS_CHANGE, ERROR, HEARTBEAT]
+          description: Type of WebSocket message
+        electionId:
+          type: string
+          format: uuid
+        timestamp:
+          type: string
+          format: date-time
+        candidates:
+          type: array
+          items:
+            type: object
+            properties:
+              candidateId:
+                type: string
+                format: uuid
+              votes:
+                type: integer
+                format: int64
+              delta:
+                type: integer
+                description: Vote count change since last update
+        totalVotes:
+          type: integer
+          format: int64
+        newStatus:
+          type: string
+          description: New election status (for STATUS_CHANGE type)
+        message:
+          type: string
+          description: Human-readable message
+    
+    ElectionStatistics:
+      type: object
+      required:
+        - electionId
+        - totalVotes
+        - totalEligibleVoters
+        - turnoutPercentage
+        - candidateStats
+        - generatedAt
+      properties:
+        electionId:
+          type: string
+          format: uuid
+          example: "550e8400-e29b-41d4-a716-446655440000"
+        totalVotes:
+          type: integer
+          format: int64
+          example: 2380000
+        totalEligibleVoters:
+          type: integer
+          format: int64
+          example: 4500000
+        turnoutPercentage:
+          type: number
+          format: float
+          description: Percentage of eligible voters who voted
+          example: 52.89
+        candidateStats:
+          type: array
+          items:
+            $ref: '#/components/schemas/CandidateTotal'
+        votesPerHour:
+          type: array
+          description: Hourly vote distribution (if includeHourly=true)
+          items:
+            type: object
+            properties:
+              hour:
+                type: string
+                format: date-time
+                example: "2026-11-01T14:00:00Z"
+              count:
+                type: integer
+                example: 185000
+        regionalBreakdown:
+          type: array
+          description: Regional vote distribution (if includeRegional=true)
+          items:
+            type: object
+            properties:
+              region:
+                type: string
+                example: "US-EAST"
+              totalVotes:
+                type: integer
+                example: 950000
+              candidates:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    candidateId:
+                      type: string
+                      format: uuid
+                    votes:
+                      type: integer
+        peakVotingTime:
+          type: string
+          format: date-time
+          description: Hour with highest voting activity
+          example: "2026-11-01T18:00:00Z"
+        averageVotingTime:
+          type: number
+          format: float
+          description: Average time in seconds to cast a vote
+          example: 45.3
+        generatedAt:
+          type: string
+          format: date-time
+          example: "2026-11-01T20:30:00Z"

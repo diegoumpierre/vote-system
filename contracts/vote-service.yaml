@@ -1,0 +1,207 @@
+openapi: 3.0.4
+info:
+  title: Vote Service API
+  description: |
+    API for vote submission and verifccation
+    
+  version: 1.0.0
+  contact:
+    name: Vote System Team
+    email: support@votesystem.com
+
+servers:
+  - url: https://api.votesystem.com
+    description: Production API Gateway
+  - url: https://api-staging.votesystem.com
+    description: Staging environment
+  - url: http://localhost:8081
+    description: Local development
+
+tags:
+  - name: Votes
+    description: Vote submission and verification operations
+
+security:
+  - bearerAuth: []
+
+paths:
+  /api/v1/votes:
+    post:
+      tags:
+        - Votes
+      summary: Submit a vote
+      description: |
+        Submit a vote for elections.
+
+      operationId: submitVote
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VoteRequest'
+            examples:
+              validVote:
+                summary: Valid vote submission
+                value:
+                  electionId: "550e8400-e29b-41d4-a716-446655440000"
+                  candidateId: "660e8400-e29b-41d4-a716-446655440000"
+                  userId: "770e8400-e29b-41d4-a716-446655440000"
+                  captchaToken: "03AGdBq27X8kJYZ9..."
+      responses:
+        '200':
+          description: Vote accepted for processing
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VoteResult'
+              example:
+                voteId: "880e8400-e29b-41d4-a716-446655440000"
+                status: "accepted"
+                acceptedAt: "2026-01-15T10:30:00Z"
+
+  /api/v1/votes/status/{userId}:
+    get:
+      tags:
+        - Votes
+      summary: Check vote status
+      description: |
+        Verify if a user has already voted in a specific election.
+        
+        **Use Cases:**
+        - Prevent duplicate vote attempts on UI
+        - Audit user voting history
+        - Display voting confirmation
+      operationId: getVoteStatus
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          description: Unique identifier of the user
+          schema:
+            type: string
+            format: uuid
+            example: "770e8400-e29b-41d4-a716-446655440000"
+        - name: electionId
+          in: query
+          required: true
+          description: Unique identifier of the election
+          schema:
+            type: string
+            format: uuid
+            example: "550e8400-e29b-41d4-a716-446655440000"
+      responses:
+        '200':
+          description: Vote status retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VoteStatus'
+              examples:
+                hasVoted:
+                  summary: User has voted
+                  value:
+                    electionId: "550e8400-e29b-41d4-a716-446655440000"
+                    userId: "770e8400-e29b-41d4-a716-446655440000"
+                    hasVoted: true
+                    voteId: "880e8400-e29b-41d4-a716-446655440000"
+                    timestamp: "2026-01-15T10:30:00Z"
+                notVoted:
+                  summary: User has not voted
+                  value:
+                    electionId: "550e8400-e29b-41d4-a716-446655440000"
+                    userId: "770e8400-e29b-41d4-a716-446655440000"
+                    hasVoted: false
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT token obtained from Auth0
+
+  schemas:
+    VoteRequest:
+      type: object
+      required:
+        - electionId
+        - candidateId
+        - userId
+        - captchaToken
+      properties:
+        electionId:
+          type: string
+          format: uuid
+          description: Unique identifier of the election
+          example: "550e8400-e29b-41d4-a716-446655440000"
+        candidateId:
+          type: string
+          format: uuid
+          description: Unique identifier of the candidate being voted for
+          example: "660e8400-e29b-41d4-a716-446655440000"
+        userId:
+          type: string
+          format: uuid
+          description: Unique identifier of the voter
+          example: "770e8400-e29b-41d4-a716-446655440000"
+        captchaToken:
+          type: string
+          description: Google reCAPTCHA v3 token for fraud prevention
+          minLength: 20
+          example: "03AGdBq27X8kJYZ9..."
+    
+    VoteResult:
+      type: object
+      required:
+        - voteId
+        - status
+        - acceptedAt
+      properties:
+        voteId:
+          type: string
+          format: uuid
+          description: Unique identifier of the submitted vote
+          example: "880e8400-e29b-41d4-a716-446655440000"
+        status:
+          type: string
+          description: Current status of the vote
+          enum: [accepted, processing]
+          example: "accepted"
+        acceptedAt:
+          type: string
+          format: date-time
+          description: Timestamp when vote was accepted
+          example: "2026-01-15T10:30:00Z"
+    
+    VoteStatus:
+      type: object
+      required:
+        - electionId
+        - userId
+        - hasVoted
+      properties:
+        electionId:
+          type: string
+          format: uuid
+          description: Unique identifier of the election
+          example: "550e8400-e29b-41d4-a716-446655440000"
+        userId:
+          type: string
+          format: uuid
+          description: Unique identifier of the user
+          example: "770e8400-e29b-41d4-a716-446655440000"
+        hasVoted:
+          type: boolean
+          description: Whether user has voted in this election
+          example: true
+        voteId:
+          type: string
+          format: uuid
+          description: Unique identifier of the vote (only present if hasVoted is true)
+          example: "880e8400-e29b-41d4-a716-446655440000"
+        timestamp:
+          type: string
+          format: date-time
+          description: Timestamp when vote was submitted (only present if hasVoted is true)
+          example: "2026-01-15T10:30:00Z"

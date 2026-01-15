@@ -17,11 +17,10 @@
     window.onload = () => {
       window.ui = SwaggerUIBundle({
         urls: [
-          { url: '/contracts/auth-service.json', name: 'Auth Service' },
-          { url: '/contracts/user-service.json', name: 'User Management' },
-          { url: '/contracts/vote-service.json', name: 'Vote Service' },
-          { url: '/contracts/report-service.json', name: 'Report Service' },
-          { url: '/contracts/election-service.json', name: 'Election Service' }
+          { url: '/contracts/auth-service.yaml', name: 'Auth Service' },
+          { url: '/contracts/vote-service.yaml', name: 'Vote Service' },
+          { url: '/contracts/results-service.yaml', name: 'Results Service' },
+          { url: '/contracts/backoffice-service.yaml', name: 'Backoffice Service' }
         ],
         dom_id: '#swagger-ui',
         deepLinking: true,
