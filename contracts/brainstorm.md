@@ -17,3 +17,6 @@ Usuário administrador tem acesso a crud de candidatos por eleição
 resultados devem ser resolvidos em tempo real e consumidos
 resultados deveriam fornecer estatisticas também em tempo real?
 
+lembrando, temos vote service, results e back office, as apis deveriam refletir isso?
+Melhor que sim,
+devemos representar comunicação sns e sqs nesse modelo?
