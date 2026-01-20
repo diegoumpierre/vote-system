@@ -164,11 +164,6 @@ What is a majore component? A service, a lambda, a important ui, a generalized a
 ---
 
 #### **Auth Service**
-
-**Base URL:** `http://localhost:8080`
-
-**Authentication:** JWT Bearer Token (except login and register endpoints)
-
 ##### **Operations**
 
 | Operation | Method | Endpoint | Description |
@@ -178,9 +173,46 @@ What is a majore component? A service, a lambda, a important ui, a generalized a
 | Logout | POST | `/api/v1/auth/logout` | Invalidate token and clear session |
 | Validate Token | GET | `/api/v1/auth/validate` | Validate JWT and return user info |
 | Refresh Token | POST | `/api/v1/auth/refresh` | Generate new access token |
-
-
 ---
+
+##### **Operations**
+
+| Operation | Method | Endpoint | Description |
+|-----------|--------|----------|-------------|
+| Submit Vote | POST | `/api/v1/votes` | Submit a vote for an election |
+| Check Vote Status | GET | `/api/v1/votes/status/{userId}` | Verify if user voted |
+
+**Input:**
+```json
+{
+  "electionId": "550e8400-e29b-41d4-a716-446655440000",
+  "candidateId": "660e8400-e29b-41d4-a716-446655440000",
+  "userId": "770e8400-e29b-41d4-a716-446655440000",
+  "captchaToken": "03AGdBq27X8kJYZ9..."
+}
+```
+
+**Output (Success - 200):**
+```json
+{
+  "voteId": "880e8400-e29b-41d4-a716-446655440000",
+  "status": "accepted",
+  "acceptedAt": "2026-01-15T10:30:00Z"
+}
+```
+
+**Submit vote Logic flow:**
+1. Validate JWT token
+2. Verify CAPTCHA token
+3. Check duplicate vote
+4. Submit to SQS queue for async processing
+5. Return acceptance confirmation
+
+**Notes:**
+- Vote status is "accepted" (queued), not "counted"
+- Actual database write happens asynchronously
+- SQS ensures zero vote loss even under failures
+
 
 Exemplos of other components: Batch jobs, Events, 3rd Party Integrations, Streaming, ML Models, ChatBots, etc... 
 
