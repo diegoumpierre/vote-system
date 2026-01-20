@@ -29,16 +29,13 @@ The problem is to enable a global audience to vote in real time during a Live TV
 
 ### 📐 3. Principles
 
-List in form of bullets what design principles you want to be followed, it's great to have 5-10 lines.
-Example:
 ```
-1. Low Coupling: We need to watch for coupling all times.
-2. Flexibility: Users should be able to customize behavior without leaking the internals of the system. Leverage interfaces.
-3. Observability: we should expose all key metrics on main features. Sucess and errors counters need to be exposed.
-4. Testability: Chaos engineering is a must and property testing. Testing should be done by engineers all times.
-5. Cache efficiency: Should leverage SSD caches and all forms of caches as much as possible.
+1. Isolation & Fault Containment: Must isolate failures using queues and retries. Infrastructure and application components are deployed separately to avoid cascading failures.
+2. Data Integrity: Preventing double voting and data loss has higher priority than raw throughput.
+3. Observability: All critical paths must expose metrics, logs, and traces.
+4. Security: Rate limiting, bot detection, duplicate prevention, and auditability are architectural concerns, not optional add-ons or application-level patches.
+5. Automated Testing: CI pipelines enforce automated tests, including load, integration, and failure scenarios. The system must be continuously validated under degraded conditions.
 ```
-Recommended Reading: http://diego-pacheco.blogspot.com/2018/01/stability-principles.html
 
 ### 🏗️ 4. Overall Diagrams
 
