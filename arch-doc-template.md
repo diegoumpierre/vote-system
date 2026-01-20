@@ -29,16 +29,13 @@ The problem is to enable a global audience to vote in real time during a Live TV
 
 ### 📐 3. Principles
 
-List in form of bullets what design principles you want to be followed, it's great to have 5-10 lines.
-Example:
 ```
-1. Low Coupling: We need to watch for coupling all times.
-2. Flexibility: Users should be able to customize behavior without leaking the internals of the system. Leverage interfaces.
-3. Observability: we should expose all key metrics on main features. Sucess and errors counters need to be exposed.
-4. Testability: Chaos engineering is a must and property testing. Testing should be done by engineers all times.
-5. Cache efficiency: Should leverage SSD caches and all forms of caches as much as possible.
+1. Isolation & Fault Containment: Must isolate failures using queues and retries. Infrastructure and application components are deployed separately to avoid cascading failures.
+2. Data Integrity: Preventing double voting and data loss has higher priority than raw throughput.
+3. Observability: All critical paths must expose metrics, logs, and traces.
+4. Security: Rate limiting, bot detection, duplicate prevention, and auditability are architectural concerns, not optional add-ons or application-level patches.
+5. Automated Testing: CI pipelines enforce automated tests, including load, integration, and failure scenarios. The system must be continuously validated under degraded conditions.
 ```
-Recommended Reading: http://diego-pacheco.blogspot.com/2018/01/stability-principles.html
 
 ### 🏗️ 4. Overall Diagrams
 
@@ -49,6 +46,39 @@ Here there will be a bunch of diagrams, to understand the solution.
 🗂️ 4.3 Use Cases: Make 1 macro use case diagram that list the main capability that needs to be covered. 
 ```
 Recommended Reading: http://diego-pacheco.blogspot.com/2020/10/uml-hidden-gems.html
+
+---
+
+#### 🗂️ 4.2 Deployment Diagram
+
+**Full document:** [diagrams/4.2-deployment-diagram.md](diagrams/4.2-deployment-diagram.md)
+
+**Summary:** AWS multi-region infrastructure (US-East, EU-West, AP-Southeast) to reach 250k RPS.
+
+| Component | Per Region |
+|----------|------------|
+| API Gateway | 100k RPS |
+| ECS Fargate | Auth, Vote, Results Services |
+| RDS PostgreSQL | Primary + 2 Read Replicas |
+| ElastiCache Redis | Vote aggregates + Session |
+| SQS | Vote buffering + DLQ |
+
+---
+
+#### 🗂️ 4.3 Use Cases Diagram
+
+**Full document:** [diagrams/4.3-use-cases-diagram.md](diagrams/4.3-use-cases-diagram.md)
+
+**Summary:** 21 Use Cases organized by 4 actors.
+
+| Actor | Use Cases |
+|-------|-----------|
+| Viewer | Register, Login, Submit Vote, View Results |
+| Admin | Create Election, Manage Candidates, Audit Logs |
+| TV Host | Open/Close Voting, Stream Results |
+| System | Process Queue, Aggregate Counts, Auto-scale |
+
+---
 
 ### 🧭 5. Trade-offs
 
@@ -158,6 +188,73 @@ What is a majore component? A service, a lambda, a important ui, a generalized a
 6.3 - Persistence Model          : Diagrams, Table structure, partiotioning, main queries.
 6.4 - Algorithms/Data Structures : Spesific algos that need to be used, along size with spesific data structures.
 ```
+
+#### 6.2 Contract documentation
+
+---
+
+#### **Auth Service**
+##### **Operations**
+
+| Operation | Method | Endpoint | Description |
+|-----------|--------|----------|-------------|
+| Login | POST | `/api/v1/auth/login` | Authenticate user and return JWT token |
+| Register | POST | `/api/v1/auth/register` | Create new user account |
+| Logout | POST | `/api/v1/auth/logout` | Invalidate token and clear session |
+| Validate Token | GET | `/api/v1/auth/validate` | Validate JWT and return user info |
+| Refresh Token | POST | `/api/v1/auth/refresh` | Generate new access token |
+---
+
+##### **Operations**
+
+| Operation | Method | Endpoint | Description |
+|-----------|--------|----------|-------------|
+| Submit Vote | POST | `/api/v1/votes` | Submit a vote for an election |
+| Check Vote Status | GET | `/api/v1/votes/status/{userId}` | Verify if user voted |
+
+**Input:**
+```json
+{
+  "electionId": "550e8400-e29b-41d4-a716-446655440000",
+  "candidateId": "660e8400-e29b-41d4-a716-446655440000",
+  "userId": "770e8400-e29b-41d4-a716-446655440000",
+  "captchaToken": "03AGdBq27X8kJYZ9..."
+}
+```
+
+**Output (Success - 200):**
+```json
+{
+  "voteId": "880e8400-e29b-41d4-a716-446655440000",
+  "status": "accepted",
+  "acceptedAt": "2026-01-15T10:30:00Z"
+}
+```
+
+**Submit vote Logic flow:**
+1. Validate JWT token
+2. Verify CAPTCHA token
+3. Check duplicate vote
+4. Submit to SQS queue for async processing
+5. Return acceptance confirmation
+
+**Notes:**
+- Vote status is "accepted" (queued), not "counted"
+- Actual database write happens asynchronously
+- SQS ensures zero vote loss even under failures
+
+#### **Results Service**
+
+**Authentication:** Public endpoints (GET results), JWT required for statistics and WebSocket
+
+##### **Operations**
+
+| Operation | Method | Endpoint | Description |
+|-----------|--------|----------|-------------|
+| Get Election Results | GET | `/api/v1/results/{electionId}` | Get aggregated results |
+| Get Live Count | GET | `/api/v1/results/live/{electionId}` | Get current vote count (polling) |
+| Stream Results | WebSocket | `/api/v1/results/stream/{electionId}` | Real-time results via WebSocket |
+| Get Statistics | GET | `/api/v1/results/statistics/{electionId}` | Detailed analytics (admin only) |
 
 Exemplos of other components: Batch jobs, Events, 3rd Party Integrations, Streaming, ML Models, ChatBots, etc... 
 
@@ -328,7 +425,524 @@ IF Migrations are required describe the migrations strategy with proper diagrams
 
 ### 🖹 8. Testing strategy
 
-Explain the techniques, principles, types of tests and will be performaned, and spesific details how to mock data, stress test it, spesific chaos goals and assumptions.
+#### 8.1 Testing Principles
+
+1. **Shift-Left Testing** - Testing starts from design phase, not post-development
+2. **Pyramid Approach** - Many unit tests, fewer integration tests, minimal E2E tests
+3. **Production-like Testing** - Test environments mirror production infrastructure
+4. **Chaos Engineering as Standard** - Proactively inject failures to validate resilience
+5. **Performance Testing Continuous** - Load tests run in CI/CD, not just pre-release
+6. **Test Data Isolation** - Each test uses isolated data to prevent cascading failures
+7. **Observability-Driven Testing** - Tests validate metrics, logs, and traces are emitted correctly
+
+---
+
+#### 8.2 Types of Tests
+
+##### Unit Tests (70% coverage target)
+**Technology:** JUnit 5, Mockito, AssertJ
+
+**Scope:**
+- Domain logic (vote validation, duplicate detection algorithms)
+- Business rules (exactly-once voting, election state transitions)
+- Data transformations (DTO ↔ Entity mapping)
+
+**Mock Strategy:**
+- Repository interfaces mocked with Mockito
+- Redis/SQS clients mocked to avoid external dependencies
+- Auth0 JWT validation mocked with test tokens
+
+**Example Test Cases:**
+```java
+// Vote Service - Duplicate Detection
+@Test
+void shouldRejectDuplicateVote_WhenUserAlreadyVoted() {
+    // Given: User already voted for electionId
+    when(voteRepository.existsByUserIdAndElectionId(userId, electionId))
+        .thenReturn(true);
+
+    // When: User attempts second vote
+    VoteSubmission vote = new VoteSubmission(userId, electionId, candidateId);
+
+    // Then: Should throw DuplicateVoteException
+    assertThatThrownBy(() -> voteService.submitVote(vote))
+        .isInstanceOf(DuplicateVoteException.class)
+        .hasMessageContaining("User already voted");
+}
+
+// Results Service - Vote Aggregation
+@Test
+void shouldAggregateVotesCorrectly_WhenMultipleCandidates() {
+    // Given: 3 candidates with 100, 200, 300 votes
+    // When: getResults() is called
+    // Then: Should return sorted candidates with correct totals
+}
+```
+
+**Execution:**
+- Run on every commit via GitHub Actions
+- Fail build if coverage drops below 70%
+- Execution time target: <2 minutes
+
+---
+
+##### Integration Tests (Component-level)
+**Technology:** Testcontainers, Spring Boot Test, WireMock
+
+**Scope:**
+- Service ↔ PostgreSQL integration (vote persistence, transaction rollback)
+- Service ↔ Redis integration (cache invalidation, TTL expiration)
+- Service ↔ SQS integration (message publishing, retry logic, DLQ handling)
+- Auth0 integration (JWT validation with WireMock-stubbed responses)
+
+**Test Environment:**
+- **Testcontainers** - Spin up PostgreSQL 17, Redis 8.4, LocalStack (SQS emulator)
+- **Isolated Docker Network** - Each test suite runs in isolated containers
+- **Data Reset** - Database schema recreated before each test class
+
+**Example Test Cases:**
+```java
+@SpringBootTest
+@Testcontainers
+class VoteServiceIntegrationTest {
+
+    @Container
+    static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:17.6");
+
+    @Container
+    static GenericContainer<?> redis = new GenericContainer<>("redis:8.4")
+        .withExposedPorts(6379);
+
+    @Test
+    void shouldPersistVoteToDatabase_AndIncrementRedisCounter() {
+        // Given: Valid vote submission
+        VoteRequest request = VoteRequest.builder()
+            .userId("user-123")
+            .electionId("election-456")
+            .candidateId("candidate-789")
+            .build();
+
+        // When: Vote submitted via REST API
+        var response = restTemplate.postForEntity("/api/v1/votes", request, VoteResponse.class);
+
+        // Then: Vote stored in PostgreSQL
+        Vote persistedVote = voteRepository.findById(response.getBody().getVoteId()).orElseThrow();
+        assertThat(persistedVote.getCandidateId()).isEqualTo("candidate-789");
+
+        // And: Redis counter incremented
+        Long count = redisTemplate.opsForValue().get("results:election-456:candidate-789");
+        assertThat(count).isEqualTo(1L);
+    }
+
+    @Test
+    void shouldSendToDeadLetterQueue_AfterMaxRetries() {
+        // Simulate database connection failure 3 times, verify DLQ
+    }
+}
+```
+
+**Execution:**
+- Run on PR merge to main branch
+- Execution time target: <10 minutes
+
+---
+
+##### Contract Tests (API-level)
+**Technology:** Spring Cloud Contract, Pact
+
+**Scope:**
+- Validate API contracts between Frontend ↔ Backend
+- Ensure backward compatibility during API changes
+- Test error response schemas (4xx, 5xx formats)
+
+**Contract Definition Example:**
+```yaml
+# contracts/vote-service/submit-vote.yml
+request:
+  method: POST
+  url: /api/v1/votes
+  headers:
+    Authorization: Bearer <JWT>
+    Content-Type: application/json
+  body:
+    electionId: "550e8400-e29b-41d4-a716-446655440000"
+    candidateId: "660e8400-e29b-41d4-a716-446655440000"
+    userId: "770e8400-e29b-41d4-a716-446655440000"
+    captchaToken: "03AGdBq27X8kJYZ9..."
+response:
+  status: 200
+  headers:
+    Content-Type: application/json
+  body:
+    voteId: "<UUID>"
+    status: "accepted"
+    acceptedAt: "<ISO8601>"
+```
+
+**Execution:**
+- Run on every API change
+- Publish contracts to shared repository
+- Frontend team validates against published contracts
+
+---
+
+##### End-to-End Tests (Critical Flows Only)
+**Technology:** Selenium, Cypress
+
+**Scope:**
+- User registration → Login → Vote submission → Results view
+- Admin creates election → Opens voting → Monitors results → Closes voting
+- Validate WebSocket real-time updates appear in UI
+
+**Test Data Strategy:**
+- Dedicated E2E test environment (separate AWS account)
+- Synthetic users (test-user-001@example.com to test-user-100@example.com)
+- Pre-seeded elections and candidates via API
+
+**Example Test:**
+```javascript
+// Cypress - Critical voting flow
+describe('Viewer votes for candidate', () => {
+  it('should submit vote and see confirmation', () => {
+    cy.login('test-viewer-001@example.com', 'password123');
+    cy.visit('/elections/550e8400-e29b-41d4-a716-446655440000');
+    cy.get('[data-testid="candidate-card-660e8400"]').click();
+    cy.get('[data-testid="submit-vote-button"]').click();
+    cy.get('[data-testid="vote-confirmation"]').should('contain', 'Your vote was recorded!');
+  });
+});
+```
+
+**Execution:**
+- Run nightly against staging environment
+- Run manually before production deployment
+- Execution time target: <30 minutes
+
+---
+
+#### 8.3 Performance & Load Testing
+
+##### Load Testing
+**Technology:** Apache JMeter, k6, Gatling
+
+**Objectives:**
+- Validate system handles **250,000 RPS** peak load
+- Verify p99 latency <150ms for writes, <200ms for reads
+- Ensure no vote loss under sustained load
+
+**Test Scenarios:**
+
+| Scenario | Virtual Users | Duration | Target RPS | Success Criteria |
+|---------|---------------|----------|-----------|------------------|
+| **Baseline Load** | 10,000 | 10 min | 50,000 | p99 <100ms, 0% errors |
+| **Peak Traffic** | 100,000 | 5 min | 250,000 | p99 <150ms, <0.01% errors |
+| **Sustained Load** | 50,000 | 2 hours | 100,000 | Memory stable, no leaks |
+| **Traffic Spike** | 0→150,000 (ramp 30s) | 10 min | Variable | Auto-scale triggers, no 503s |
+
+**k6 Load Test Example:**
+```javascript
+// k6-vote-submission-load-test.js
+import http from 'k6/http';
+import { check, sleep } from 'k6';
+
+export let options = {
+  stages: [
+    { duration: '2m', target: 50000 },  // Ramp-up to 50k users
+    { duration: '5m', target: 100000 }, // Peak at 100k users
+    { duration: '2m', target: 0 },      // Ramp-down
+  ],
+  thresholds: {
+    http_req_duration: ['p(99)<150'], // 99% of requests <150ms
+    http_req_failed: ['rate<0.01'],   // Error rate <1%
+  },
+};
+
+export default function () {
+  const payload = JSON.stringify({
+    electionId: '550e8400-e29b-41d4-a716-446655440000',
+    candidateId: '660e8400-e29b-41d4-a716-446655440000',
+    userId: `user-${__VU}-${__ITER}`, // Unique user per iteration
+    captchaToken: 'mock-captcha-token',
+  });
+
+  const params = {
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${__ENV.JWT_TOKEN}`,
+    },
+  };
+
+  let res = http.post('https://api.vote-system.com/api/v1/votes', payload, params);
+
+  check(res, {
+    'status is 200': (r) => r.status === 200,
+    'vote accepted': (r) => JSON.parse(r.body).status === 'accepted',
+  });
+
+  sleep(1); // 1 second delay between requests per user
+}
+```
+
+**Mock Data Strategy:**
+- **Users:** Generate 1M synthetic user accounts with Auth0 test tenant
+- **Elections:** 10 pre-configured elections with 5 candidates each
+- **JWT Tokens:** Pre-generated 100k valid JWT tokens (rotated every 15 minutes)
+- **CAPTCHA:** Mock CAPTCHA service returns success for load test tokens
+
+**Execution Environment:**
+- Run against dedicated staging environment (identical to production)
+- 3 AWS regions (US-East, EU-West, AP-Southeast)
+- RDS PostgreSQL db.r6g.4xlarge (same as production)
+- Redis cluster (3 nodes per region)
+
+**Metrics Validation:**
+```
+✅ Target Metrics (must pass):
+- API Gateway RPS: ≥250,000
+- Vote Service p99 latency: <150ms
+- Results Service p99 latency: <200ms
+- SQS queue lag: <5 seconds
+- Database write throughput: ≥20,000 TPS
+- Redis GET latency: <5ms
+- Error rate: <0.01%
+- Zero vote loss (verify DB count = SQS sent count)
+
+⚠️ Warning Thresholds:
+- SQS queue depth >10,000 messages
+- Database CPU >80%
+- ECS task CPU >85%
+- Redis memory >75%
+```
+
+**Execution:**
+- Weekly automated runs (every Sunday 2 AM UTC)
+- On-demand before major releases
+- Report published to Grafana dashboard + Slack
+
+---
+
+##### Stress Testing
+**Objective:** Find the breaking point of the system
+
+**Approach:**
+- Gradually increase load beyond 250k RPS until system fails
+- Identify bottleneck (database, SQS, ECS, network)
+- Document failure mode (graceful degradation vs crash)
+
+**Expected Breaking Points:**
+- PostgreSQL write throughput: ~50,000 TPS (before connection pool exhaustion)
+- API Gateway per-region limit: 100,000 RPS (hard AWS limit)
+- Redis memory: 25GB (then eviction policy kicks in)
+
+**Stress Test Scenario:**
+```
+Phase 1: 100k RPS (2 min) - Expected: Pass
+Phase 2: 200k RPS (2 min) - Expected: Pass
+Phase 3: 300k RPS (2 min) - Expected: Pass with SQS backlog
+Phase 4: 400k RPS (2 min) - Expected: API Gateway 503 errors
+Phase 5: 500k RPS (2 min) - Expected: Cascading failures
+```
+
+**Recovery Validation:**
+- After stress, reduce load to 100k RPS
+- System should auto-recover within 5 minutes (drain SQS queue)
+- No manual intervention required
+
+---
+
+##### Soak Testing (Endurance Testing)
+**Objective:** Detect memory leaks, resource exhaustion over time
+
+**Scenario:**
+- Sustained 100,000 RPS for 24 hours
+- Monitor memory usage, connection pool leaks, disk space
+
+**Success Criteria:**
+- JVM heap usage stable (no continuous growth)
+- Database connection count stable (~500 connections)
+- No disk space growth beyond expected log volume
+- No ECS task restarts due to OOM
+
+---
+
+#### 8.4 Chaos Engineering
+
+**Philosophy:** "Break things on purpose to ensure they don't break in production"
+
+**Technology:** AWS Fault Injection Simulator (FIS), Chaos Mesh, custom scripts
+
+##### Chaos Experiments
+
+| Experiment | Chaos Action | Expected Behavior | Pass Criteria |
+|-----------|-------------|-------------------|---------------|
+| **AZ Failure** | Terminate all ECS tasks in AZ-a | Traffic routes to AZ-b and AZ-c | <5s downtime, no vote loss |
+| **Database Failover** | Force RDS primary failover to standby | Read replicas serve reads, writes pause 30-60s | SQS buffers votes, processing resumes post-failover |
+| **Redis Cluster Node Failure** | Kill 1 of 3 Redis nodes | Redis cluster reshards, reads continue | Cache hit rate drops <20%, no errors |
+| **Network Partition** | Isolate Vote Service from PostgreSQL for 60s | Votes queue in SQS, DLQ triggers after max retries | No votes lost, DLQ processed after recovery |
+| **API Gateway Throttling** | Inject 503 errors at 20% rate | Frontend retries with exponential backoff | User sees "Please retry" message, eventual success |
+| **SQS Delay** | Increase SQS message visibility timeout to 5 min | Vote processing delayed, results lag | UI shows "Results updating..." message |
+| **Auth0 Outage** | Block Auth0 API calls | New logins fail, existing sessions continue (JWT cached) | Existing users can vote, new users see auth error |
+| **Cross-Region Replication Lag** | Delay RDS replication to EU region by 10 minutes | EU reads show stale data | Frontend polls primary region for critical reads |
+| **Memory Pressure** | Stress test ECS task to trigger OOM | ECS restarts task, ALB health check removes from pool | <10s downtime per task, load balances to healthy tasks |
+| **Disk Full** | Fill CloudWatch Logs disk on ECS host | Logs stop writing, application continues | Alert triggers, auto-cleanup old logs |
+
+**Chaos Test Execution:**
+```bash
+# Example AWS FIS experiment - Terminate AZ
+aws fis start-experiment --experiment-template-id EXT-AZ-Failure-Vote-Service
+
+# Monitor impact
+watch -n 1 'aws cloudwatch get-metric-statistics \
+  --namespace VoteSystem \
+  --metric-name ErrorRate \
+  --dimensions Name=Service,Value=VoteService \
+  --start-time $(date -u -d "5 minutes ago" +%Y-%m-%dT%H:%M:%S) \
+  --end-time $(date -u +%Y-%m-%dT%H:%M:%S) \
+  --period 60 \
+  --statistics Average'
+```
+
+**Chaos Schedule:**
+- **Weekly:** Random AZ failure (Tuesday 10 AM UTC)
+- **Bi-weekly:** Database failover (Wednesday 3 PM UTC)
+- **Monthly:** Full region failure (first Saturday of month, 2 AM UTC)
+- **Quarterly:** Game Day (simulate live show with injected failures)
+
+**Chaos Goals:**
+1. **Zero Vote Loss** - Even under failures, every vote persisted in SQS must reach the database
+2. **Graceful Degradation** - System slows down but doesn't crash
+3. **Auto-Recovery** - No manual intervention required for common failures
+4. **Alert Accuracy** - Every chaos event triggers correct alert within 60 seconds
+
+**Chaos Assumptions:**
+- AWS availability zones fail independently (not all AZs in a region simultaneously)
+- Database failover completes within 60 seconds (RDS Multi-AZ SLA)
+- SQS persists messages for 4 days (default retention)
+- Auth0 outages are rare (<1 hour/year based on their 99.99% SLA)
+
+---
+
+#### 8.5 Security Testing
+
+##### Penetration Testing
+**Scope:**
+- SQL injection attempts on `/api/v1/votes`, `/api/v1/results`
+- JWT token tampering (modified claims, expired tokens, invalid signatures)
+- CAPTCHA bypass attempts (replay attacks, token reuse)
+- Rate limit bypass (distributed IPs, header spoofing)
+- CORS misconfiguration testing
+
+**Tools:**
+- OWASP ZAP, Burp Suite
+- Manual testing by external security firm (annual)
+
+##### Vulnerability Scanning
+**Tools:**
+- **SAST:** SonarQube (static code analysis)
+- **DAST:** OWASP ZAP (dynamic API scanning)
+- **Dependency Scanning:** Snyk, OWASP Dependency-Check
+
+**Execution:**
+- SAST runs on every PR
+- DAST runs weekly against staging
+- Dependency scan runs daily (alerts on critical CVEs)
+
+---
+
+#### 8.6 Test Data Strategy
+
+##### Production-like Volume
+- **Users:** 10M synthetic accounts (Auth0 test tenant)
+- **Elections:** 100 pre-configured elections
+- **Historical Votes:** 500M votes (seeded via batch job)
+
+##### Data Generation Tools
+- **Faker.js** - Generate realistic names, emails, timestamps
+- **Custom Scripts** - Bulk insert votes with realistic distribution (80% votes for top 2 candidates)
+
+##### Data Privacy
+- **No Real User Data** - All test data is synthetic
+- **Anonymization** - Production data exports are anonymized (email → hashed, IP → redacted)
+
+---
+
+#### 8.7 Continuous Testing Strategy
+
+```mermaid
+graph LR
+    A[Code Commit] --> B[Unit Tests]
+    B --> C[SAST Scan]
+    C --> D[Build Docker Image]
+    D --> E[Integration Tests]
+    E --> F[Contract Tests]
+    F --> G[Deploy to Staging]
+    G --> H[E2E Tests]
+    H --> I[Load Tests]
+    I --> J{All Pass?}
+    J -->|Yes| K[Deploy to Production]
+    J -->|No| L[Rollback & Alert]
+    K --> M[Smoke Tests]
+    M --> N[Chaos Engineering]
+```
+
+**CI/CD Integration:**
+- **GitHub Actions** - Runs unit + integration tests on every commit
+- **Staging Deployment** - Automated after PR merge to main
+- **Production Deployment** - Manual approval after load tests pass
+
+**Test Execution Times:**
+- Unit Tests: 2 minutes
+- Integration Tests: 10 minutes
+- E2E Tests: 30 minutes
+- Load Tests: 45 minutes
+- **Total CI/CD Pipeline:** ~90 minutes
+
+---
+
+#### 8.8 Test Metrics & Reporting
+
+**Key Metrics:**
+- **Code Coverage:** >70% (unit), >60% (integration)
+- **Test Success Rate:** >99% (flaky tests quarantined)
+- **Mean Time to Detect (MTTD):** <2 minutes (CI/CD feedback)
+- **Mean Time to Repair (MTTR):** <30 minutes (from test failure to fix deployed)
+
+**Dashboards:**
+- Grafana dashboard showing test execution trends
+- SonarQube dashboard for code quality metrics
+- Slack notifications for test failures
+
+**Test Reports:**
+- JUnit XML reports published to GitHub Actions
+- HTML coverage reports (Jacoco) uploaded to S3
+- Load test results exported to CSV + Grafana
+
+---
+
+#### 8.9 Testing Responsibilities
+
+| Role | Responsibilities |
+|------|----------------|
+| **Developers** | Write unit tests, integration tests; fix failing tests within 1 day |
+| **QA Engineers** | Design E2E tests, execute chaos experiments, analyze performance reports |
+| **DevOps Team** | Maintain test infrastructure (Testcontainers, staging environment), CI/CD pipelines |
+| **Security Team** | Conduct penetration tests, review SAST/DAST findings quarterly |
+| **Product Owner** | Define acceptance criteria, approve test coverage thresholds |
+
+---
+
+#### 8.10 Test Environment Strategy
+
+| Environment | Purpose | Data | Refresh Frequency |
+|------------|---------|------|------------------|
+| **Local** | Unit + integration tests | Testcontainers (fresh DB per run) | Per test execution |
+| **Staging** | E2E, load tests, chaos | Synthetic (10M users, 100 elections) | Weekly (Sunday 2 AM UTC) |
+| **Production-Mirror** | Pre-release validation | Anonymized production snapshot | Monthly |
+
+**Staging Environment Specs:**
+- Identical infrastructure to production (multi-region, same instance types)
+- Cost optimization: Shut down non-critical hours (10 PM - 6 AM UTC)
+- Access control: VPN required, audit logs enabled
 
 ### 🖹 9. Observability strategy
 
