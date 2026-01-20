@@ -213,6 +213,18 @@ What is a majore component? A service, a lambda, a important ui, a generalized a
 - Actual database write happens asynchronously
 - SQS ensures zero vote loss even under failures
 
+#### **Results Service**
+
+**Authentication:** Public endpoints (GET results), JWT required for statistics and WebSocket
+
+##### **Operations**
+
+| Operation | Method | Endpoint | Description |
+|-----------|--------|----------|-------------|
+| Get Election Results | GET | `/api/v1/results/{electionId}` | Get aggregated results |
+| Get Live Count | GET | `/api/v1/results/live/{electionId}` | Get current vote count (polling) |
+| Stream Results | WebSocket | `/api/v1/results/stream/{electionId}` | Real-time results via WebSocket |
+| Get Statistics | GET | `/api/v1/results/statistics/{electionId}` | Detailed analytics (admin only) |
 
 Exemplos of other components: Batch jobs, Events, 3rd Party Integrations, Streaming, ML Models, ChatBots, etc... 
 
