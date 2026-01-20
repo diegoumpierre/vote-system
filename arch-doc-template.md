@@ -159,6 +159,29 @@ What is a majore component? A service, a lambda, a important ui, a generalized a
 6.4 - Algorithms/Data Structures : Spesific algos that need to be used, along size with spesific data structures.
 ```
 
+#### 6.2 Contract documentation
+
+---
+
+#### **Auth Service**
+
+**Base URL:** `http://localhost:8080`
+
+**Authentication:** JWT Bearer Token (except login and register endpoints)
+
+##### **Operations**
+
+| Operation | Method | Endpoint | Description |
+|-----------|--------|----------|-------------|
+| Login | POST | `/api/v1/auth/login` | Authenticate user and return JWT token |
+| Register | POST | `/api/v1/auth/register` | Create new user account |
+| Logout | POST | `/api/v1/auth/logout` | Invalidate token and clear session |
+| Validate Token | GET | `/api/v1/auth/validate` | Validate JWT and return user info |
+| Refresh Token | POST | `/api/v1/auth/refresh` | Generate new access token |
+
+
+---
+
 Exemplos of other components: Batch jobs, Events, 3rd Party Integrations, Streaming, ML Models, ChatBots, etc... 
 
 Recommended Reading: http://diego-pacheco.blogspot.com/2018/05/internal-system-design-forgotten.html
