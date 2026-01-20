@@ -50,6 +50,39 @@ Here there will be a bunch of diagrams, to understand the solution.
 ```
 Recommended Reading: http://diego-pacheco.blogspot.com/2020/10/uml-hidden-gems.html
 
+---
+
+#### 🗂️ 4.2 Deployment Diagram
+
+**Full document:** [diagrams/4.2-deployment-diagram.md](diagrams/4.2-deployment-diagram.md)
+
+**Summary:** AWS multi-region infrastructure (US-East, EU-West, AP-Southeast) to reach 250k RPS.
+
+| Component | Per Region |
+|----------|------------|
+| API Gateway | 100k RPS |
+| ECS Fargate | Auth, Vote, Results Services |
+| RDS PostgreSQL | Primary + 2 Read Replicas |
+| ElastiCache Redis | Vote aggregates + Session |
+| SQS | Vote buffering + DLQ |
+
+---
+
+#### 🗂️ 4.3 Use Cases Diagram
+
+**Full document:** [diagrams/4.3-use-cases-diagram.md](diagrams/4.3-use-cases-diagram.md)
+
+**Summary:** 21 Use Cases organized by 4 actors.
+
+| Actor | Use Cases |
+|-------|-----------|
+| Viewer | Register, Login, Submit Vote, View Results |
+| Admin | Create Election, Manage Candidates, Audit Logs |
+| TV Host | Open/Close Voting, Stream Results |
+| System | Process Queue, Aggregate Counts, Auto-scale |
+
+---
+
 ### 🧭 5. Trade-offs
 
 Major Decisions:
