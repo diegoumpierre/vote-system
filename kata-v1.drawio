@@ -721,19 +721,19 @@
           <mxGeometry height="30" width="120" x="210" y="80" as="geometry" />
         </mxCell>
         <mxCell id="vote-controller" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;" value="VoteController" vertex="1">
-          <mxGeometry height="106" width="220" x="150" y="120" as="geometry" />
+          <mxGeometry height="106" width="290" x="115" y="120" as="geometry" />
         </mxCell>
         <mxCell id="vote-controller-attr" parent="vote-controller" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="-voteService: VoteService" vertex="1">
-          <mxGeometry height="24" width="220" y="26" as="geometry" />
+          <mxGeometry height="24" width="290" y="26" as="geometry" />
         </mxCell>
         <mxCell id="vote-controller-line" parent="vote-controller" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
-          <mxGeometry height="8" width="220" y="50" as="geometry" />
+          <mxGeometry height="8" width="290" y="50" as="geometry" />
         </mxCell>
-        <mxCell id="vote-controller-m1" parent="vote-controller" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+submitVote(request): VoteResult" vertex="1">
-          <mxGeometry height="24" width="220" y="58" as="geometry" />
+        <mxCell id="vote-controller-m1" parent="vote-controller" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+submitVote(request: VoteRequest): VoteResult" vertex="1">
+          <mxGeometry height="24" width="290" y="58" as="geometry" />
         </mxCell>
-        <mxCell id="vote-controller-m2" parent="vote-controller" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+getVoteStatus(userId): VoteStatus" vertex="1">
-          <mxGeometry height="24" width="220" y="82" as="geometry" />
+        <mxCell id="vote-controller-m2" parent="vote-controller" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+getVoteStatus(userId: UUID): VoteStatus" vertex="1">
+          <mxGeometry height="24" width="290" y="82" as="geometry" />
         </mxCell>
         <mxCell id="vote-service" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;" value="VoteService" vertex="1">
           <mxGeometry height="202" width="260" x="130" y="250" as="geometry" />
@@ -753,50 +753,50 @@
         <mxCell id="vote-service-line" parent="vote-service" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
           <mxGeometry height="8" width="260" y="122" as="geometry" />
         </mxCell>
-        <mxCell id="vote-service-m1" parent="vote-service" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+processVote(vote): VoteResult" vertex="1">
+        <mxCell id="vote-service-m1" parent="vote-service" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+processVote(vote: VoteRequest): VoteResult" vertex="1">
           <mxGeometry height="24" width="260" y="130" as="geometry" />
         </mxCell>
-        <mxCell id="vote-service-m2" parent="vote-service" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+validateVote(vote): boolean" vertex="1">
+        <mxCell id="vote-service-m2" parent="vote-service" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+validateVote(vote: VoteRequest): boolean" vertex="1">
           <mxGeometry height="24" width="260" y="154" as="geometry" />
         </mxCell>
-        <mxCell id="tE6Sb4aNAbf_FwETbm6A-2" parent="vote-service" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+publishVoteEvent(vote): void" vertex="1">
+        <mxCell id="tE6Sb4aNAbf_FwETbm6A-2" parent="vote-service" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+publishVoteEvent(vote: VoteRequest): void" vertex="1">
           <mxGeometry height="24" width="260" y="178" as="geometry" />
         </mxCell>
         <mxCell id="vote-validator" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;" value="VoteValidator" vertex="1">
-          <mxGeometry height="154" width="220" x="-220" y="280" as="geometry" />
+          <mxGeometry height="154" width="330" x="-340" y="274" as="geometry" />
         </mxCell>
         <mxCell id="vote-validator-attr1" parent="vote-validator" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="-electionRepository: ElectionRepository" vertex="1">
-          <mxGeometry height="24" width="220" y="26" as="geometry" />
+          <mxGeometry height="24" width="330" y="26" as="geometry" />
         </mxCell>
         <mxCell id="j-lJsqV99fNDcZYavksx-13" parent="vote-validator" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="-rateLimiter: RateLimiter" vertex="1">
-          <mxGeometry height="24" width="220" y="50" as="geometry" />
+          <mxGeometry height="24" width="330" y="50" as="geometry" />
         </mxCell>
         <mxCell id="vote-validator-line" parent="vote-validator" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
-          <mxGeometry height="8" width="220" y="74" as="geometry" />
+          <mxGeometry height="8" width="330" y="74" as="geometry" />
         </mxCell>
-        <mxCell id="vote-validator-m1" parent="vote-validator" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+isEligible(userId): boolean" vertex="1">
-          <mxGeometry height="24" width="220" y="82" as="geometry" />
+        <mxCell id="vote-validator-m1" parent="vote-validator" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+isEligible(userId: UUID): boolean" vertex="1">
+          <mxGeometry height="24" width="330" y="82" as="geometry" />
         </mxCell>
-        <mxCell id="vote-validator-m2" parent="vote-validator" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+isDuplicate(vote): boolean" vertex="1">
-          <mxGeometry height="24" width="220" y="106" as="geometry" />
+        <mxCell id="vote-validator-m2" parent="vote-validator" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+isDuplicate(vote: VoteRequest): boolean" vertex="1">
+          <mxGeometry height="24" width="330" y="106" as="geometry" />
         </mxCell>
-        <mxCell id="j-lJsqV99fNDcZYavksx-14" parent="vote-validator" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+isWithinWindow(electionId): boolean" vertex="1">
-          <mxGeometry height="24" width="220" y="130" as="geometry" />
+        <mxCell id="j-lJsqV99fNDcZYavksx-14" parent="vote-validator" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+isWithinWindow(electionId: UUID): boolean" vertex="1">
+          <mxGeometry height="24" width="330" y="130" as="geometry" />
         </mxCell>
         <mxCell id="dedup-service" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;" value="DeduplicationService" vertex="1">
-          <mxGeometry height="106" width="250" x="170" y="830" as="geometry" />
+          <mxGeometry height="106" width="350" x="120" y="830" as="geometry" />
         </mxCell>
         <mxCell id="dedup-service-attr1" parent="dedup-service" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="-redisClient: RedisClient" vertex="1">
-          <mxGeometry height="24" width="250" y="26" as="geometry" />
+          <mxGeometry height="24" width="350" y="26" as="geometry" />
         </mxCell>
         <mxCell id="dedup-service-line" parent="dedup-service" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
-          <mxGeometry height="8" width="250" y="50" as="geometry" />
+          <mxGeometry height="8" width="350" y="50" as="geometry" />
         </mxCell>
-        <mxCell id="dedup-service-m1" parent="dedup-service" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+checkDuplicate(userId, electionId): boolean" vertex="1">
-          <mxGeometry height="24" width="250" y="58" as="geometry" />
+        <mxCell id="dedup-service-m1" parent="dedup-service" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+checkDuplicate(userId: UUID, electionId: UUID): boolean" vertex="1">
+          <mxGeometry height="24" width="350" y="58" as="geometry" />
         </mxCell>
-        <mxCell id="dedup-service-m2" parent="dedup-service" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+markAsVoted(userId, electionId): void" vertex="1">
-          <mxGeometry height="24" width="250" y="82" as="geometry" />
+        <mxCell id="dedup-service-m2" parent="dedup-service" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+markAsVoted(userId: UUID, electionId: UUID): void" vertex="1">
+          <mxGeometry height="24" width="350" y="82" as="geometry" />
         </mxCell>
         <mxCell id="vote-repository" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;" value="VoteRepository" vertex="1">
           <mxGeometry height="130" width="220" x="420" y="586" as="geometry" />
@@ -807,17 +807,17 @@
         <mxCell id="vote-repository-line" parent="vote-repository" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
           <mxGeometry height="8" width="220" y="50" as="geometry" />
         </mxCell>
-        <mxCell id="vote-repository-m1" parent="vote-repository" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+save(vote): Vote" vertex="1">
+        <mxCell id="vote-repository-m1" parent="vote-repository" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+save(vote: Vote): Vote" vertex="1">
           <mxGeometry height="24" width="220" y="58" as="geometry" />
         </mxCell>
-        <mxCell id="vote-repository-m2" parent="vote-repository" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+findByUserId(id): List" vertex="1">
+        <mxCell id="vote-repository-m2" parent="vote-repository" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+findByUserId(id: UUID): List&lt;Vote&gt;" vertex="1">
           <mxGeometry height="24" width="220" y="82" as="geometry" />
         </mxCell>
-        <mxCell id="vote-repository-m3" parent="vote-repository" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+findByElectionId(id): List" vertex="1">
+        <mxCell id="vote-repository-m3" parent="vote-repository" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+findByElectionId(id: UUID): List&lt;Vote&gt;" vertex="1">
           <mxGeometry height="24" width="220" y="106" as="geometry" />
         </mxCell>
         <mxCell id="election-repository" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;" value="ElectionRepository" vertex="1">
-          <mxGeometry height="106" width="230" x="-530" y="304" as="geometry" />
+          <mxGeometry height="106" width="230" x="-640" y="298" as="geometry" />
         </mxCell>
         <mxCell id="election-repository-attr1" parent="election-repository" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="-dataSource: DataSource" vertex="1">
           <mxGeometry height="24" width="230" y="26" as="geometry" />
@@ -825,41 +825,41 @@
         <mxCell id="election-repository-line" parent="election-repository" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
           <mxGeometry height="8" width="230" y="50" as="geometry" />
         </mxCell>
-        <mxCell id="election-repository-m1" parent="election-repository" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+findById(id): Election" vertex="1">
+        <mxCell id="election-repository-m1" parent="election-repository" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+findById(id: UUID): Election" vertex="1">
           <mxGeometry height="24" width="230" y="58" as="geometry" />
         </mxCell>
-        <mxCell id="election-repository-m2" parent="election-repository" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+isActive(id): boolean" vertex="1">
+        <mxCell id="election-repository-m2" parent="election-repository" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+isActive(id: UUID): boolean" vertex="1">
           <mxGeometry height="24" width="230" y="82" as="geometry" />
         </mxCell>
         <mxCell id="rate-limiter" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;" value="RateLimiter" vertex="1">
-          <mxGeometry height="106" width="220" x="-220" y="488" as="geometry" />
+          <mxGeometry height="106" width="260" x="-220" y="488" as="geometry" />
         </mxCell>
         <mxCell id="rate-limiter-attr1" parent="rate-limiter" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="-redisClient: RedisClient" vertex="1">
-          <mxGeometry height="24" width="220" y="26" as="geometry" />
+          <mxGeometry height="24" width="260" y="26" as="geometry" />
         </mxCell>
         <mxCell id="rate-limiter-line" parent="rate-limiter" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
-          <mxGeometry height="8" width="220" y="50" as="geometry" />
+          <mxGeometry height="8" width="260" y="50" as="geometry" />
         </mxCell>
-        <mxCell id="rate-limiter-m1" parent="rate-limiter" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+isAllowed(userId, ip): boolean" vertex="1">
-          <mxGeometry height="24" width="220" y="58" as="geometry" />
+        <mxCell id="rate-limiter-m1" parent="rate-limiter" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+isAllowed(userId: UUID, ip: String): boolean" vertex="1">
+          <mxGeometry height="24" width="260" y="58" as="geometry" />
         </mxCell>
-        <mxCell id="rate-limiter-m2" parent="rate-limiter" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+increment(userId, ip): void" vertex="1">
-          <mxGeometry height="24" width="220" y="82" as="geometry" />
+        <mxCell id="rate-limiter-m2" parent="rate-limiter" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+increment(userId: UUID, ip: String): void" vertex="1">
+          <mxGeometry height="24" width="260" y="82" as="geometry" />
         </mxCell>
         <mxCell id="sns-publisher" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;" value="SNSPublisher" vertex="1">
-          <mxGeometry height="106" width="220" x="590" y="368" as="geometry" />
+          <mxGeometry height="106" width="190" x="590" y="368" as="geometry" />
         </mxCell>
         <mxCell id="sns-publisher-attr1" parent="sns-publisher" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="-snsClient: AmazonSNSClient" vertex="1">
-          <mxGeometry height="24" width="220" y="26" as="geometry" />
+          <mxGeometry height="24" width="190" y="26" as="geometry" />
         </mxCell>
         <mxCell id="sns-publisher-attr2" parent="sns-publisher" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="-topicArn: String" vertex="1">
-          <mxGeometry height="24" width="220" y="50" as="geometry" />
+          <mxGeometry height="24" width="190" y="50" as="geometry" />
         </mxCell>
         <mxCell id="sns-publisher-line" parent="sns-publisher" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
-          <mxGeometry height="8" width="220" y="74" as="geometry" />
+          <mxGeometry height="8" width="190" y="74" as="geometry" />
         </mxCell>
-        <mxCell id="sns-publisher-m1" parent="sns-publisher" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+publish(voteEvent): void" vertex="1">
-          <mxGeometry height="24" width="220" y="82" as="geometry" />
+        <mxCell id="sns-publisher-m1" parent="sns-publisher" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+publish(event: VoteEvent): void" vertex="1">
+          <mxGeometry height="24" width="190" y="82" as="geometry" />
         </mxCell>
         <mxCell id="redis-client-vote" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;" value="RedisClient" vertex="1">
           <mxGeometry height="130" width="220" x="-90" y="692" as="geometry" />
@@ -870,13 +870,13 @@
         <mxCell id="redis-client-vote-line" parent="redis-client-vote" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
           <mxGeometry height="8" width="220" y="50" as="geometry" />
         </mxCell>
-        <mxCell id="redis-client-vote-m1" parent="redis-client-vote" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+get(key): String" vertex="1">
+        <mxCell id="redis-client-vote-m1" parent="redis-client-vote" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+get(key: String): String" vertex="1">
           <mxGeometry height="24" width="220" y="58" as="geometry" />
         </mxCell>
-        <mxCell id="redis-client-vote-m2" parent="redis-client-vote" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+setEx(key, ttl, value): void" vertex="1">
+        <mxCell id="redis-client-vote-m2" parent="redis-client-vote" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+setEx(key: String, ttl: int, value: String): void" vertex="1">
           <mxGeometry height="24" width="220" y="82" as="geometry" />
         </mxCell>
-        <mxCell id="redis-client-vote-m3" parent="redis-client-vote" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+incr(key): Long" vertex="1">
+        <mxCell id="redis-client-vote-m3" parent="redis-client-vote" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+incr(key: String): Long" vertex="1">
           <mxGeometry height="24" width="220" y="106" as="geometry" />
         </mxCell>
         <mxCell id="vote-rel1" edge="1" parent="1" source="vote-controller" style="endArrow=open;endFill=0;endSize=12;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="vote-service" value="">
@@ -959,77 +959,119 @@
         <mxCell id="vote-model-status-line" parent="vote-model-status" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
           <mxGeometry height="8" width="180" y="126" as="geometry" />
         </mxCell>
+        <mxCell id="vote-model-event" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="VoteEvent" vertex="1">
+          <mxGeometry height="134" width="180" x="-550" y="728" as="geometry" />
+        </mxCell>
+        <mxCell id="vote-model-event-1" parent="vote-model-event" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="-voteId: UUID" vertex="1">
+          <mxGeometry height="20" width="180" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="vote-model-event-2" parent="vote-model-event" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="-electionId: UUID" vertex="1">
+          <mxGeometry height="20" width="180" y="46" as="geometry" />
+        </mxCell>
+        <mxCell id="vote-model-event-3" parent="vote-model-event" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="-candidateId: UUID" vertex="1">
+          <mxGeometry height="20" width="180" y="66" as="geometry" />
+        </mxCell>
+        <mxCell id="vote-model-event-4" parent="vote-model-event" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="-userId: UUID" vertex="1">
+          <mxGeometry height="20" width="180" y="86" as="geometry" />
+        </mxCell>
+        <mxCell id="vote-model-event-5" parent="vote-model-event" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="-timestamp: DateTime" vertex="1">
+          <mxGeometry height="20" width="180" y="106" as="geometry" />
+        </mxCell>
+        <mxCell id="vote-model-event-line" parent="vote-model-event" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
+          <mxGeometry height="8" width="180" y="126" as="geometry" />
+        </mxCell>
+        <mxCell id="vote-model-vote" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="Vote" vertex="1">
+          <mxGeometry height="134" width="180" x="-350" y="728" as="geometry" />
+        </mxCell>
+        <mxCell id="vote-model-vote-1" parent="vote-model-vote" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="-id: UUID" vertex="1">
+          <mxGeometry height="20" width="180" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="vote-model-vote-2" parent="vote-model-vote" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="-electionId: UUID" vertex="1">
+          <mxGeometry height="20" width="180" y="46" as="geometry" />
+        </mxCell>
+        <mxCell id="vote-model-vote-3" parent="vote-model-vote" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="-candidateId: UUID" vertex="1">
+          <mxGeometry height="20" width="180" y="66" as="geometry" />
+        </mxCell>
+        <mxCell id="vote-model-vote-4" parent="vote-model-vote" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="-userId: UUID" vertex="1">
+          <mxGeometry height="20" width="180" y="86" as="geometry" />
+        </mxCell>
+        <mxCell id="vote-model-vote-5" parent="vote-model-vote" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="-createdAt: DateTime" vertex="1">
+          <mxGeometry height="20" width="180" y="106" as="geometry" />
+        </mxCell>
+        <mxCell id="vote-model-vote-line" parent="vote-model-vote" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
+          <mxGeometry height="8" width="180" y="126" as="geometry" />
+        </mxCell>
         <mxCell id="go7GA6q_K1XgoJaVRHsN-1" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1" value="Results Service" vertex="1">
           <mxGeometry height="30" width="140" x="1570" y="60" as="geometry" />
         </mxCell>
         <mxCell id="go7GA6q_K1XgoJaVRHsN-2" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;" value="ResultsController" vertex="1">
-          <mxGeometry height="154" width="295" x="1482.5" y="120" as="geometry" />
+          <mxGeometry height="154" width="327.5" x="1482.5" y="120" as="geometry" />
         </mxCell>
         <mxCell id="go7GA6q_K1XgoJaVRHsN-3" parent="go7GA6q_K1XgoJaVRHsN-2" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="-resultsService: ResultsService" vertex="1">
-          <mxGeometry height="24" width="295" y="26" as="geometry" />
+          <mxGeometry height="24" width="327.5" y="26" as="geometry" />
         </mxCell>
         <mxCell id="go7GA6q_K1XgoJaVRHsN-4" parent="go7GA6q_K1XgoJaVRHsN-2" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
-          <mxGeometry height="8" width="295" y="50" as="geometry" />
+          <mxGeometry height="8" width="327.5" y="50" as="geometry" />
         </mxCell>
-        <mxCell id="go7GA6q_K1XgoJaVRHsN-5" parent="go7GA6q_K1XgoJaVRHsN-2" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+getElectionResults(electionId): ElectionResults" vertex="1">
-          <mxGeometry height="24" width="295" y="58" as="geometry" />
+        <mxCell id="go7GA6q_K1XgoJaVRHsN-5" parent="go7GA6q_K1XgoJaVRHsN-2" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+getElectionResults(electionId: UUID): ElectionResults" vertex="1">
+          <mxGeometry height="24" width="327.5" y="58" as="geometry" />
         </mxCell>
-        <mxCell id="go7GA6q_K1XgoJaVRHsN-6" parent="go7GA6q_K1XgoJaVRHsN-2" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+getLiveCount(electionId): LiveCount" vertex="1">
-          <mxGeometry height="24" width="295" y="82" as="geometry" />
+        <mxCell id="go7GA6q_K1XgoJaVRHsN-6" parent="go7GA6q_K1XgoJaVRHsN-2" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+getLiveCount(electionId: UUID): LiveCount" vertex="1">
+          <mxGeometry height="24" width="327.5" y="82" as="geometry" />
         </mxCell>
-        <mxCell id="go7GA6q_K1XgoJaVRHsN-7" parent="go7GA6q_K1XgoJaVRHsN-2" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+streamResults(electionId): void" vertex="1">
-          <mxGeometry height="24" width="295" y="106" as="geometry" />
+        <mxCell id="go7GA6q_K1XgoJaVRHsN-7" parent="go7GA6q_K1XgoJaVRHsN-2" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+streamResults(electionId: UUID): void" vertex="1">
+          <mxGeometry height="24" width="327.5" y="106" as="geometry" />
         </mxCell>
-        <mxCell id="go7GA6q_K1XgoJaVRHsN-7b" parent="go7GA6q_K1XgoJaVRHsN-2" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+getElectionStatistics(electionId): ElectionStatistics" vertex="1">
-          <mxGeometry height="24" width="295" y="130" as="geometry" />
+        <mxCell id="go7GA6q_K1XgoJaVRHsN-7b" parent="go7GA6q_K1XgoJaVRHsN-2" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+getElectionStatistics(electionId: UUID): ElectionStatistics" vertex="1">
+          <mxGeometry height="24" width="327.5" y="130" as="geometry" />
         </mxCell>
         <mxCell id="go7GA6q_K1XgoJaVRHsN-8" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;" value="ResultsService" vertex="1">
-          <mxGeometry height="154" width="260" x="1500" y="322" as="geometry" />
+          <mxGeometry height="154" width="290" x="1500" y="322" as="geometry" />
         </mxCell>
         <mxCell id="go7GA6q_K1XgoJaVRHsN-9" parent="go7GA6q_K1XgoJaVRHsN-8" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="-resultsRepository: ResultsRepository" vertex="1">
-          <mxGeometry height="24" width="260" y="26" as="geometry" />
+          <mxGeometry height="24" width="290" y="26" as="geometry" />
         </mxCell>
         <mxCell id="go7GA6q_K1XgoJaVRHsN-10" parent="go7GA6q_K1XgoJaVRHsN-8" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="-redisClient: RedisClient" vertex="1">
-          <mxGeometry height="24" width="260" y="50" as="geometry" />
+          <mxGeometry height="24" width="290" y="50" as="geometry" />
         </mxCell>
         <mxCell id="go7GA6q_K1XgoJaVRHsN-12" parent="go7GA6q_K1XgoJaVRHsN-8" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
-          <mxGeometry height="8" width="260" y="74" as="geometry" />
+          <mxGeometry height="8" width="290" y="74" as="geometry" />
         </mxCell>
-        <mxCell id="go7GA6q_K1XgoJaVRHsN-13" parent="go7GA6q_K1XgoJaVRHsN-8" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+getAggregatedResults(id): ElectionResults" vertex="1">
-          <mxGeometry height="24" width="260" y="82" as="geometry" />
+        <mxCell id="go7GA6q_K1XgoJaVRHsN-13" parent="go7GA6q_K1XgoJaVRHsN-8" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+getAggregatedResults(id: UUID): ElectionResults" vertex="1">
+          <mxGeometry height="24" width="290" y="82" as="geometry" />
         </mxCell>
-        <mxCell id="go7GA6q_K1XgoJaVRHsN-14" parent="go7GA6q_K1XgoJaVRHsN-8" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+getCachedResults(id): ElectionResults" vertex="1">
-          <mxGeometry height="24" width="260" y="106" as="geometry" />
+        <mxCell id="go7GA6q_K1XgoJaVRHsN-14" parent="go7GA6q_K1XgoJaVRHsN-8" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+getCachedResults(id: UUID): ElectionResults" vertex="1">
+          <mxGeometry height="24" width="290" y="106" as="geometry" />
         </mxCell>
-        <mxCell id="go7GA6q_K1XgoJaVRHsN-15" parent="go7GA6q_K1XgoJaVRHsN-8" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+refreshCache(electionId): void" vertex="1">
-          <mxGeometry height="24" width="260" y="130" as="geometry" />
+        <mxCell id="go7GA6q_K1XgoJaVRHsN-15" parent="go7GA6q_K1XgoJaVRHsN-8" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+refreshCache(electionId: UUID): void" vertex="1">
+          <mxGeometry height="24" width="290" y="130" as="geometry" />
         </mxCell>
         <mxCell id="go7GA6q_K1XgoJaVRHsN-16" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;" value="ResultsAggregator" vertex="1">
-          <mxGeometry height="178" width="270" x="1870" y="278" as="geometry" />
+          <mxGeometry height="178" width="320" x="1870" y="278" as="geometry" />
         </mxCell>
         <mxCell id="go7GA6q_K1XgoJaVRHsN-17" parent="go7GA6q_K1XgoJaVRHsN-16" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="-sqsConsumer: SQSConsumer" vertex="1">
-          <mxGeometry height="24" width="270" y="26" as="geometry" />
+          <mxGeometry height="24" width="320" y="26" as="geometry" />
         </mxCell>
         <mxCell id="go7GA6q_K1XgoJaVRHsN-18" parent="go7GA6q_K1XgoJaVRHsN-16" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="-resultsRepository: ResultsRepository" vertex="1">
-          <mxGeometry height="24" width="270" y="50" as="geometry" />
+          <mxGeometry height="24" width="320" y="50" as="geometry" />
         </mxCell>
         <mxCell id="go7GA6q_K1XgoJaVRHsN-18b" parent="go7GA6q_K1XgoJaVRHsN-16" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="-webSocketHandler: WebSocketHandler" vertex="1">
-          <mxGeometry height="24" width="270" y="74" as="geometry" />
+          <mxGeometry height="24" width="320" y="74" as="geometry" />
         </mxCell>
         <mxCell id="go7GA6q_K1XgoJaVRHsN-19" parent="go7GA6q_K1XgoJaVRHsN-16" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
-          <mxGeometry height="8" width="270" y="98" as="geometry" />
+          <mxGeometry height="8" width="320" y="98" as="geometry" />
         </mxCell>
-        <mxCell id="go7GA6q_K1XgoJaVRHsN-20" parent="go7GA6q_K1XgoJaVRHsN-16" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+processVoteEvent(event): void" vertex="1">
-          <mxGeometry height="24" width="270" y="106" as="geometry" />
+        <mxCell id="go7GA6q_K1XgoJaVRHsN-20" parent="go7GA6q_K1XgoJaVRHsN-16" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+processVoteEvent(event: VoteEvent): void" vertex="1">
+          <mxGeometry height="24" width="320" y="106" as="geometry" />
         </mxCell>
-        <mxCell id="go7GA6q_K1XgoJaVRHsN-21" parent="go7GA6q_K1XgoJaVRHsN-16" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+updateCounts(electionId, candidateId): void" vertex="1">
-          <mxGeometry height="24" width="270" y="130" as="geometry" />
+        <mxCell id="go7GA6q_K1XgoJaVRHsN-21" parent="go7GA6q_K1XgoJaVRHsN-16" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+updateCounts(electionId: UUID, candidateId: UUID): void" vertex="1">
+          <mxGeometry height="24" width="320" y="130" as="geometry" />
         </mxCell>
         <mxCell id="go7GA6q_K1XgoJaVRHsN-22" parent="go7GA6q_K1XgoJaVRHsN-16" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+startListening(): void" vertex="1">
-          <mxGeometry height="24" width="270" y="154" as="geometry" />
+          <mxGeometry height="24" width="320" y="154" as="geometry" />
         </mxCell>
         <mxCell id="go7GA6q_K1XgoJaVRHsN-23" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;" value="SQSConsumer" vertex="1">
-          <mxGeometry height="106" width="220" x="1900" y="120" as="geometry" />
+          <mxGeometry height="106" width="220" x="1920" y="120" as="geometry" />
         </mxCell>
         <mxCell id="go7GA6q_K1XgoJaVRHsN-24" parent="go7GA6q_K1XgoJaVRHsN-23" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="-sqsClient: AmazonSQSClient" vertex="1">
           <mxGeometry height="24" width="220" y="26" as="geometry" />
@@ -1037,47 +1079,47 @@
         <mxCell id="go7GA6q_K1XgoJaVRHsN-25" parent="go7GA6q_K1XgoJaVRHsN-23" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
           <mxGeometry height="8" width="220" y="50" as="geometry" />
         </mxCell>
-        <mxCell id="go7GA6q_K1XgoJaVRHsN-26" parent="go7GA6q_K1XgoJaVRHsN-23" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+receiveMessages(): List" vertex="1">
+        <mxCell id="go7GA6q_K1XgoJaVRHsN-26" parent="go7GA6q_K1XgoJaVRHsN-23" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+receiveMessages(): List&lt;VoteEvent&gt;" vertex="1">
           <mxGeometry height="24" width="220" y="58" as="geometry" />
         </mxCell>
-        <mxCell id="go7GA6q_K1XgoJaVRHsN-27" parent="go7GA6q_K1XgoJaVRHsN-23" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+deleteMessage(handle): void" vertex="1">
+        <mxCell id="go7GA6q_K1XgoJaVRHsN-27" parent="go7GA6q_K1XgoJaVRHsN-23" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+deleteMessage(handle: String): void" vertex="1">
           <mxGeometry height="24" width="220" y="82" as="geometry" />
         </mxCell>
         <mxCell id="go7GA6q_K1XgoJaVRHsN-28" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;" value="RedisClient" vertex="1">
-          <mxGeometry height="130" width="220" x="1200" y="356" as="geometry" />
+          <mxGeometry height="130" width="260" x="1130" y="356" as="geometry" />
         </mxCell>
         <mxCell id="go7GA6q_K1XgoJaVRHsN-29" parent="go7GA6q_K1XgoJaVRHsN-28" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="-connectionPool: JedisPool" vertex="1">
-          <mxGeometry height="24" width="220" y="26" as="geometry" />
+          <mxGeometry height="24" width="260" y="26" as="geometry" />
         </mxCell>
         <mxCell id="go7GA6q_K1XgoJaVRHsN-30" parent="go7GA6q_K1XgoJaVRHsN-28" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
-          <mxGeometry height="8" width="220" y="50" as="geometry" />
+          <mxGeometry height="8" width="260" y="50" as="geometry" />
         </mxCell>
-        <mxCell id="go7GA6q_K1XgoJaVRHsN-31" parent="go7GA6q_K1XgoJaVRHsN-28" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+get(key): String" vertex="1">
-          <mxGeometry height="24" width="220" y="58" as="geometry" />
+        <mxCell id="go7GA6q_K1XgoJaVRHsN-31" parent="go7GA6q_K1XgoJaVRHsN-28" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+get(key: String): String" vertex="1">
+          <mxGeometry height="24" width="260" y="58" as="geometry" />
         </mxCell>
-        <mxCell id="go7GA6q_K1XgoJaVRHsN-32" parent="go7GA6q_K1XgoJaVRHsN-28" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+setEx(key, ttl, value): void" vertex="1">
-          <mxGeometry height="24" width="220" y="82" as="geometry" />
+        <mxCell id="go7GA6q_K1XgoJaVRHsN-32" parent="go7GA6q_K1XgoJaVRHsN-28" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+setEx(key: String, ttl: int, value: String): void" vertex="1">
+          <mxGeometry height="24" width="260" y="82" as="geometry" />
         </mxCell>
-        <mxCell id="go7GA6q_K1XgoJaVRHsN-33" parent="go7GA6q_K1XgoJaVRHsN-28" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+incr(key): Long" vertex="1">
-          <mxGeometry height="24" width="220" y="106" as="geometry" />
+        <mxCell id="go7GA6q_K1XgoJaVRHsN-33" parent="go7GA6q_K1XgoJaVRHsN-28" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+incr(key: String): Long" vertex="1">
+          <mxGeometry height="24" width="260" y="106" as="geometry" />
         </mxCell>
         <mxCell id="go7GA6q_K1XgoJaVRHsN-34" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;" value="ResultsRepository" vertex="1">
-          <mxGeometry height="130" width="270" x="1660" y="553" as="geometry" />
+          <mxGeometry height="130" width="350" x="1660" y="553" as="geometry" />
         </mxCell>
         <mxCell id="go7GA6q_K1XgoJaVRHsN-35" parent="go7GA6q_K1XgoJaVRHsN-34" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="-dataSource: DataSource" vertex="1">
-          <mxGeometry height="24" width="270" y="26" as="geometry" />
+          <mxGeometry height="24" width="350" y="26" as="geometry" />
         </mxCell>
         <mxCell id="go7GA6q_K1XgoJaVRHsN-36" parent="go7GA6q_K1XgoJaVRHsN-34" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
-          <mxGeometry height="8" width="270" y="50" as="geometry" />
+          <mxGeometry height="8" width="350" y="50" as="geometry" />
         </mxCell>
-        <mxCell id="go7GA6q_K1XgoJaVRHsN-37" parent="go7GA6q_K1XgoJaVRHsN-34" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+findByElectionId(id): ElectionResults" vertex="1">
-          <mxGeometry height="24" width="270" y="58" as="geometry" />
+        <mxCell id="go7GA6q_K1XgoJaVRHsN-37" parent="go7GA6q_K1XgoJaVRHsN-34" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+findByElectionId(id: UUID): ElectionResults" vertex="1">
+          <mxGeometry height="24" width="350" y="58" as="geometry" />
         </mxCell>
-        <mxCell id="go7GA6q_K1XgoJaVRHsN-38" parent="go7GA6q_K1XgoJaVRHsN-34" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+save(result): ElectionResults" vertex="1">
-          <mxGeometry height="24" width="270" y="82" as="geometry" />
+        <mxCell id="go7GA6q_K1XgoJaVRHsN-38" parent="go7GA6q_K1XgoJaVRHsN-34" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+save(result: ElectionResults): ElectionResults" vertex="1">
+          <mxGeometry height="24" width="350" y="82" as="geometry" />
         </mxCell>
-        <mxCell id="go7GA6q_K1XgoJaVRHsN-39" parent="go7GA6q_K1XgoJaVRHsN-34" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+incrementCount(electionId, candidateId): void" vertex="1">
-          <mxGeometry height="24" width="270" y="106" as="geometry" />
+        <mxCell id="go7GA6q_K1XgoJaVRHsN-39" parent="go7GA6q_K1XgoJaVRHsN-34" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+incrementCount(electionId: UUID, candidateId: UUID): void" vertex="1">
+          <mxGeometry height="24" width="350" y="106" as="geometry" />
         </mxCell>
         <mxCell id="model-election-results" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="ElectionResults" vertex="1">
           <mxGeometry height="154" width="200" x="1150" y="728" as="geometry" />
@@ -1203,22 +1245,22 @@
           <mxGeometry height="8" width="220" y="226" as="geometry" />
         </mxCell>
         <mxCell id="ws-handler" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;" value="WebSocketHandler" vertex="1">
-          <mxGeometry height="130" width="220" x="2240" y="302" as="geometry" />
+          <mxGeometry height="130" width="350" x="2240" y="302" as="geometry" />
         </mxCell>
         <mxCell id="ws-handler-attr1" parent="ws-handler" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="-sessions: Map&lt;String, Session&gt;" vertex="1">
-          <mxGeometry height="24" width="220" y="26" as="geometry" />
+          <mxGeometry height="24" width="350" y="26" as="geometry" />
         </mxCell>
         <mxCell id="ws-handler-line" parent="ws-handler" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
-          <mxGeometry height="8" width="220" y="50" as="geometry" />
+          <mxGeometry height="8" width="350" y="50" as="geometry" />
         </mxCell>
-        <mxCell id="ws-handler-m1" parent="ws-handler" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+onOpen(session, electionId): void" vertex="1">
-          <mxGeometry height="24" width="220" y="58" as="geometry" />
+        <mxCell id="ws-handler-m1" parent="ws-handler" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+onOpen(session: Session, electionId: UUID): void" vertex="1">
+          <mxGeometry height="24" width="350" y="58" as="geometry" />
         </mxCell>
-        <mxCell id="ws-handler-m2" parent="ws-handler" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+onClose(session): void" vertex="1">
-          <mxGeometry height="24" width="220" y="82" as="geometry" />
+        <mxCell id="ws-handler-m2" parent="ws-handler" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+onClose(session: Session): void" vertex="1">
+          <mxGeometry height="24" width="350" y="82" as="geometry" />
         </mxCell>
-        <mxCell id="ws-handler-m3" parent="ws-handler" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+broadcastUpdate(electionId): void" vertex="1">
-          <mxGeometry height="24" width="220" y="106" as="geometry" />
+        <mxCell id="ws-handler-m3" parent="ws-handler" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+broadcastUpdate(message: ResultsStreamMessage): void" vertex="1">
+          <mxGeometry height="24" width="350" y="106" as="geometry" />
         </mxCell>
         <mxCell id="go7GA6q_K1XgoJaVRHsN-57" edge="1" parent="1" source="go7GA6q_K1XgoJaVRHsN-2" style="endArrow=open;endFill=0;endSize=12;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="go7GA6q_K1XgoJaVRHsN-8" value="">
           <mxGeometry relative="1" as="geometry" />
@@ -1234,7 +1276,7 @@
             <mxPoint x="1750" y="430" as="sourcePoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="go7GA6q_K1XgoJaVRHsN-61" edge="1" parent="1" source="go7GA6q_K1XgoJaVRHsN-16" style="endArrow=open;endFill=0;endSize=12;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" value="">
+        <mxCell id="go7GA6q_K1XgoJaVRHsN-61" edge="1" parent="1" source="go7GA6q_K1XgoJaVRHsN-16" style="endArrow=open;endFill=0;endSize=12;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.515;entryY=1.125;entryDx=0;entryDy=0;entryPerimeter=0;" target="go7GA6q_K1XgoJaVRHsN-27" value="">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="2005" y="230" as="targetPoint" />
           </mxGeometry>
@@ -1259,6 +1301,389 @@
             <mxPoint x="59.900000000000006" y="936.0019999999997" as="sourcePoint" />
             <mxPoint x="19.999999999999915" y="821.0180000000003" as="targetPoint" />
           </mxGeometry>
+        </mxCell>
+        <mxCell id="backoffice-label" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1" value="Backoffice Service" vertex="1">
+          <mxGeometry height="30" width="160" x="2900" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-controller" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;" value="BackofficeController" vertex="1">
+          <mxGeometry height="298" width="590" x="2700" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-controller-attr" parent="backoffice-controller" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="-backofficeService: BackofficeService" vertex="1">
+          <mxGeometry height="24" width="590" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-controller-line" parent="backoffice-controller" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
+          <mxGeometry height="8" width="590" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-controller-m1" parent="backoffice-controller" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+listElections(): ElectionListPage" vertex="1">
+          <mxGeometry height="24" width="590" y="58" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-controller-m2" parent="backoffice-controller" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+createElection(request: CreateElectionRequest): Election" vertex="1">
+          <mxGeometry height="24" width="590" y="82" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-controller-m3" parent="backoffice-controller" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+updateElection(id: UUID, request: UpdateElectionRequest): Election" vertex="1">
+          <mxGeometry height="24" width="590" y="106" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-controller-m4" parent="backoffice-controller" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+deleteElection(id: UUID): void" vertex="1">
+          <mxGeometry height="24" width="590" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-controller-m5" parent="backoffice-controller" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+addCandidate(electionId: UUID, request: CreateCandidateRequest): Candidate" vertex="1">
+          <mxGeometry height="24" width="590" y="154" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-controller-m6" parent="backoffice-controller" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+updateCandidate(electionId: UUID, candidateId: UUID, request: UpdateCandidateRequest): Candidate" vertex="1">
+          <mxGeometry height="24" width="590" y="178" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-controller-m7" parent="backoffice-controller" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+deleteCandidate(electionId: UUID, candidateId: UUID): void" vertex="1">
+          <mxGeometry height="24" width="590" y="202" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-controller-m8" parent="backoffice-controller" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+listUsers(): UserListPage" vertex="1">
+          <mxGeometry height="24" width="590" y="226" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-controller-m9" parent="backoffice-controller" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+updateUser(id: UUID, request: UpdateUserRequest): User" vertex="1">
+          <mxGeometry height="24" width="590" y="250" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-controller-m10" parent="backoffice-controller" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+deleteUser(id: UUID): void" vertex="1">
+          <mxGeometry height="24" width="590" y="274" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-service" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;" value="BackofficeService" vertex="1">
+          <mxGeometry height="250" width="465" x="2762.5" y="452" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-service-attr1" parent="backoffice-service" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="-electionRepository: ElectionRepository" vertex="1">
+          <mxGeometry height="24" width="465" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-service-attr2" parent="backoffice-service" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="-candidateRepository: CandidateRepository" vertex="1">
+          <mxGeometry height="24" width="465" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-service-attr3" parent="backoffice-service" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="-userRepository: UserRepository" vertex="1">
+          <mxGeometry height="24" width="465" y="74" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-service-line" parent="backoffice-service" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
+          <mxGeometry height="8" width="465" y="98" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-service-m1" parent="backoffice-service" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+createElection(request: CreateElectionRequest): Election" vertex="1">
+          <mxGeometry height="24" width="465" y="106" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-service-m2" parent="backoffice-service" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+updateElection(id: UUID, request: UpdateElectionRequest): Election" vertex="1">
+          <mxGeometry height="24" width="465" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-service-m3" parent="backoffice-service" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+addCandidate(electionId: UUID, request: CreateCandidateRequest): Candidate" vertex="1">
+          <mxGeometry height="24" width="465" y="154" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-service-m4" parent="backoffice-service" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+updateUser(id: UUID, request: UpdateUserRequest): User" vertex="1">
+          <mxGeometry height="24" width="465" y="178" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-service-m5" parent="backoffice-service" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+deleteElection(id: UUID): void" vertex="1">
+          <mxGeometry height="24" width="465" y="202" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-service-m6" parent="backoffice-service" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+deleteCandidate(electionId: UUID, candidateId: UUID): void" vertex="1">
+          <mxGeometry height="24" width="465" y="226" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-election-repo" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;" value="ElectionRepository" vertex="1">
+          <mxGeometry height="130" width="280" x="2530" y="740" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-election-repo-attr" parent="backoffice-election-repo" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="-dataSource: DataSource" vertex="1">
+          <mxGeometry height="24" width="280" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-election-repo-line" parent="backoffice-election-repo" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
+          <mxGeometry height="8" width="280" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-election-repo-m1" parent="backoffice-election-repo" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+findAll(page: int, size: int): ElectionListPage" vertex="1">
+          <mxGeometry height="24" width="280" y="58" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-election-repo-m2" parent="backoffice-election-repo" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+save(election: Election): Election" vertex="1">
+          <mxGeometry height="24" width="280" y="82" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-election-repo-m3" parent="backoffice-election-repo" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+deleteById(id: UUID): void" vertex="1">
+          <mxGeometry height="24" width="280" y="106" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-candidate-repo" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;" value="CandidateRepository" vertex="1">
+          <mxGeometry height="130" width="310" x="2840" y="740" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-candidate-repo-attr" parent="backoffice-candidate-repo" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="-dataSource: DataSource" vertex="1">
+          <mxGeometry height="24" width="310" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-candidate-repo-line" parent="backoffice-candidate-repo" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
+          <mxGeometry height="8" width="310" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-candidate-repo-m1" parent="backoffice-candidate-repo" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+findByElectionId(electionId: UUID): List&lt;Candidate&gt;" vertex="1">
+          <mxGeometry height="24" width="310" y="58" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-candidate-repo-m2" parent="backoffice-candidate-repo" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+save(candidate: Candidate): Candidate" vertex="1">
+          <mxGeometry height="24" width="310" y="82" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-candidate-repo-m3" parent="backoffice-candidate-repo" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+deleteById(id: UUID): void" vertex="1">
+          <mxGeometry height="24" width="310" y="106" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-user-repo" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;" value="UserRepository" vertex="1">
+          <mxGeometry height="130" width="260" x="3210" y="740" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-user-repo-attr" parent="backoffice-user-repo" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="-dataSource: DataSource" vertex="1">
+          <mxGeometry height="24" width="260" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-user-repo-line" parent="backoffice-user-repo" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
+          <mxGeometry height="8" width="260" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-user-repo-m1" parent="backoffice-user-repo" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+findAll(page: int, size: int): UserListPage" vertex="1">
+          <mxGeometry height="24" width="260" y="58" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-user-repo-m2" parent="backoffice-user-repo" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+save(user: User): User" vertex="1">
+          <mxGeometry height="24" width="260" y="82" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-user-repo-m3" parent="backoffice-user-repo" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+deleteById(id: UUID): void" vertex="1">
+          <mxGeometry height="24" width="260" y="106" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-model-election" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="Election" vertex="1">
+          <mxGeometry height="214" width="200" x="2550" y="920" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-model-election-1" parent="backoffice-model-election" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="-id: UUID" vertex="1">
+          <mxGeometry height="20" width="200" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-model-election-2" parent="backoffice-model-election" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="-title: String" vertex="1">
+          <mxGeometry height="20" width="200" y="46" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-model-election-3" parent="backoffice-model-election" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="-description: String" vertex="1">
+          <mxGeometry height="20" width="200" y="66" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-model-election-4" parent="backoffice-model-election" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="-status: String" vertex="1">
+          <mxGeometry height="20" width="200" y="86" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-model-election-5" parent="backoffice-model-election" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="-startDate: DateTime" vertex="1">
+          <mxGeometry height="20" width="200" y="106" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-model-election-6" parent="backoffice-model-election" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="-endDate: DateTime" vertex="1">
+          <mxGeometry height="20" width="200" y="126" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-model-election-7" parent="backoffice-model-election" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="-candidates: List&lt;Candidate&gt;" vertex="1">
+          <mxGeometry height="20" width="200" y="146" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-model-election-8" parent="backoffice-model-election" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="-createdAt: DateTime" vertex="1">
+          <mxGeometry height="20" width="200" y="166" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-model-election-9" parent="backoffice-model-election" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="-updatedAt: DateTime" vertex="1">
+          <mxGeometry height="20" width="200" y="186" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-model-election-line" parent="backoffice-model-election" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
+          <mxGeometry height="8" width="200" y="206" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-model-candidate" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="Candidate" vertex="1">
+          <mxGeometry height="194" width="180" x="2770" y="920" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-model-candidate-1" parent="backoffice-model-candidate" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="-id: UUID" vertex="1">
+          <mxGeometry height="20" width="180" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-model-candidate-2" parent="backoffice-model-candidate" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="-electionId: UUID" vertex="1">
+          <mxGeometry height="20" width="180" y="46" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-model-candidate-3" parent="backoffice-model-candidate" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="-name: String" vertex="1">
+          <mxGeometry height="20" width="180" y="66" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-model-candidate-4" parent="backoffice-model-candidate" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="-party: String" vertex="1">
+          <mxGeometry height="20" width="180" y="86" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-model-candidate-5" parent="backoffice-model-candidate" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="-photoUrl: String" vertex="1">
+          <mxGeometry height="20" width="180" y="106" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-model-candidate-6" parent="backoffice-model-candidate" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="-biography: String" vertex="1">
+          <mxGeometry height="20" width="180" y="126" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-model-candidate-7" parent="backoffice-model-candidate" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="-voteCount: Long" vertex="1">
+          <mxGeometry height="20" width="180" y="146" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-model-candidate-8" parent="backoffice-model-candidate" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="-createdAt: DateTime" vertex="1">
+          <mxGeometry height="20" width="180" y="166" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-model-candidate-line" parent="backoffice-model-candidate" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
+          <mxGeometry height="8" width="180" y="186" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-model-user" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="User" vertex="1">
+          <mxGeometry height="174" width="180" x="2970" y="920" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-model-user-1" parent="backoffice-model-user" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="-id: UUID" vertex="1">
+          <mxGeometry height="20" width="180" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-model-user-2" parent="backoffice-model-user" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="-email: String" vertex="1">
+          <mxGeometry height="20" width="180" y="46" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-model-user-3" parent="backoffice-model-user" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="-name: String" vertex="1">
+          <mxGeometry height="20" width="180" y="66" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-model-user-4" parent="backoffice-model-user" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="-role: String" vertex="1">
+          <mxGeometry height="20" width="180" y="86" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-model-user-5" parent="backoffice-model-user" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="-status: String" vertex="1">
+          <mxGeometry height="20" width="180" y="106" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-model-user-6" parent="backoffice-model-user" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="-lastLoginAt: DateTime" vertex="1">
+          <mxGeometry height="20" width="180" y="126" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-model-user-7" parent="backoffice-model-user" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="-createdAt: DateTime" vertex="1">
+          <mxGeometry height="20" width="180" y="146" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-model-user-line" parent="backoffice-model-user" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
+          <mxGeometry height="8" width="180" y="166" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-model-create-election" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="CreateElectionRequest" vertex="1">
+          <mxGeometry height="154" width="200" x="2550" y="1160" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-model-create-election-1" parent="backoffice-model-create-election" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="-title: String" vertex="1">
+          <mxGeometry height="20" width="200" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-model-create-election-2" parent="backoffice-model-create-election" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="-description: String" vertex="1">
+          <mxGeometry height="20" width="200" y="46" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-model-create-election-3" parent="backoffice-model-create-election" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="-startDate: DateTime" vertex="1">
+          <mxGeometry height="20" width="200" y="66" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-model-create-election-4" parent="backoffice-model-create-election" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="-endDate: DateTime" vertex="1">
+          <mxGeometry height="20" width="200" y="86" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-model-create-election-5" parent="backoffice-model-create-election" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="-allowedRegions: List&lt;String&gt;" vertex="1">
+          <mxGeometry height="20" width="200" y="106" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-model-create-election-6" parent="backoffice-model-create-election" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="-maxVotesPerUser: int" vertex="1">
+          <mxGeometry height="20" width="200" y="126" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-model-create-election-line" parent="backoffice-model-create-election" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
+          <mxGeometry height="8" width="200" y="146" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-model-update-election" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="UpdateElectionRequest" vertex="1">
+          <mxGeometry height="154" width="200" x="2770" y="1160" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-model-update-election-1" parent="backoffice-model-update-election" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="-title: String" vertex="1">
+          <mxGeometry height="20" width="200" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-model-update-election-2" parent="backoffice-model-update-election" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="-description: String" vertex="1">
+          <mxGeometry height="20" width="200" y="46" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-model-update-election-3" parent="backoffice-model-update-election" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="-startDate: DateTime" vertex="1">
+          <mxGeometry height="20" width="200" y="66" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-model-update-election-4" parent="backoffice-model-update-election" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="-endDate: DateTime" vertex="1">
+          <mxGeometry height="20" width="200" y="86" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-model-update-election-5" parent="backoffice-model-update-election" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="-status: String" vertex="1">
+          <mxGeometry height="20" width="200" y="106" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-model-update-election-6" parent="backoffice-model-update-election" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="-allowedRegions: List&lt;String&gt;" vertex="1">
+          <mxGeometry height="20" width="200" y="126" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-model-update-election-line" parent="backoffice-model-update-election" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
+          <mxGeometry height="8" width="200" y="146" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-model-create-candidate" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="CreateCandidateRequest" vertex="1">
+          <mxGeometry height="134" width="200" x="2990" y="1160" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-model-create-candidate-1" parent="backoffice-model-create-candidate" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="-name: String" vertex="1">
+          <mxGeometry height="20" width="200" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-model-create-candidate-2" parent="backoffice-model-create-candidate" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="-party: String" vertex="1">
+          <mxGeometry height="20" width="200" y="46" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-model-create-candidate-3" parent="backoffice-model-create-candidate" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="-photoUrl: String" vertex="1">
+          <mxGeometry height="20" width="200" y="66" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-model-create-candidate-4" parent="backoffice-model-create-candidate" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="-biography: String" vertex="1">
+          <mxGeometry height="20" width="200" y="86" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-model-create-candidate-5" parent="backoffice-model-create-candidate" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="-platformUrl: String" vertex="1">
+          <mxGeometry height="20" width="200" y="106" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-model-create-candidate-line" parent="backoffice-model-create-candidate" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
+          <mxGeometry height="8" width="200" y="126" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-model-update-candidate" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="UpdateCandidateRequest" vertex="1">
+          <mxGeometry height="134" width="200" x="3210" y="1160" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-model-update-candidate-1" parent="backoffice-model-update-candidate" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="-name: String" vertex="1">
+          <mxGeometry height="20" width="200" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-model-update-candidate-2" parent="backoffice-model-update-candidate" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="-party: String" vertex="1">
+          <mxGeometry height="20" width="200" y="46" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-model-update-candidate-3" parent="backoffice-model-update-candidate" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="-photoUrl: String" vertex="1">
+          <mxGeometry height="20" width="200" y="66" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-model-update-candidate-4" parent="backoffice-model-update-candidate" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="-biography: String" vertex="1">
+          <mxGeometry height="20" width="200" y="86" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-model-update-candidate-5" parent="backoffice-model-update-candidate" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="-platformUrl: String" vertex="1">
+          <mxGeometry height="20" width="200" y="106" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-model-update-candidate-line" parent="backoffice-model-update-candidate" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
+          <mxGeometry height="8" width="200" y="126" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-model-update-user" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="UpdateUserRequest" vertex="1">
+          <mxGeometry height="114" width="180" x="2550" y="1340" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-model-update-user-1" parent="backoffice-model-update-user" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="-email: String" vertex="1">
+          <mxGeometry height="20" width="180" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-model-update-user-2" parent="backoffice-model-update-user" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="-name: String" vertex="1">
+          <mxGeometry height="20" width="180" y="46" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-model-update-user-3" parent="backoffice-model-update-user" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="-role: String" vertex="1">
+          <mxGeometry height="20" width="180" y="66" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-model-update-user-4" parent="backoffice-model-update-user" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="-status: String" vertex="1">
+          <mxGeometry height="20" width="180" y="86" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-model-update-user-line" parent="backoffice-model-update-user" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
+          <mxGeometry height="8" width="180" y="106" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-model-election-list" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="ElectionListPage" vertex="1">
+          <mxGeometry height="134" width="200" x="2750" y="1340" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-model-election-list-1" parent="backoffice-model-election-list" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="-content: List&lt;Election&gt;" vertex="1">
+          <mxGeometry height="20" width="200" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-model-election-list-2" parent="backoffice-model-election-list" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="-page: int" vertex="1">
+          <mxGeometry height="20" width="200" y="46" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-model-election-list-3" parent="backoffice-model-election-list" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="-size: int" vertex="1">
+          <mxGeometry height="20" width="200" y="66" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-model-election-list-4" parent="backoffice-model-election-list" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="-totalElements: int" vertex="1">
+          <mxGeometry height="20" width="200" y="86" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-model-election-list-5" parent="backoffice-model-election-list" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="-totalPages: int" vertex="1">
+          <mxGeometry height="20" width="200" y="106" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-model-election-list-line" parent="backoffice-model-election-list" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
+          <mxGeometry height="8" width="200" y="126" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-model-user-list" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="UserListPage" vertex="1">
+          <mxGeometry height="134" width="180" x="2970" y="1340" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-model-user-list-1" parent="backoffice-model-user-list" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="-content: List&lt;User&gt;" vertex="1">
+          <mxGeometry height="20" width="180" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-model-user-list-2" parent="backoffice-model-user-list" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="-page: int" vertex="1">
+          <mxGeometry height="20" width="180" y="46" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-model-user-list-3" parent="backoffice-model-user-list" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="-size: int" vertex="1">
+          <mxGeometry height="20" width="180" y="66" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-model-user-list-4" parent="backoffice-model-user-list" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="-totalElements: int" vertex="1">
+          <mxGeometry height="20" width="180" y="86" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-model-user-list-5" parent="backoffice-model-user-list" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="-totalPages: int" vertex="1">
+          <mxGeometry height="20" width="180" y="106" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-model-user-list-line" parent="backoffice-model-user-list" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
+          <mxGeometry height="8" width="180" y="126" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-rel1" edge="1" parent="1" source="backoffice-controller" style="endArrow=open;endFill=0;endSize=12;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="backoffice-service" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-rel2" edge="1" parent="1" source="backoffice-service-m2" style="endArrow=open;endFill=0;endSize=12;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="backoffice-election-repo" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="backoffice-rel3" edge="1" parent="1" style="endArrow=open;endFill=0;endSize=12;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="backoffice-candidate-repo" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="3000" y="700" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="backoffice-rel4" edge="1" parent="1" source="backoffice-service-m2" style="endArrow=open;endFill=0;endSize=12;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="backoffice-user-repo" value="">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
