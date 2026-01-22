@@ -798,6 +798,39 @@
         <mxCell id="dedup-service-m2" parent="dedup-service" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+markAsVoted(userId, electionId): void" vertex="1">
           <mxGeometry height="24" width="250" y="82" as="geometry" />
         </mxCell>
+        <mxCell id="vote-repository" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;" value="VoteRepository" vertex="1">
+          <mxGeometry height="130" width="220" x="420" y="586" as="geometry" />
+        </mxCell>
+        <mxCell id="vote-repository-attr1" parent="vote-repository" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="-dataSource: DataSource" vertex="1">
+          <mxGeometry height="24" width="220" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="vote-repository-line" parent="vote-repository" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
+          <mxGeometry height="8" width="220" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="vote-repository-m1" parent="vote-repository" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+save(vote): Vote" vertex="1">
+          <mxGeometry height="24" width="220" y="58" as="geometry" />
+        </mxCell>
+        <mxCell id="vote-repository-m2" parent="vote-repository" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+findByUserId(id): List" vertex="1">
+          <mxGeometry height="24" width="220" y="82" as="geometry" />
+        </mxCell>
+        <mxCell id="vote-repository-m3" parent="vote-repository" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+findByElectionId(id): List" vertex="1">
+          <mxGeometry height="24" width="220" y="106" as="geometry" />
+        </mxCell>
+        <mxCell id="election-repository" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;" value="ElectionRepository" vertex="1">
+          <mxGeometry height="106" width="230" x="-530" y="304" as="geometry" />
+        </mxCell>
+        <mxCell id="election-repository-attr1" parent="election-repository" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="-dataSource: DataSource" vertex="1">
+          <mxGeometry height="24" width="230" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="election-repository-line" parent="election-repository" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
+          <mxGeometry height="8" width="230" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="election-repository-m1" parent="election-repository" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+findById(id): Election" vertex="1">
+          <mxGeometry height="24" width="230" y="58" as="geometry" />
+        </mxCell>
+        <mxCell id="election-repository-m2" parent="election-repository" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+isActive(id): boolean" vertex="1">
+          <mxGeometry height="24" width="230" y="82" as="geometry" />
+        </mxCell>
         <mxCell id="rate-limiter" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;" value="RateLimiter" vertex="1">
           <mxGeometry height="106" width="220" x="-220" y="488" as="geometry" />
         </mxCell>
@@ -849,6 +882,12 @@
         <mxCell id="vote-rel1" edge="1" parent="1" source="vote-controller" style="endArrow=open;endFill=0;endSize=12;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="vote-service" value="">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
+        <mxCell id="vote-rel-repository" edge="1" parent="1" source="tE6Sb4aNAbf_FwETbm6A-2" style="endArrow=open;endFill=0;endSize=12;html=1;exitX=0.741;exitY=1.097;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;exitPerimeter=0;" target="vote-repository" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="vote-rel-election-repo" edge="1" parent="1" source="vote-validator" style="endArrow=open;endFill=0;endSize=12;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" target="election-repository" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
         <mxCell id="vote-rel2" edge="1" parent="1" source="j-lJsqV99fNDcZYavksx-11" style="endArrow=open;endFill=0;endSize=12;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1.015;entryY=-0.097;entryDx=0;entryDy=0;entryPerimeter=0;" target="vote-validator-m1" value="">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
@@ -862,15 +901,6 @@
         </mxCell>
         <mxCell id="vote-rel6" edge="1" parent="1" source="j-lJsqV99fNDcZYavksx-14" style="endArrow=open;endFill=0;endSize=12;html=1;exitX=0.505;exitY=1.167;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;exitPerimeter=0;" target="rate-limiter" value="">
           <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="vote-rel8" edge="1" parent="1" source="tE6Sb4aNAbf_FwETbm6A-2" style="endArrow=open;endFill=0;endSize=12;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;exitX=0.272;exitY=1.153;exitDx=0;exitDy=0;exitPerimeter=0;" target="redis-client-vote" value="">
-          <mxGeometry relative="1" as="geometry">
-            <Array as="points">
-              <mxPoint x="201" y="640" />
-            </Array>
-            <mxPoint x="250" y="452" as="sourcePoint" />
-            <mxPoint x="-380" y="1116" as="targetPoint" />
-          </mxGeometry>
         </mxCell>
         <mxCell id="vote-rel9" edge="1" parent="1" source="rate-limiter-m2" style="endArrow=open;endFill=0;endSize=12;html=1;exitX=0.468;exitY=1.042;exitDx=0;exitDy=0;entryX=0.294;entryY=0.013;entryDx=0;entryDy=0;exitPerimeter=0;entryPerimeter=0;" target="redis-client-vote" value="">
           <mxGeometry relative="1" as="geometry" />
