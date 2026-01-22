@@ -260,6 +260,165 @@ Exemplos of other components: Batch jobs, Events, 3rd Party Integrations, Stream
 
 Recommended Reading: http://diego-pacheco.blogspot.com/2018/05/internal-system-design-forgotten.html
 
+#### 6.1 Contract Documentation
+
+
+```
+Component:Vote Service
+
+OPERATION: Submit a vote
+Purpose: Submit a vote for elections.
+Preconditions: user authenticated
+Postconditions: vote accounted
+
+INPUTS:
+- ElectionId
+- CandidateId
+- UserId
+- captchaToken
+
+OUTPUTS:
+Success (200):
+- voteId
+- status
+- acceptedAt
+
+Errors:
+- 400: Bad Request
+- 401: Invalid credentials
+- 429: Too many attempts
+
+```
+
+```
+Component:Vote Service
+
+OPERATION: Check vote status
+Purpose: Check vote status for election.
+Preconditions: user authenticated
+Postconditions:
+
+INPUTS:
+- ElectionId
+- UserId
+
+OUTPUTS:
+Success (200):
+- electionId
+- userId
+- hasVoted
+- voteId
+- timestamp
+
+Errors:
+- 400: Bad Request
+- 401: Invalid credentials
+- 429: Too many attempts
+
+```
+
+```
+Component:Results Service
+
+OPERATION:  getElectionResults
+Purpose:  Get aggregated election results
+Preconditions:
+Postconditions: Results are cached in Redis for 5 minutes
+
+INPUTS:
+- electionId
+- includePercentages
+
+OUTPUTS:
+Success (200):
+- electionId
+- electionTitle
+- status
+- totals (candidateId, name, party, votes, percentage)
+- totalVotes
+- generatedAt
+
+Errors:
+- 400: Bad Request
+- 429: Too many attempts
+
+```
+
+```
+Component:Results Service
+
+OPERATION:  getLiveCount
+Purpose:  Retrieve current vote count for an active election (polling-based).
+Preconditions:
+Postconditions:
+
+INPUTS:
+- electionId
+
+OUTPUTS:
+Success (200):
+- electionId
+- currentVotes
+- lastUpdated
+
+Errors:
+- 400: Bad Request
+- 429: Too many attempts
+
+```
+
+```
+Component:Results Service
+
+OPERATION: streamResults
+Purpose:  WebSocket endpoint for real-time election result updates.
+Preconditions:
+Postconditions:
+
+INPUTS:
+- electionId
+- token
+
+OUTPUTS:
+Success (101):
+- type
+- electionId
+- timestamp
+- candidates
+- candidates
+
+Errors:
+- 400: Bad Request
+- 429: Too many attempts
+
+```
+
+```
+Component:Results Service
+
+OPERATION: getElectionStatistics
+Purpose:  Retrieve comprehensive statistical analysis for an election.
+Preconditions: Requires authentication (ADMIN or AUDITOR role)
+Postconditions:
+
+INPUTS:
+- electionId
+- includeHourly
+- includeRegional
+
+OUTPUTS:
+Success (101):
+- electionId
+- timestamp
+- candidates
+- statistics
+
+Errors:
+- 400: Bad Request
+- 429: Too many attempts
+
+```
+
 ### 🖹 7. Migrations
 
 IF Migrations are required describe the migrations strategy with proper diagrams, text and tradeoffs.
