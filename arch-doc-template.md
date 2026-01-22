@@ -452,37 +452,11 @@ IF Migrations are required describe the migrations strategy with proper diagrams
 - Redis/SQS clients mocked to avoid external dependencies
 - Auth0 JWT validation mocked with test tokens
 
-**Example Test Cases:**
-```java
-// Vote Service - Duplicate Detection
-@Test
-void shouldRejectDuplicateVote_WhenUserAlreadyVoted() {
-    // Given: User already voted for electionId
-    when(voteRepository.existsByUserIdAndElectionId(userId, electionId))
-        .thenReturn(true);
-
-    // When: User attempts second vote
-    VoteSubmission vote = new VoteSubmission(userId, electionId, candidateId);
-
-    // Then: Should throw DuplicateVoteException
-    assertThatThrownBy(() -> voteService.submitVote(vote))
-        .isInstanceOf(DuplicateVoteException.class)
-        .hasMessageContaining("User already voted");
-}
-
-// Results Service - Vote Aggregation
-@Test
-void shouldAggregateVotesCorrectly_WhenMultipleCandidates() {
-    // Given: 3 candidates with 100, 200, 300 votes
-    // When: getResults() is called
-    // Then: Should return sorted candidates with correct totals
-}
-```
 
 **Execution:**
 - Run on every commit via GitHub Actions
 - Fail build if coverage drops below 70%
-- Execution time target: <2 minutes
+- Execution time target: <5 minutes
 
 ---
 
@@ -500,84 +474,19 @@ void shouldAggregateVotesCorrectly_WhenMultipleCandidates() {
 - **Isolated Docker Network** - Each test suite runs in isolated containers
 - **Data Reset** - Database schema recreated before each test class
 
-**Example Test Cases:**
-```java
-@SpringBootTest
-@Testcontainers
-class VoteServiceIntegrationTest {
-
-    @Container
-    static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:17.6");
-
-    @Container
-    static GenericContainer<?> redis = new GenericContainer<>("redis:8.4")
-        .withExposedPorts(6379);
-
-    @Test
-    void shouldPersistVoteToDatabase_AndIncrementRedisCounter() {
-        // Given: Valid vote submission
-        VoteRequest request = VoteRequest.builder()
-            .userId("user-123")
-            .electionId("election-456")
-            .candidateId("candidate-789")
-            .build();
-
-        // When: Vote submitted via REST API
-        var response = restTemplate.postForEntity("/api/v1/votes", request, VoteResponse.class);
-
-        // Then: Vote stored in PostgreSQL
-        Vote persistedVote = voteRepository.findById(response.getBody().getVoteId()).orElseThrow();
-        assertThat(persistedVote.getCandidateId()).isEqualTo("candidate-789");
-
-        // And: Redis counter incremented
-        Long count = redisTemplate.opsForValue().get("results:election-456:candidate-789");
-        assertThat(count).isEqualTo(1L);
-    }
-
-    @Test
-    void shouldSendToDeadLetterQueue_AfterMaxRetries() {
-        // Simulate database connection failure 3 times, verify DLQ
-    }
-}
-```
-
 **Execution:**
 - Run on PR merge to main branch
 - Execution time target: <10 minutes
 
 ---
 
-##### Contract Tests (API-level)
+##### Contract Tests
 **Technology:** Spring Cloud Contract, Pact
 
 **Scope:**
 - Validate API contracts between Frontend ↔ Backend
 - Ensure backward compatibility during API changes
 - Test error response schemas (4xx, 5xx formats)
-
-**Contract Definition Example:**
-```yaml
-# contracts/vote-service/submit-vote.yml
-request:
-  method: POST
-  url: /api/v1/votes
-  headers:
-    Authorization: Bearer <JWT>
-    Content-Type: application/json
-  body:
-    electionId: "550e8400-e29b-41d4-a716-446655440000"
-    candidateId: "660e8400-e29b-41d4-a716-446655440000"
-    userId: "770e8400-e29b-41d4-a716-446655440000"
-    captchaToken: "03AGdBq27X8kJYZ9..."
-response:
-  status: 200
-  headers:
-    Content-Type: application/json
-  body:
-    voteId: "<UUID>"
-    status: "accepted"
-    acceptedAt: "<ISO8601>"
-```
 
 **Execution:**
 - Run on every API change
@@ -586,7 +495,7 @@ response:
 
 ---
 
-##### End-to-End Tests (Critical Flows Only)
+##### End-to-End Tests
 **Technology:** Selenium, Cypress
 
 **Scope:**
@@ -599,20 +508,6 @@ response:
 - Synthetic users (test-user-001@example.com to test-user-100@example.com)
 - Pre-seeded elections and candidates via API
 
-**Example Test:**
-```javascript
-// Cypress - Critical voting flow
-describe('Viewer votes for candidate', () => {
-  it('should submit vote and see confirmation', () => {
-    cy.login('test-viewer-001@example.com', 'password123');
-    cy.visit('/elections/550e8400-e29b-41d4-a716-446655440000');
-    cy.get('[data-testid="candidate-card-660e8400"]').click();
-    cy.get('[data-testid="submit-vote-button"]').click();
-    cy.get('[data-testid="vote-confirmation"]').should('contain', 'Your vote was recorded!');
-  });
-});
-```
-
 **Execution:**
 - Run nightly against staging environment
 - Run manually before production deployment
@@ -620,7 +515,7 @@ describe('Viewer votes for candidate', () => {
 
 ---
 
-#### 8.3 Performance & Load Testing
+#### 8.3 Performance and Load Testing
 
 ##### Load Testing
 **Technology:** Apache JMeter, k6, Gatling
@@ -639,85 +534,11 @@ describe('Viewer votes for candidate', () => {
 | **Sustained Load** | 50,000 | 2 hours | 100,000 | Memory stable, no leaks |
 | **Traffic Spike** | 0→150,000 (ramp 30s) | 10 min | Variable | Auto-scale triggers, no 503s |
 
-**k6 Load Test Example:**
-```javascript
-// k6-vote-submission-load-test.js
-import http from 'k6/http';
-import { check, sleep } from 'k6';
-
-export let options = {
-  stages: [
-    { duration: '2m', target: 50000 },  // Ramp-up to 50k users
-    { duration: '5m', target: 100000 }, // Peak at 100k users
-    { duration: '2m', target: 0 },      // Ramp-down
-  ],
-  thresholds: {
-    http_req_duration: ['p(99)<150'], // 99% of requests <150ms
-    http_req_failed: ['rate<0.01'],   // Error rate <1%
-  },
-};
-
-export default function () {
-  const payload = JSON.stringify({
-    electionId: '550e8400-e29b-41d4-a716-446655440000',
-    candidateId: '660e8400-e29b-41d4-a716-446655440000',
-    userId: `user-${__VU}-${__ITER}`, // Unique user per iteration
-    captchaToken: 'mock-captcha-token',
-  });
-
-  const params = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${__ENV.JWT_TOKEN}`,
-    },
-  };
-
-  let res = http.post('https://api.vote-system.com/api/v1/votes', payload, params);
-
-  check(res, {
-    'status is 200': (r) => r.status === 200,
-    'vote accepted': (r) => JSON.parse(r.body).status === 'accepted',
-  });
-
-  sleep(1); // 1 second delay between requests per user
-}
-```
-
-**Mock Data Strategy:**
-- **Users:** Generate 1M synthetic user accounts with Auth0 test tenant
-- **Elections:** 10 pre-configured elections with 5 candidates each
-- **JWT Tokens:** Pre-generated 100k valid JWT tokens (rotated every 15 minutes)
-- **CAPTCHA:** Mock CAPTCHA service returns success for load test tokens
-
 **Execution Environment:**
 - Run against dedicated staging environment (identical to production)
 - 3 AWS regions (US-East, EU-West, AP-Southeast)
 - RDS PostgreSQL db.r6g.4xlarge (same as production)
 - Redis cluster (3 nodes per region)
-
-**Metrics Validation:**
-```
-✅ Target Metrics (must pass):
-- API Gateway RPS: ≥250,000
-- Vote Service p99 latency: <150ms
-- Results Service p99 latency: <200ms
-- SQS queue lag: <5 seconds
-- Database write throughput: ≥20,000 TPS
-- Redis GET latency: <5ms
-- Error rate: <0.01%
-- Zero vote loss (verify DB count = SQS sent count)
-
-⚠️ Warning Thresholds:
-- SQS queue depth >10,000 messages
-- Database CPU >80%
-- ECS task CPU >85%
-- Redis memory >75%
-```
-
-**Execution:**
-- Weekly automated runs (every Sunday 2 AM UTC)
-- On-demand before major releases
-- Report published to Grafana dashboard + Slack
 
 ---
 
@@ -750,21 +571,6 @@ Phase 5: 500k RPS (2 min) - Expected: Cascading failures
 
 ---
 
-##### Soak Testing (Endurance Testing)
-**Objective:** Detect memory leaks, resource exhaustion over time
-
-**Scenario:**
-- Sustained 100,000 RPS for 24 hours
-- Monitor memory usage, connection pool leaks, disk space
-
-**Success Criteria:**
-- JVM heap usage stable (no continuous growth)
-- Database connection count stable (~500 connections)
-- No disk space growth beyond expected log volume
-- No ECS task restarts due to OOM
-
----
-
 #### 8.4 Chaos Engineering
 
 **Philosophy:** "Break things on purpose to ensure they don't break in production"
@@ -786,21 +592,6 @@ Phase 5: 500k RPS (2 min) - Expected: Cascading failures
 | **Memory Pressure** | Stress test ECS task to trigger OOM | ECS restarts task, ALB health check removes from pool | <10s downtime per task, load balances to healthy tasks |
 | **Disk Full** | Fill CloudWatch Logs disk on ECS host | Logs stop writing, application continues | Alert triggers, auto-cleanup old logs |
 
-**Chaos Test Execution:**
-```bash
-# Example AWS FIS experiment - Terminate AZ
-aws fis start-experiment --experiment-template-id EXT-AZ-Failure-Vote-Service
-
-# Monitor impact
-watch -n 1 'aws cloudwatch get-metric-statistics \
-  --namespace VoteSystem \
-  --metric-name ErrorRate \
-  --dimensions Name=Service,Value=VoteService \
-  --start-time $(date -u -d "5 minutes ago" +%Y-%m-%dT%H:%M:%S) \
-  --end-time $(date -u +%Y-%m-%dT%H:%M:%S) \
-  --period 60 \
-  --statistics Average'
-```
 
 **Chaos Schedule:**
 - **Weekly:** Random AZ failure (Tuesday 10 AM UTC)
@@ -813,12 +604,6 @@ watch -n 1 'aws cloudwatch get-metric-statistics \
 2. **Graceful Degradation** - System slows down but doesn't crash
 3. **Auto-Recovery** - No manual intervention required for common failures
 4. **Alert Accuracy** - Every chaos event triggers correct alert within 60 seconds
-
-**Chaos Assumptions:**
-- AWS availability zones fail independently (not all AZs in a region simultaneously)
-- Database failover completes within 60 seconds (RDS Multi-AZ SLA)
-- SQS persists messages for 4 days (default retention)
-- Auth0 outages are rare (<1 hour/year based on their 99.99% SLA)
 
 ---
 
@@ -849,77 +634,7 @@ watch -n 1 'aws cloudwatch get-metric-statistics \
 
 ---
 
-#### 8.6 Test Data Strategy
-
-##### Production-like Volume
-- **Users:** 10M synthetic accounts (Auth0 test tenant)
-- **Elections:** 100 pre-configured elections
-- **Historical Votes:** 500M votes (seeded via batch job)
-
-##### Data Generation Tools
-- **Faker.js** - Generate realistic names, emails, timestamps
-- **Custom Scripts** - Bulk insert votes with realistic distribution (80% votes for top 2 candidates)
-
-##### Data Privacy
-- **No Real User Data** - All test data is synthetic
-- **Anonymization** - Production data exports are anonymized (email → hashed, IP → redacted)
-
----
-
-#### 8.7 Continuous Testing Strategy
-
-```mermaid
-graph LR
-    A[Code Commit] --> B[Unit Tests]
-    B --> C[SAST Scan]
-    C --> D[Build Docker Image]
-    D --> E[Integration Tests]
-    E --> F[Contract Tests]
-    F --> G[Deploy to Staging]
-    G --> H[E2E Tests]
-    H --> I[Load Tests]
-    I --> J{All Pass?}
-    J -->|Yes| K[Deploy to Production]
-    J -->|No| L[Rollback & Alert]
-    K --> M[Smoke Tests]
-    M --> N[Chaos Engineering]
-```
-
-**CI/CD Integration:**
-- **GitHub Actions** - Runs unit + integration tests on every commit
-- **Staging Deployment** - Automated after PR merge to main
-- **Production Deployment** - Manual approval after load tests pass
-
-**Test Execution Times:**
-- Unit Tests: 2 minutes
-- Integration Tests: 10 minutes
-- E2E Tests: 30 minutes
-- Load Tests: 45 minutes
-- **Total CI/CD Pipeline:** ~90 minutes
-
----
-
-#### 8.8 Test Metrics & Reporting
-
-**Key Metrics:**
-- **Code Coverage:** >70% (unit), >60% (integration)
-- **Test Success Rate:** >99% (flaky tests quarantined)
-- **Mean Time to Detect (MTTD):** <2 minutes (CI/CD feedback)
-- **Mean Time to Repair (MTTR):** <30 minutes (from test failure to fix deployed)
-
-**Dashboards:**
-- Grafana dashboard showing test execution trends
-- SonarQube dashboard for code quality metrics
-- Slack notifications for test failures
-
-**Test Reports:**
-- JUnit XML reports published to GitHub Actions
-- HTML coverage reports (Jacoco) uploaded to S3
-- Load test results exported to CSV + Grafana
-
----
-
-#### 8.9 Testing Responsibilities
+#### 8.6 Testing Responsibilities
 
 | Role | Responsibilities |
 |------|----------------|
@@ -931,18 +646,13 @@ graph LR
 
 ---
 
-#### 8.10 Test Environment Strategy
+#### 8.7 Test Environment Strategy
 
 | Environment | Purpose | Data | Refresh Frequency |
 |------------|---------|------|------------------|
 | **Local** | Unit + integration tests | Testcontainers (fresh DB per run) | Per test execution |
 | **Staging** | E2E, load tests, chaos | Synthetic (10M users, 100 elections) | Weekly (Sunday 2 AM UTC) |
 | **Production-Mirror** | Pre-release validation | Anonymized production snapshot | Monthly |
-
-**Staging Environment Specs:**
-- Identical infrastructure to production (multi-region, same instance types)
-- Cost optimization: Shut down non-critical hours (10 PM - 6 AM UTC)
-- Access control: VPN required, audit logs enabled
 
 ### 🖹 9. Observability strategy
 
