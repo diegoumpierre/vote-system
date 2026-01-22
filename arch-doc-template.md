@@ -452,6 +452,10 @@ IF Migrations are required describe the migrations strategy with proper diagrams
 - Redis/SQS clients mocked to avoid external dependencies
 - Auth0 JWT validation mocked with test tokens
 
+**Key Test Scenarios:**
+- Vote Service: Duplicate detection validation
+- Results Service: Vote aggregation across multiple candidates
+- Error handling: Invalid inputs, missing fields, malformed data
 
 **Execution:**
 - Run on every commit via GitHub Actions
@@ -474,6 +478,12 @@ IF Migrations are required describe the migrations strategy with proper diagrams
 - **Isolated Docker Network** - Each test suite runs in isolated containers
 - **Data Reset** - Database schema recreated before each test class
 
+**Key Test Scenarios:**
+- Vote persistence to PostgreSQL with Redis counter increment
+- Transaction rollback on failure
+- SQS retry logic with Dead Letter Queue handling
+- Cache invalidation and TTL expiration
+
 **Execution:**
 - Run on PR merge to main branch
 - Execution time target: <10 minutes
@@ -487,6 +497,11 @@ IF Migrations are required describe the migrations strategy with proper diagrams
 - Validate API contracts between Frontend ↔ Backend
 - Ensure backward compatibility during API changes
 - Test error response schemas (4xx, 5xx formats)
+
+**Contract Definition:**
+- Request: POST /api/v1/votes with JWT authorization, election/candidate/user IDs, CAPTCHA token
+- Response: 200 status with vote ID, acceptance status, timestamp
+- Error schemas: 4xx for validation errors, 5xx for server errors
 
 **Execution:**
 - Run on every API change
@@ -507,6 +522,11 @@ IF Migrations are required describe the migrations strategy with proper diagrams
 - Dedicated E2E test environment (separate AWS account)
 - Synthetic users (test-user-001@example.com to test-user-100@example.com)
 - Pre-seeded elections and candidates via API
+
+**Key Test Flows:**
+- User registration → Login → Vote submission → Results view
+- Admin creates election → Opens voting → Monitors results → Closes voting
+- WebSocket real-time updates validation
 
 **Execution:**
 - Run nightly against staging environment
@@ -534,11 +554,46 @@ IF Migrations are required describe the migrations strategy with proper diagrams
 | **Sustained Load** | 50,000 | 2 hours | 100,000 | Memory stable, no leaks |
 | **Traffic Spike** | 0→150,000 (ramp 30s) | 10 min | Variable | Auto-scale triggers, no 503s |
 
+**Load Test Configuration:**
+- Ramp-up stages: 50k users → 100k users → ramp-down
+- Thresholds: p99 <150ms, error rate <0.01%
+- Request validation: Status 200, vote accepted confirmation
+- Rate limiting: 1 second delay between requests per user
+
+**Mock Data Strategy:**
+- **Users:** Generate 1M synthetic user accounts with Auth0 test tenant
+- **Elections:** 10 pre-configured elections with 5 candidates each
+- **JWT Tokens:** Pre-generated 100k valid JWT tokens (rotated every 15 minutes)
+- **CAPTCHA:** Mock CAPTCHA service returns success for load test tokens
+
 **Execution Environment:**
 - Run against dedicated staging environment (identical to production)
 - 3 AWS regions (US-East, EU-West, AP-Southeast)
 - RDS PostgreSQL db.r6g.4xlarge (same as production)
 - Redis cluster (3 nodes per region)
+
+**Metrics Validation:**
+
+Target Metrics (must pass):
+- API Gateway RPS: ≥250,000
+- Vote Service p99 latency: <150ms
+- Results Service p99 latency: <200ms
+- SQS queue lag: <5 seconds
+- Database write throughput: ≥20,000 TPS
+- Redis GET latency: <5ms
+- Error rate: <0.01%
+- Zero vote loss (verify DB count = SQS sent count)
+
+Warning Thresholds:
+- SQS queue depth >10,000 messages
+- Database CPU >80%
+- ECS task CPU >85%
+- Redis memory >75%
+
+**Execution:**
+- Weekly automated runs (every Sunday 2 AM UTC)
+- On-demand before major releases
+- Report published to Grafana dashboard + Slack
 
 ---
 
@@ -592,6 +647,10 @@ Phase 5: 500k RPS (2 min) - Expected: Cascading failures
 | **Memory Pressure** | Stress test ECS task to trigger OOM | ECS restarts task, ALB health check removes from pool | <10s downtime per task, load balances to healthy tasks |
 | **Disk Full** | Fill CloudWatch Logs disk on ECS host | Logs stop writing, application continues | Alert triggers, auto-cleanup old logs |
 
+**Chaos Test Execution:**
+- Use AWS Fault Injection Simulator (FIS) for automated chaos experiments
+- Monitor impact via CloudWatch metrics (ErrorRate, Latency, Throughput)
+- Real-time dashboards track recovery time and system behavior
 
 **Chaos Schedule:**
 - **Weekly:** Random AZ failure (Tuesday 10 AM UTC)
