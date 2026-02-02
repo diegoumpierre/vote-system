@@ -1,4 +1,4 @@
-<mxfile host="Electron" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/29.3.0 Chrome/140.0.7339.249 Electron/38.7.2 Safari/537.36" version="29.3.0" pages="2">
+<mxfile host="Electron" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/29.3.0 Chrome/140.0.7339.249 Electron/38.7.2 Safari/537.36" version="29.3.0" pages="3">
   <diagram name="Page-1" id="5SWeNEhK7nn3D6xAScoX">
     <mxGraphModel dx="2649" dy="2703" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
@@ -709,12 +709,12 @@
       </root>
     </mxGraphModel>
   </diagram>
-  <diagram name="6.1 - Class Diagram" id="ClassDiagram6_1">
-    <mxGraphModel dx="1473" dy="1210" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1200" math="0" shadow="0">
+  <diagram name="Class Diagram" id="ClassDiagram6_1">
+    <mxGraphModel grid="1" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="1600" pageHeight="1200" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="title" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=24;fontStyle=1" value="6.1 - Class Diagram" vertex="1">
+        <mxCell id="title" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=24;fontStyle=1" value="Class Diagram" vertex="1">
           <mxGeometry height="40" width="400" x="40" y="20" as="geometry" />
         </mxCell>
         <mxCell id="cls-user" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;" value="User" vertex="1">
@@ -975,6 +975,430 @@
         </mxCell>
         <mxCell id="xr75A5rFbgGOS0wCjTMT-10" edge="1" parent="1" source="cls-vote-attr2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="cls-election-attr5">
           <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="Sequence Diagram" id="SequenceDiagram6_2">
+    <mxGraphModel dx="1473" dy="1210" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1200" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="sd_title" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=24;fontStyle=1" value="Sequence Diagram" vertex="1">
+          <mxGeometry height="40" width="400" x="40" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="sd_p_client" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontStyle=1;fontSize=11;" value="Client" vertex="1">
+          <mxGeometry height="36" width="110" x="45" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="sd_p_apigw" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontStyle=1;fontSize=11;" value="API Gateway" vertex="1">
+          <mxGeometry height="36" width="110" x="195" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="sd_p_auth" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=1;fontSize=11;" value="Auth Service" vertex="1">
+          <mxGeometry height="36" width="110" x="345" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="sd_p_vote" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=1;fontSize=11;" value="Vote Service" vertex="1">
+          <mxGeometry height="36" width="110" x="495" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="sd_p_redis" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;fontSize=11;" value="Redis" vertex="1">
+          <mxGeometry height="36" width="110" x="645" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="sd_p_sqs" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontStyle=1;fontSize=11;" value="SQS" vertex="1">
+          <mxGeometry height="36" width="110" x="795" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="sd_p_pg" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;fontSize=11;" value="PostgreSQL" vertex="1">
+          <mxGeometry height="36" width="110" x="945" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="sd_p_sns" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontStyle=1;fontSize=11;" value="SNS" vertex="1">
+          <mxGeometry height="36" width="110" x="1095" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="sd_p_results" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=1;fontSize=11;" value="Results Service" vertex="1">
+          <mxGeometry height="36" width="120" x="1245" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="sd_p_backoffice" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=1;fontSize=11;" value="Backoffice" vertex="1">
+          <mxGeometry height="36" width="110" x="1405" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="sd_ll_client" edge="1" parent="1" style="endArrow=none;html=1;strokeWidth=1;strokeColor=#CCCCCC;dashed=1;dashPattern=8 4;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="100" y="116" as="sourcePoint" />
+            <mxPoint x="100" y="1100" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="sd_ll_apigw" edge="1" parent="1" style="endArrow=none;html=1;strokeWidth=1;strokeColor=#CCCCCC;dashed=1;dashPattern=8 4;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="250" y="116" as="sourcePoint" />
+            <mxPoint x="250" y="1100" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="sd_ll_auth" edge="1" parent="1" style="endArrow=none;html=1;strokeWidth=1;strokeColor=#CCCCCC;dashed=1;dashPattern=8 4;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="400" y="116" as="sourcePoint" />
+            <mxPoint x="400" y="1100" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="sd_ll_vote" edge="1" parent="1" style="endArrow=none;html=1;strokeWidth=1;strokeColor=#CCCCCC;dashed=1;dashPattern=8 4;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="550" y="116" as="sourcePoint" />
+            <mxPoint x="550" y="1100" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="sd_ll_redis" edge="1" parent="1" style="endArrow=none;html=1;strokeWidth=1;strokeColor=#CCCCCC;dashed=1;dashPattern=8 4;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="700" y="116" as="sourcePoint" />
+            <mxPoint x="700" y="1100" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="sd_ll_sqs" edge="1" parent="1" style="endArrow=none;html=1;strokeWidth=1;strokeColor=#CCCCCC;dashed=1;dashPattern=8 4;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="850" y="116" as="sourcePoint" />
+            <mxPoint x="850" y="1100" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="sd_ll_pg" edge="1" parent="1" style="endArrow=none;html=1;strokeWidth=1;strokeColor=#CCCCCC;dashed=1;dashPattern=8 4;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1000" y="116" as="sourcePoint" />
+            <mxPoint x="1000" y="1100" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="sd_ll_sns" edge="1" parent="1" style="endArrow=none;html=1;strokeWidth=1;strokeColor=#CCCCCC;dashed=1;dashPattern=8 4;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1150" y="116" as="sourcePoint" />
+            <mxPoint x="1150" y="1100" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="sd_ll_results" edge="1" parent="1" style="endArrow=none;html=1;strokeWidth=1;strokeColor=#CCCCCC;dashed=1;dashPattern=8 4;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1305" y="116" as="sourcePoint" />
+            <mxPoint x="1305" y="1100" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="sd_ll_backoffice" edge="1" parent="1" style="endArrow=none;html=1;strokeWidth=1;strokeColor=#CCCCCC;dashed=1;dashPattern=8 4;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1460" y="116" as="sourcePoint" />
+            <mxPoint x="1460" y="1100" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="sd_sep_a" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#E8E8E8;strokeColor=none;fontStyle=1;fontSize=11;verticalAlign=middle;align=left;spacingLeft=10;" value="A. Login" vertex="1">
+          <mxGeometry height="22" width="1470" x="50" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="sd_a1" edge="1" parent="1" style="endArrow=block;endFill=1;html=1;strokeWidth=1.5;strokeColor=#333333;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="100" y="170" as="sourcePoint" />
+            <mxPoint x="250" y="170" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="sd_a1_l" connectable="0" parent="sd_a1" style="edgeLabel;html=1;align=center;verticalAlign=bottom;resizable=0;points=[];fontSize=9;" value="POST /auth/login" vertex="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="sd_a2" edge="1" parent="1" style="endArrow=block;endFill=1;html=1;strokeWidth=1.5;strokeColor=#333333;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="250" y="200" as="sourcePoint" />
+            <mxPoint x="400" y="200" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="sd_a2_l" connectable="0" parent="sd_a2" style="edgeLabel;html=1;align=center;verticalAlign=bottom;resizable=0;points=[];fontSize=9;" value="authenticate" vertex="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="sd_a3" edge="1" parent="1" style="endArrow=block;endFill=1;html=1;strokeWidth=1.5;strokeColor=#333333;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="400" y="230" as="sourcePoint" />
+            <mxPoint x="700" y="230" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="sd_a3_l" connectable="0" parent="sd_a3" style="edgeLabel;html=1;align=center;verticalAlign=bottom;resizable=0;points=[];fontSize=9;" value="validate via Auth0 + cache session" vertex="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="sd_a4" edge="1" parent="1" style="endArrow=open;endFill=0;html=1;strokeWidth=1;strokeColor=#999999;dashed=1;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="400" y="260" as="sourcePoint" />
+            <mxPoint x="250" y="260" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="sd_a4_l" connectable="0" parent="sd_a4" style="edgeLabel;html=1;align=center;verticalAlign=bottom;resizable=0;points=[];fontSize=9;fontColor=#999999;" value="TokenResponse" vertex="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="sd_a5" edge="1" parent="1" style="endArrow=open;endFill=0;html=1;strokeWidth=1;strokeColor=#999999;dashed=1;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="250" y="290" as="sourcePoint" />
+            <mxPoint x="100" y="290" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="sd_a5_l" connectable="0" parent="sd_a5" style="edgeLabel;html=1;align=center;verticalAlign=bottom;resizable=0;points=[];fontSize=9;fontColor=#999999;" value="200 {accessToken, refreshToken}" vertex="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="sd_sep_b" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#E8E8E8;strokeColor=none;fontStyle=1;fontSize=11;verticalAlign=middle;align=left;spacingLeft=10;" value="B. Submit Vote" vertex="1">
+          <mxGeometry height="22" width="1470" x="50" y="310" as="geometry" />
+        </mxCell>
+        <mxCell id="sd_b1" edge="1" parent="1" style="endArrow=block;endFill=1;html=1;strokeWidth=1.5;strokeColor=#333333;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="100" y="350" as="sourcePoint" />
+            <mxPoint x="250" y="350" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="sd_b1_l" connectable="0" parent="sd_b1" style="edgeLabel;html=1;align=center;verticalAlign=bottom;resizable=0;points=[];fontSize=8;" value="POST /votes {electionId, candidateId, captchaToken}" vertex="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="sd_b2" edge="1" parent="1" style="endArrow=block;endFill=1;html=1;strokeWidth=1.5;strokeColor=#333333;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="250" y="380" as="sourcePoint" />
+            <mxPoint x="400" y="380" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="sd_b2_l" connectable="0" parent="sd_b2" style="edgeLabel;html=1;align=center;verticalAlign=bottom;resizable=0;points=[];fontSize=9;" value="GET /auth/validate" vertex="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="sd_b3" edge="1" parent="1" style="endArrow=open;endFill=0;html=1;strokeWidth=1;strokeColor=#999999;dashed=1;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="400" y="410" as="sourcePoint" />
+            <mxPoint x="250" y="410" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="sd_b3_l" connectable="0" parent="sd_b3" style="edgeLabel;html=1;align=center;verticalAlign=bottom;resizable=0;points=[];fontSize=9;fontColor=#999999;" value="200 {userId, role}" vertex="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="sd_b4" edge="1" parent="1" style="endArrow=block;endFill=1;html=1;strokeWidth=1.5;strokeColor=#333333;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="250" y="440" as="sourcePoint" />
+            <mxPoint x="550" y="440" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="sd_b4_l" connectable="0" parent="sd_b4" style="edgeLabel;html=1;align=center;verticalAlign=bottom;resizable=0;points=[];fontSize=9;" value="submitVote" vertex="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="sd_b5" edge="1" parent="1" style="endArrow=block;endFill=1;html=1;strokeWidth=1.5;strokeColor=#333333;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="550" y="470" as="sourcePoint" />
+            <mxPoint x="700" y="470" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="sd_b5_l" connectable="0" parent="sd_b5" style="edgeLabel;html=1;align=center;verticalAlign=bottom;resizable=0;points=[];fontSize=8;" value="GET vote:{electionId}:{userId}" vertex="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="sd_b6" edge="1" parent="1" style="endArrow=open;endFill=0;html=1;strokeWidth=1;strokeColor=#999999;dashed=1;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="700" y="500" as="sourcePoint" />
+            <mxPoint x="550" y="500" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="sd_b6_l" connectable="0" parent="sd_b6" style="edgeLabel;html=1;align=center;verticalAlign=bottom;resizable=0;points=[];fontSize=9;fontColor=#999999;" value="null (not voted)" vertex="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="sd_b7" edge="1" parent="1" style="endArrow=block;endFill=1;html=1;strokeWidth=1.5;strokeColor=#333333;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="550" y="530" as="sourcePoint" />
+            <mxPoint x="700" y="530" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="sd_b7_l" connectable="0" parent="sd_b7" style="edgeLabel;html=1;align=center;verticalAlign=bottom;resizable=0;points=[];fontSize=8;" value="SET vote:{electionId}:{userId}" vertex="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="sd_b8" edge="1" parent="1" style="endArrow=block;endFill=1;html=1;strokeWidth=1.5;strokeColor=#CC6600;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="550" y="560" as="sourcePoint" />
+            <mxPoint x="850" y="560" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="sd_b8_l" connectable="0" parent="sd_b8" style="edgeLabel;html=1;align=center;verticalAlign=bottom;resizable=0;points=[];fontSize=9;fontColor=#CC6600;" value="SendMessage {vote}" vertex="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="sd_b9" edge="1" parent="1" style="endArrow=open;endFill=0;html=1;strokeWidth=1;strokeColor=#999999;dashed=1;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="550" y="590" as="sourcePoint" />
+            <mxPoint x="250" y="590" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="sd_b9_l" connectable="0" parent="sd_b9" style="edgeLabel;html=1;align=center;verticalAlign=bottom;resizable=0;points=[];fontSize=9;fontColor=#999999;" value="200 {voteId, status: accepted}" vertex="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="sd_b10" edge="1" parent="1" style="endArrow=open;endFill=0;html=1;strokeWidth=1;strokeColor=#999999;dashed=1;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="250" y="620" as="sourcePoint" />
+            <mxPoint x="100" y="620" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="sd_b10_l" connectable="0" parent="sd_b10" style="edgeLabel;html=1;align=center;verticalAlign=bottom;resizable=0;points=[];fontSize=9;fontColor=#999999;" value="200 VoteResult" vertex="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="sd_sep_async" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFF2CC;strokeColor=#D6B656;fontStyle=3;fontSize=11;verticalAlign=middle;align=left;spacingLeft=10;" value="Async Processing" vertex="1">
+          <mxGeometry height="22" width="1470" x="50" y="645" as="geometry" />
+        </mxCell>
+        <mxCell id="sd_b11" edge="1" parent="1" style="endArrow=block;endFill=1;html=1;strokeWidth=1.5;strokeColor=#CC6600;dashed=1;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="850" y="685" as="sourcePoint" />
+            <mxPoint x="550" y="685" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="sd_b11_l" connectable="0" parent="sd_b11" style="edgeLabel;html=1;align=center;verticalAlign=bottom;resizable=0;points=[];fontSize=9;fontColor=#CC6600;" value="ReceiveMessage (poll)" vertex="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="sd_b12" edge="1" parent="1" style="endArrow=block;endFill=1;html=1;strokeWidth=1.5;strokeColor=#333333;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="550" y="715" as="sourcePoint" />
+            <mxPoint x="1000" y="715" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="sd_b12_l" connectable="0" parent="sd_b12" style="edgeLabel;html=1;align=center;verticalAlign=bottom;resizable=0;points=[];fontSize=9;" value="INSERT vote" vertex="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="sd_b13" edge="1" parent="1" style="endArrow=block;endFill=1;html=1;strokeWidth=1.5;strokeColor=#CC6600;dashed=1;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="550" y="745" as="sourcePoint" />
+            <mxPoint x="1150" y="745" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="sd_b13_l" connectable="0" parent="sd_b13" style="edgeLabel;html=1;align=center;verticalAlign=bottom;resizable=0;points=[];fontSize=9;fontColor=#CC6600;" value="publish VoteRegistered" vertex="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="sd_b14" edge="1" parent="1" style="endArrow=block;endFill=1;html=1;strokeWidth=1.5;strokeColor=#CC6600;dashed=1;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1150" y="775" as="sourcePoint" />
+            <mxPoint x="1305" y="775" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="sd_b14_l" connectable="0" parent="sd_b14" style="edgeLabel;html=1;align=center;verticalAlign=bottom;resizable=0;points=[];fontSize=9;fontColor=#CC6600;" value="VoteRegistered" vertex="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="sd_b15" edge="1" parent="1" style="endArrow=block;endFill=1;html=1;strokeWidth=1.5;strokeColor=#333333;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1305" y="805" as="sourcePoint" />
+            <mxPoint x="700" y="805" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="sd_b15_l" connectable="0" parent="sd_b15" style="edgeLabel;html=1;align=center;verticalAlign=bottom;resizable=0;points=[];fontSize=9;" value="INCR vote counter" vertex="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="sd_b16" edge="1" parent="1" style="endArrow=block;endFill=1;html=1;strokeWidth=1.5;strokeColor=#CC6600;dashed=1;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1150" y="835" as="sourcePoint" />
+            <mxPoint x="1460" y="835" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="sd_b16_l" connectable="0" parent="sd_b16" style="edgeLabel;html=1;align=center;verticalAlign=bottom;resizable=0;points=[];fontSize=9;fontColor=#CC6600;" value="VoteRegistered" vertex="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="sd_b17" edge="1" parent="1" style="endArrow=block;endFill=1;html=1;strokeWidth=1.5;strokeColor=#333333;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1460" y="865" as="sourcePoint" />
+            <mxPoint x="1000" y="865" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="sd_b17_l" connectable="0" parent="sd_b17" style="edgeLabel;html=1;align=center;verticalAlign=bottom;resizable=0;points=[];fontSize=9;" value="INSERT audit log" vertex="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="sd_sep_c" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#E8E8E8;strokeColor=none;fontStyle=1;fontSize=11;verticalAlign=middle;align=left;spacingLeft=10;" value="C. View Results" vertex="1">
+          <mxGeometry height="22" width="1470" x="50" y="890" as="geometry" />
+        </mxCell>
+        <mxCell id="sd_c1" edge="1" parent="1" style="endArrow=block;endFill=1;html=1;strokeWidth=1.5;strokeColor=#333333;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="100" y="930" as="sourcePoint" />
+            <mxPoint x="250" y="930" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="sd_c1_l" connectable="0" parent="sd_c1" style="edgeLabel;html=1;align=center;verticalAlign=bottom;resizable=0;points=[];fontSize=9;" value="GET /results/{electionId}" vertex="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="sd_c2" edge="1" parent="1" style="endArrow=block;endFill=1;html=1;strokeWidth=1.5;strokeColor=#333333;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="250" y="960" as="sourcePoint" />
+            <mxPoint x="1305" y="960" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="sd_c2_l" connectable="0" parent="sd_c2" style="edgeLabel;html=1;align=center;verticalAlign=bottom;resizable=0;points=[];fontSize=9;" value="getElectionResults" vertex="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="sd_c3" edge="1" parent="1" style="endArrow=block;endFill=1;html=1;strokeWidth=1.5;strokeColor=#333333;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1305" y="990" as="sourcePoint" />
+            <mxPoint x="700" y="990" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="sd_c3_l" connectable="0" parent="sd_c3" style="edgeLabel;html=1;align=center;verticalAlign=bottom;resizable=0;points=[];fontSize=9;" value="GET election:results:{id}" vertex="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="sd_c4" edge="1" parent="1" style="endArrow=open;endFill=0;html=1;strokeWidth=1;strokeColor=#999999;dashed=1;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="700" y="1020" as="sourcePoint" />
+            <mxPoint x="1305" y="1020" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="sd_c4_l" connectable="0" parent="sd_c4" style="edgeLabel;html=1;align=center;verticalAlign=bottom;resizable=0;points=[];fontSize=9;fontColor=#999999;" value="ElectionResults {totals, totalVotes}" vertex="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="sd_c5" edge="1" parent="1" style="endArrow=open;endFill=0;html=1;strokeWidth=1;strokeColor=#999999;dashed=1;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1305" y="1050" as="sourcePoint" />
+            <mxPoint x="250" y="1050" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="sd_c5_l" connectable="0" parent="sd_c5" style="edgeLabel;html=1;align=center;verticalAlign=bottom;resizable=0;points=[];fontSize=9;fontColor=#999999;" value="200 ElectionResults" vertex="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="sd_c6" edge="1" parent="1" style="endArrow=open;endFill=0;html=1;strokeWidth=1;strokeColor=#999999;dashed=1;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="250" y="1080" as="sourcePoint" />
+            <mxPoint x="100" y="1080" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="sd_c6_l" connectable="0" parent="sd_c6" style="edgeLabel;html=1;align=center;verticalAlign=bottom;resizable=0;points=[];fontSize=9;fontColor=#999999;" value="200 {results}" vertex="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="sd_legend" parent="1" style="text;html=1;strokeColor=#666666;fillColor=#f5f5f5;align=left;verticalAlign=top;whiteSpace=wrap;rounded=1;fontSize=10;spacingLeft=8;spacingTop=4;spacingRight=8;fontColor=#333333;" value="&lt;b&gt;Legend&lt;/b&gt;&lt;hr&gt;━━▶ Synchronous call&lt;br&gt;╌╌▷ Return / response&lt;br&gt;&lt;span style=&#39;color:#CC6600&#39;&gt;╌╌▶ Async message (SNS/SQS)&lt;/span&gt;" vertex="1">
+          <mxGeometry height="70" width="210" x="40" y="1120" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
