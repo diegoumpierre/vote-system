@@ -727,7 +727,7 @@ Our observability is designed to guarantee end-to-end visibility of the voting j
 4. **Automation first**: Alarms should trigger automatic runbooks whenever possible.
 5. **Cost conscious**: Retention, sampling, and cardinality under control.
 
-** For that as part of observability layer we have this services and responsabilities **
+**For that as part of observability layer we have this services and responsabilities**
 
 - **CloudWatch Logs**: centralizes application, access, and audit logs.
 - **CloudWatch Metrics**: infrastructure, platform, and business metrics.
@@ -738,6 +738,12 @@ Our observability is designed to guarantee end-to-end visibility of the voting j
 - **SNS**: alerts for teams (on-call, security, product).
 - **Grafana**: unified visualization and operational analysis.
 - **CloudTrail + S3**: audit trail and long-term retention.
+
+**Critical events to log**
+- **Vote Service**: accepted vote (queued), deduplication, idempotence, publish SQS, persistence failure.
+- **Results Service**: aggregate update, cache invalidation, update delay.
+- **Auth Service**: login, authentication/authorization failures, token refresh.
+- **Infrastructure**: 5xx API Gateway/ALB, ECS task failures, RDS failover, integration errors with Auth0.
 
 ### 🖹 10. Data Store Designs
 
