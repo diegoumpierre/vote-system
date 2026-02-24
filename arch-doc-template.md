@@ -715,7 +715,19 @@ Phase 5: 500k RPS (2 min) - Expected: Cascading failures
 
 ### 🖹 9. Observability strategy
 
-Explain the techniques, principles,types of observability that will be used, key metrics, what would be logged and how to design proper dashboards and alerts.
+Our observability is designed to guarantee end-to-end visibility of the voting journey (ingestion, processing, and counting), focusing on:
+
+- log vote proccess with objetive to check zero loss;
+- early detection of manipulation at peaks of 250k RPS;
+- audit trail for security and compliance.
+#### 9.1
+1. **Observability by default**: Every critical component should emit logs, metrics, and traces.
+2. **End-to-end correlation**: Each request/event should carry `ID`.
+3. **Alert by user impact**: Prioritize error signals, latency, and queuing before isolated infrastructure.
+4. **Automation first**: Alarms should trigger automatic runbooks whenever possible.
+5. **Cost conscious**: Retention, sampling, and cardinality under control.
+
+For that 
 
 ### 🖹 10. Data Store Designs
 
