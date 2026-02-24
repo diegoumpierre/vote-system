@@ -745,6 +745,14 @@ Our observability is designed to guarantee end-to-end visibility of the voting j
 - **Auth Service**: login, authentication/authorization failures, token refresh.
 - **Infrastructure**: 5xx API Gateway/ALB, ECS task failures, RDS failover, integration errors with Auth0.
 
+**Observability Flow:**
+ECS Services + API Gateway + ALB + SQS + RDS + Redis
+→ CloudWatch Logs / CloudWatch Metrics / X-Ray / Container Insights
+→ CloudWatch Alarms
+→ EventBridge
+→ Systems Manager (self-remediation) + SNS (notification)
+→ Grafana (operational and business dashboards)
+
 ### 🖹 10. Data Store Designs
 
 For each different kind of data store i.e (Postgres, Memcached, Elasticache, S3, Neo4J etc...) describe the schemas, what would be stored there and why, main queries, expectations on performance. Diagrams are welcome but you really need some dictionaries.
