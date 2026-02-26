@@ -715,7 +715,43 @@ Phase 5: 500k RPS (2 min) - Expected: Cascading failures
 
 ### 🖹 9. Observability strategy
 
-Explain the techniques, principles,types of observability that will be used, key metrics, what would be logged and how to design proper dashboards and alerts.
+Our observability is designed to guarantee end-to-end visibility of the voting journey (ingestion, processing, and counting), focusing on:
+
+- log vote proccess with objetive to check zero loss;
+- early detection of manipulation at peaks of 250k RPS;
+- audit trail for security and compliance.
+#### 9.1
+1. **Observability by default**: Every critical component should emit logs, metrics, and traces.
+2. **End-to-end correlation**: Each request/event should carry `ID`.
+3. **Alert by user impact**: Prioritize error signals, latency, and queuing before isolated infrastructure.
+4. **Automation first**: Alarms should trigger automatic runbooks whenever possible.
+5. **Cost conscious**: Retention, sampling, and cardinality under control.
+
+**For that as part of observability layer we have this services and responsabilities**
+
+- **CloudWatch Logs**: centralizes application, access, and audit logs.
+- **CloudWatch Metrics**: infrastructure, platform, and business metrics.
+- **Container Insights**: detailed view of ECS (task/service/cluster).
+- **X-Ray**: end-to-end distributed tracing.
+- **CloudWatch Alarms**: threshold/anomaly deviation detection.
+- **EventBridge + Systems Manager**: event routing and response automation.
+- **SNS**: alerts for teams (on-call, security, product).
+- **Grafana**: unified visualization and operational analysis.
+- **CloudTrail + S3**: audit trail and long-term retention.
+
+**Critical events to log**
+- **Vote Service**: accepted vote (queued), deduplication, idempotence, publish SQS, persistence failure.
+- **Results Service**: aggregate update, cache invalidation, update delay.
+- **Auth Service**: login, authentication/authorization failures, token refresh.
+- **Infrastructure**: 5xx API Gateway/ALB, ECS task failures, RDS failover, integration errors with Auth0.
+
+**Observability Flow:**
+ECS Services + API Gateway + ALB + SQS + RDS + Redis
+→ CloudWatch Logs / CloudWatch Metrics / X-Ray / Container Insights
+→ CloudWatch Alarms
+→ EventBridge
+→ Systems Manager (self-remediation) + SNS (notification)
+→ Grafana (operational and business dashboards)
 
 ### 🖹 10. Data Store Designs
 
