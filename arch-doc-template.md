@@ -58,7 +58,7 @@ Recommended Reading: http://diego-pacheco.blogspot.com/2020/10/uml-hidden-gems.h
 | Component | Per Region |
 |----------|------------|
 | API Gateway | 100k RPS |
-| ECS Fargate | Auth, Vote, Results Services |
+| ECS on EC2 | Auth, Vote, Results Services |
 | RDS PostgreSQL | Primary + 2 Read Replicas |
 | ElastiCache Redis | Vote aggregates + Session |
 | SQS | Vote buffering + DLQ |
@@ -84,7 +84,7 @@ Recommended Reading: http://diego-pacheco.blogspot.com/2020/10/uml-hidden-gems.h
 
 Major Decisions:
 ```
-1. ECS Fargate for containerized microservices
+1. ECS on EC2 for containerized microservices
 2. Auth0 for managed authentication and authorization
 3. RDS (PostgreSQL) as primary datastore over NoSQL alternatives
 4. Multi-region deployment to handle 250k RPS requirement
@@ -94,19 +94,20 @@ Major Decisions:
 
 Tradeoffs:
 
-**1. ECS Fargate vs (EC2 with Kubernetes or ECS on EC2)**
+**1. ECS on EC2 vs (EKS with Kubernetes)**
 
 PROS (+)
-* Zero server management: No need to provision, configure, or scale EC2 instances, reducing operational overhead.
-* Auto-scaling efficiency: Fargate scales containers independently based on CPU/memory metrics without pre-provisioning capacity, optimizing cost during traffic valleys.
-* Built-in isolation: Each task runs in its own kernel, providing better security boundaries compared to shared EC2 instances.
-* Pay-per-use pricing: Only pay for vCPU and memory consumed during task runtime, eliminating idle capacity costs during off-peak hours.
+* Operational simplicity: ECS is AWS-native with less operational overhead than managing Kubernetes clusters, control plane, and the K8s ecosystem (Helm, Operators, RBAC).
+* Cost efficiency: No EKS control plane fee ($0.10/hr per cluster). EC2 Reserved Instances or Savings Plans reduce compute cost by 40-60% for predictable baseline workloads.
+* Native AWS integration: Deep integration with ALB, CloudWatch, IAM, Secrets Manager, and ECS Capacity Providers without needing additional controllers or operators.
+* Two-level auto-scaling: EC2 Auto Scaling Groups scale instances while ECS Service Auto Scaling scales tasks independently, providing fine-grained control over capacity.
+* Zero cold start: EC2 instances are pre-provisioned and warm; new tasks start in seconds on existing instances, avoiding Fargate's 30-60s cold start penalty.
 
 CONS (-)
-* Cold start latency: New task provisioning takes 30-60 seconds, potentially causing p99 latency spikes during rapid scale-up events.
-* Cost at sustained scale: For 24/7 high-utilization workloads, Fargate is 20-30% more expensive than Reserved Instance EC2, impacting long-term operational budget.
-* Limited instance type control: Cannot choose specific CPU/memory ratios or specialized hardware (GPU, high network bandwidth), restricting optimization for specific workload profiles.
-* No direct host access: Debugging requires CloudWatch logs only; cannot SSH into underlying infrastructure, complicating deep troubleshooting scenarios.
+* Infrastructure management: Team must manage EC2 instances, including AMI patching, instance type selection, and capacity planning across 3 AZs per region.
+* Less portability: ECS is AWS-only; migrating to another cloud or on-premises would require rearchitecting the orchestration layer (unlike Kubernetes which is portable).
+* Limited ecosystem: ECS lacks the rich Kubernetes ecosystem of Helm charts, custom operators, service mesh (Istio/Linkerd), and GitOps tools (ArgoCD/Flux).
+* Scaling lag: Adding new EC2 instances takes 2-5 minutes; requires Predictive Scaling or pre-warming before live TV events to avoid capacity gaps during sudden traffic spikes.
 
 **2. Auth0 vs (Custom-built authentication with Cognito or self-hosted Keycloak)**
 
@@ -806,7 +807,7 @@ Data Fetching: Axios
 #### Infrastructure & Deployment
 Containerization: Docker
 
-Orchestration: Amazon ECS Fargate
+Orchestration: Amazon ECS on EC2
 
 Load Balancing / Gateway:
 
