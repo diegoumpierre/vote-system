@@ -1,0 +1,200 @@
+<mxfile host="app.diagrams.net" agent="Claude" version="24.0.0">
+  <diagram name="Deployment Diagram" id="deployment-v2">
+    <mxGraphModel dx="1422" dy="762" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1000" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- ==================== USERS ==================== -->
+        <mxCell id="users" value="Global Users (300M)" style="shape=actor;whiteSpace=wrap;html=1;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="720" y="20" width="120" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- ==================== EDGE ==================== -->
+        <mxCell id="edge-group" value="Edge" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;verticalAlign=top;fontStyle=1;fontSize=13;container=1;collapsible=0;" vertex="1" parent="1">
+          <mxGeometry x="610" y="100" width="340" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="route53" value="Route53&#xa;Geo Routing" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;" vertex="1" parent="edge-group">
+          <mxGeometry x="20" y="25" width="100" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="waf" value="WAF&#xa;DDoS + Rate Limit" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;" vertex="1" parent="edge-group">
+          <mxGeometry x="140" y="25" width="120" height="35" as="geometry" />
+        </mxCell>
+
+        <!-- Auth0 -->
+        <mxCell id="auth0" value="Auth0&#xa;(External IdP)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="30" y="300" width="110" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- ==================== US-EAST-1 (PRIMARY) ==================== -->
+        <mxCell id="region1" value="US-EAST-1 (Primary)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;verticalAlign=top;fontStyle=1;fontSize=14;container=1;collapsible=0;" vertex="1" parent="1">
+          <mxGeometry x="180" y="210" width="460" height="430" as="geometry" />
+        </mxCell>
+
+        <!-- API Gateway -->
+        <mxCell id="apigw1" value="API Gateway · 100k RPS&#xa;JWT Authorizer (native)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;fontStyle=1;" vertex="1" parent="region1">
+          <mxGeometry x="130" y="30" width="200" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- ALBs -->
+        <mxCell id="alb1" value="ALBs (Auth | Vote | Results)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;" vertex="1" parent="region1">
+          <mxGeometry x="130" y="85" width="200" height="30" as="geometry" />
+        </mxCell>
+
+        <!-- ECS Cluster -->
+        <mxCell id="ecs1-group" value="ECS on EC2 · 3 AZs" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;verticalAlign=top;fontStyle=1;fontSize=11;container=1;collapsible=0;" vertex="1" parent="region1">
+          <mxGeometry x="20" y="130" width="420" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="auth-svc" value="Auth Service" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;" vertex="1" parent="ecs1-group">
+          <mxGeometry x="15" y="25" width="110" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="vote-svc" value="Vote Service" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;" vertex="1" parent="ecs1-group">
+          <mxGeometry x="145" y="25" width="110" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="results-svc" value="Results Service" style="rounded=1;whiteSpace=wrap;html=1;fontSize=10;" vertex="1" parent="ecs1-group">
+          <mxGeometry x="275" y="25" width="125" height="35" as="geometry" />
+        </mxCell>
+
+        <!-- SQS -->
+        <mxCell id="sqs1" value="SQS&#xa;Vote Queue + DLQ" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;" vertex="1" parent="region1">
+          <mxGeometry x="20" y="220" width="130" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- RDS -->
+        <mxCell id="rds1" value="RDS PostgreSQL&#xa;Primary · Multi-AZ" style="shape=cylinder3;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;size=10;" vertex="1" parent="region1">
+          <mxGeometry x="170" y="215" width="130" height="55" as="geometry" />
+        </mxCell>
+
+        <!-- Redis -->
+        <mxCell id="redis1" value="Redis Cluster&#xa;Cache + Dedup" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="region1">
+          <mxGeometry x="320" y="220" width="120" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- Capacity note -->
+        <mxCell id="cap1" value="EC2: 3-10 instances (m6i.2xlarge)&#xa;Vote tasks: 10-100 · Redis: 3 nodes" style="text;html=1;align=left;verticalAlign=middle;fontSize=9;fontColor=#666666;" vertex="1" parent="region1">
+          <mxGeometry x="20" y="280" width="250" height="30" as="geometry" />
+        </mxCell>
+
+        <!-- ==================== EU-WEST-1 ==================== -->
+        <mxCell id="region2" value="EU-WEST-1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;verticalAlign=top;fontStyle=1;fontSize=14;container=1;collapsible=0;" vertex="1" parent="1">
+          <mxGeometry x="700" y="210" width="360" height="250" as="geometry" />
+        </mxCell>
+        <mxCell id="apigw2" value="API Gateway · 100k RPS" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;" vertex="1" parent="region2">
+          <mxGeometry x="100" y="30" width="160" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="ecs2" value="ECS on EC2&#xa;Auth | Vote | Results" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;" vertex="1" parent="region2">
+          <mxGeometry x="100" y="75" width="160" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="sqs2" value="SQS" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;" vertex="1" parent="region2">
+          <mxGeometry x="20" y="130" width="80" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="rds2" value="RDS PostgreSQL&#xa;Read Replica" style="shape=cylinder3;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;size=8;" vertex="1" parent="region2">
+          <mxGeometry x="120" y="125" width="120" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="redis2" value="Redis Cluster" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="region2">
+          <mxGeometry x="260" y="130" width="85" height="30" as="geometry" />
+        </mxCell>
+
+        <!-- ==================== AP-SOUTHEAST-1 ==================== -->
+        <mxCell id="region3" value="AP-SOUTHEAST-1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;verticalAlign=top;fontStyle=1;fontSize=14;container=1;collapsible=0;" vertex="1" parent="1">
+          <mxGeometry x="1120" y="210" width="360" height="250" as="geometry" />
+        </mxCell>
+        <mxCell id="apigw3" value="API Gateway · 100k RPS" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;" vertex="1" parent="region3">
+          <mxGeometry x="100" y="30" width="160" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="ecs3" value="ECS on EC2&#xa;Auth | Vote | Results" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;" vertex="1" parent="region3">
+          <mxGeometry x="100" y="75" width="160" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="sqs3" value="SQS" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;" vertex="1" parent="region3">
+          <mxGeometry x="20" y="130" width="80" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="rds3" value="RDS PostgreSQL&#xa;Read Replica" style="shape=cylinder3;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;size=8;" vertex="1" parent="region3">
+          <mxGeometry x="120" y="125" width="120" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="redis3" value="Redis Cluster" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="region3">
+          <mxGeometry x="260" y="130" width="85" height="30" as="geometry" />
+        </mxCell>
+
+        <!-- ==================== CONNECTIONS ==================== -->
+        <!-- Users to Edge -->
+        <mxCell id="e1" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="users" target="route53" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="route53" target="waf" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- WAF to API Gateways -->
+        <mxCell id="e3" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="waf" target="apigw1" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="waf" target="apigw2" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="waf" target="apigw3" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Region 1 internal -->
+        <mxCell id="e10" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="apigw1" target="alb1" parent="region1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e11" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="alb1" target="ecs1-group" parent="region1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e12" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="vote-svc" target="sqs1" parent="region1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e13" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="vote-svc" target="rds1" parent="region1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e14" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="vote-svc" target="redis1" parent="region1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e15" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="results-svc" target="redis1" parent="region1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e16" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="results-svc" target="rds1" parent="region1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Auth to Auth0 -->
+        <mxCell id="e17" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="auth-svc" target="auth0" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Region 2 internal -->
+        <mxCell id="e20" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="apigw2" target="ecs2" parent="region2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Region 3 internal -->
+        <mxCell id="e30" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="apigw3" target="ecs3" parent="region3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Cross-region writes (dashed) -->
+        <mxCell id="e40" value="Writes" style="edgeStyle=orthogonalEdgeStyle;dashed=1;strokeColor=#b85450;" edge="1" source="ecs2" target="rds1" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e41" value="Writes" style="edgeStyle=orthogonalEdgeStyle;dashed=1;strokeColor=#b85450;" edge="1" source="ecs3" target="rds1" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Async replication (dashed) -->
+        <mxCell id="e50" value="Async Replication" style="edgeStyle=orthogonalEdgeStyle;dashed=1;strokeColor=#6c8ebf;" edge="1" source="rds1" target="rds2" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e51" value="Async Replication" style="edgeStyle=orthogonalEdgeStyle;dashed=1;strokeColor=#6c8ebf;" edge="1" source="rds1" target="rds3" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Legend -->
+        <mxCell id="legend" value="━━ Network connection&#xa;╌╌ Cross-region (async)&#xa;&#xa;Yellow = Edge/Gateway&#xa;Green = Compute (ECS)&#xa;Blue = Data stores&#xa;Orange = Messaging (SQS)" style="text;html=0;align=left;verticalAlign=top;fontSize=10;fontColor=#333333;fillColor=#f5f5f5;strokeColor=#cccccc;rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="30" y="20" width="190" height="110" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
