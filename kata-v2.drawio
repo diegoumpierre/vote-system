@@ -1,11 +1,16 @@
 <mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36" version="29.3.8" pages="3">
   <diagram name="Page-1" id="5SWeNEhK7nn3D6xAScoX">
-    <mxGraphModel dx="4305" dy="2505" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="2742" dy="1662" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
         <mxCell id="1zdps5qKMKYdcVA9AYmr-353" edge="1" parent="1" source="1zdps5qKMKYdcVA9AYmr-346" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="104">
           <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="1zdps5qKMKYdcVA9AYmr-619" connectable="0" parent="1zdps5qKMKYdcVA9AYmr-353" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="&lt;font style=&quot;font-size: 15px;&quot;&gt;Asia / Pacific&lt;/font&gt;" vertex="1">
+          <mxGeometry relative="1" x="-0.1898" y="-1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
         </mxCell>
         <mxCell id="1zdps5qKMKYdcVA9AYmr-371" connectable="0" parent="1" style="group" value="" vertex="1">
           <mxGeometry height="690" width="808.4" x="-960" y="-370" as="geometry" />
@@ -205,7 +210,7 @@
             <mxPoint x="158.10012882447666" y="463.1278846153845" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="1zdps5qKMKYdcVA9AYmr-339" parent="1zdps5qKMKYdcVA9AYmr-371" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="&lt;font style=&quot;font-size: 15px;&quot;&gt;Availability Zone 1&lt;/font&gt;" vertex="1">
+        <mxCell id="1zdps5qKMKYdcVA9AYmr-339" parent="1zdps5qKMKYdcVA9AYmr-371" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="&lt;font style=&quot;font-size: 15px;&quot;&gt;AP-Southeast-1&lt;/font&gt;" vertex="1">
           <mxGeometry height="25.961538461538463" width="147.28612836438924" y="2.596153846153868" as="geometry" />
         </mxCell>
         <mxCell id="1zdps5qKMKYdcVA9AYmr-365" connectable="0" parent="1zdps5qKMKYdcVA9AYmr-371" style="group" value="" vertex="1">
@@ -430,7 +435,7 @@
             <mxPoint x="158.10012882447666" y="463.1278846153845" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="1zdps5qKMKYdcVA9AYmr-543" parent="1zdps5qKMKYdcVA9AYmr-492" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="&lt;font style=&quot;font-size: 15px;&quot;&gt;Availability Zone 2&lt;/font&gt;" vertex="1">
+        <mxCell id="1zdps5qKMKYdcVA9AYmr-543" parent="1zdps5qKMKYdcVA9AYmr-492" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="&lt;font style=&quot;font-size: 15px;&quot;&gt;EU-West-1&lt;/font&gt;" vertex="1">
           <mxGeometry height="25.961538461538463" width="147.28612836438924" y="2.596153846153868" as="geometry" />
         </mxCell>
         <mxCell id="1zdps5qKMKYdcVA9AYmr-544" connectable="0" parent="1zdps5qKMKYdcVA9AYmr-492" style="group" value="" vertex="1">
@@ -655,7 +660,7 @@
             <mxPoint x="158.10012882447666" y="463.1278846153845" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="1zdps5qKMKYdcVA9AYmr-603" parent="1zdps5qKMKYdcVA9AYmr-552" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="&lt;font style=&quot;font-size: 15px;&quot;&gt;Availability Zone 3&lt;/font&gt;" vertex="1">
+        <mxCell id="1zdps5qKMKYdcVA9AYmr-603" parent="1zdps5qKMKYdcVA9AYmr-552" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="&lt;font style=&quot;font-size: 15px;&quot;&gt;US-East-1&lt;/font&gt;" vertex="1">
           <mxGeometry height="25.961538461538463" width="147.28612836438924" y="2.596153846153868" as="geometry" />
         </mxCell>
         <mxCell id="1zdps5qKMKYdcVA9AYmr-604" connectable="0" parent="1zdps5qKMKYdcVA9AYmr-552" style="group" value="" vertex="1">
@@ -687,8 +692,18 @@
             <mxPoint x="346.1999999999998" y="-520" as="targetPoint" />
           </mxGeometry>
         </mxCell>
+        <mxCell id="1zdps5qKMKYdcVA9AYmr-620" connectable="0" parent="1zdps5qKMKYdcVA9AYmr-614" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="&lt;font style=&quot;font-size: 15px;&quot;&gt;Europe / Africa&lt;/font&gt;" vertex="1">
+          <mxGeometry relative="1" x="-0.2099" y="-1" as="geometry">
+            <mxPoint y="-5" as="offset" />
+          </mxGeometry>
+        </mxCell>
         <mxCell id="1zdps5qKMKYdcVA9AYmr-615" edge="1" parent="1" source="1zdps5qKMKYdcVA9AYmr-346" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="1zdps5qKMKYdcVA9AYmr-586">
           <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="1zdps5qKMKYdcVA9AYmr-618" connectable="0" parent="1zdps5qKMKYdcVA9AYmr-615" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="&lt;font style=&quot;font-size: 15px;&quot;&gt;Americas&lt;/font&gt;" vertex="1">
+          <mxGeometry relative="1" x="-0.3629" y="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
         </mxCell>
         <mxCell id="1zdps5qKMKYdcVA9AYmr-616" connectable="0" parent="1" style="group" value="" vertex="1">
           <mxGeometry height="449.1134615384615" width="827.72" x="-120" y="-870" as="geometry" />
