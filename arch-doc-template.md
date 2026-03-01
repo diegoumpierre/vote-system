@@ -34,11 +34,14 @@ The problem is to enable a global audience to vote in real time during a Live TV
 
 ### 🏗️ 4. Overall Diagrams
 
-| Name | Image |
-|------|-------|
-| Overall Architecture | [Link](diagrams/4.1-overview-diagram.png) |
-| Deployment Diagram | [Link](diagrams/4.2-deployment-diagram.png) |
-| Use Cases Diagram | [Link](diagrams/4.3-use-cases-diagram.png) |
+#### Overall Architecture
+![Overall Architecture](diagrams/4.1-overview-diagram.png)
+
+#### Deployment Diagram
+![Deployment Diagram](diagrams/4.2-deployment-diagram.png)
+
+#### Use Cases Diagram
+![Use Cases Diagram](diagrams/4.3-use-cases-diagram.png)
 
 ### 🧭 5. Trade-offs
 
@@ -56,9 +59,7 @@ The problem is to enable a global audience to vote in real time during a Live TV
 
 #### 6.1 Class Diagram
 
-| Diagram | Image |
-|---------|-------|
-| [6.1-class-diagram.drawio](diagrams/6.1-class-diagram.drawio) | [6.1-class-diagram.png](diagrams/6.1-class-diagram.png) |
+![Class Diagram](diagrams/6.1-class-diagram.png)
 
 #### 6.2 Contract Documentation
 
@@ -69,7 +70,70 @@ The problem is to enable a global audience to vote in real time during a Live TV
 
 #### 6.3 Persistence Model
 
-**Full document:** [6.3-persistence-model.md](diagrams/6.3-persistence-model.md)
+```mermaid
+erDiagram
+    elections {
+        UUID id PK
+        VARCHAR title
+        VARCHAR description
+        VARCHAR status
+        TIMESTAMP start_date
+        TIMESTAMP end_date
+        TIMESTAMP created_at
+        TIMESTAMP updated_at
+    }
+
+    candidates {
+        UUID id PK
+        UUID election_id FK
+        VARCHAR name
+        VARCHAR party
+        VARCHAR photo_url
+        TIMESTAMP created_at
+    }
+
+    votes {
+        UUID id PK
+        UUID election_id FK
+        UUID candidate_id FK
+        VARCHAR user_id
+        TIMESTAMP accepted_at
+    }
+
+    elections ||--o{ candidates : "has"
+    elections ||--o{ votes : "receives"
+    candidates ||--o{ votes : "receives"
+```
+
+**Constraints**
+
+| Table | Constraint | Type | Purpose |
+|-------|-----------|------|---------|
+| votes | `uq_votes_election_user (election_id, user_id)` | UNIQUE | Exactly-once voting at DB level |
+| votes | `idx_votes_election_candidate (election_id, candidate_id)` | INDEX | Fast aggregation for results |
+| candidates | `fk_candidates_election (election_id)` | FK | Cascade delete with election |
+
+**Redis Cache Structure**
+
+| Key Pattern | Type | TTL | Purpose |
+|-------------|------|-----|---------|
+| `vote:{electionId}:{userId}` | STRING | 48h | Duplicate vote check |
+| `results:{electionId}:{candidateId}` | STRING (counter) | None | Live vote count per candidate |
+| `election:{electionId}` | HASH | 1h | Cached election metadata |
+
+**Main Queries**
+
+Redis -- Check Duplicate Vote
+```redis
+EXISTS vote:{electionId}:{userId}
+```
+Returns `1` if user already voted.
+
+Redis -- Increment Vote Counter
+```redis
+INCR results:{electionId}:{candidateId}
+```
+Atomically increments the candidate counter. Result Service reads these counters for live results.
 
 ### 🖹 7. Migrations
 
