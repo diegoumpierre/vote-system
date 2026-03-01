@@ -49,18 +49,10 @@ The problem is to enable a global audience to vote in real time during a Live TV
 | **Auth0** | Cognito or self-hosted Keycloak | Pre-built OAuth2/OIDC, MFA, social logins; SOC 2, ISO 27001 compliant, breach detection built-in; Passwordless auth, device fingerprinting, anomaly detection; Reduced security liability | Vendor lock-in, migrating 300M profiles is complex; High licensing cost at enterprise scale; Auth0 outage blocks authentication (~52 min/year allowed by SLA) |
 | **RDS PostgreSQL** | DynamoDB, Cassandra | ACID guarantees for exactly-once vote recording; Strong consistency for immediate vote count queries; Standard SQL for post-event analytics (JOINs, aggregations); Familiar tooling, low learning curve | Write throughput caps at ~20-50k TPS, needs SQS buffering; Vertical scaling only, expensive large instances; Connection pool pressure at high ECS task count |
 | **Multi-Region (3 regions)** | Single region with quota increase | 3 × 100k API Gateway RPS = 300k capacity with 20% headroom; <100ms latency for global users; Built-in DR via Route53 failover | Single-writer in US-East-1, 80-150ms cross-region write latency; 3x infrastructure cost; Coordinated deployments and rollbacks across regions; Route53 failover has 30s detection window |
-| **API Gateway + ALB per service** | Direct ALB or API Gateway only | Centralized JWT validation via Auth0; Per-user rate limiting before hitting backend; HTTP/HTTPS/WebSocket unification; Cost-efficient at low traffic | Double hop latency (API GW → ALB → ECS); Double config surface (stages + target groups); 100k RPS per-region API Gateway cap; More expensive than ALB-only at sustained high RPS |
+| **API Gateway + ALB per service** | Direct ALB or API Gateway only | Centralized JWT validation via Auth0; Per-user rate limiting before hitting backend; HTTP/HTTPS/WebSocket unification; Cost-efficient at low traffic | Double hop latency (API GW + ALB + ECS); Double config surface (stages + target groups); 100k RPS per-region API Gateway cap; More expensive than ALB-only at sustained high RPS |
 | **SQS async processing** | Synchronous direct-to-DB writes | Absorbs 250k RPS spikes, buffers for DB throughput; Guaranteed delivery, no vote loss on crashes; Decoupled scaling between ingestion and processing; Built-in retry with configurable maxReceiveCount | Eventual consistency, user gets "accepted" before DB write; Must monitor queue lag to stay within real-time SLA; DLQ requires manual intervention or batch replay |
 
 ### 🌏 6. For each key major component
-
-What is a majore component? A service, a lambda, a important ui, a generalized approach for all uis, a generazid approach for computing a workload, etc...
-```
-6.1 - Class Diagram              : classic uml diagram with attributes and methods
-6.2 - Contract Documentation     : Operations, Inputs and Outputs
-6.3 - Persistence Model          : Diagrams, Table structure, partiotioning, main queries.
-6.4 - Algorithms/Data Structures : Spesific algos that need to be used, along size with spesific data structures.
-```
 
 #### 6.1 Class Diagram
 
@@ -74,6 +66,10 @@ What is a majore component? A service, a lambda, a important ui, a generalized a
 |---------|-----------|--------|
 | Vote Service | [View in Swagger UI](https://petstore.swagger.io/?url=https://raw.githubusercontent.com/diegoumpierre/vote-system/feature/nicolas-fixes/contracts/vote-service.yaml) | [vote-service.yaml](contracts/vote-service.yaml) |
 | Results Service | [View in Swagger UI](https://petstore.swagger.io/?url=https://raw.githubusercontent.com/diegoumpierre/vote-system/feature/nicolas-fixes/contracts/results-service.yaml) | [results-service.yaml](contracts/results-service.yaml) |
+
+#### 6.3 Persistence Model
+
+**Full document:** [6.3-persistence-model.md](diagrams/6.3-persistence-model.md)
 
 ### 🖹 7. Migrations
 
