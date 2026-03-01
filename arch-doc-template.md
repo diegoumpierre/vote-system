@@ -2,40 +2,35 @@
 
 ### 1. 🎯 Problem Statement and Context
 
-The problem is to enable a global audience to vote in real time during a Live TV Show. Key challenges include handling enormous, short-lived traffic spikes from a user base of hundreds of millions, guaranteeing each registered viewer can cast exactly one vote, and ensuring no votes are lost even under failures. At the same time, the system must prevent bots and bad actors from skewing results, provide near real time aggregated results for on-air presentation, and keep an audit trail for post-event review.
+The problem is to enable a global audience to vote in real time during a Live TV Show. Key challenges include handling enormous, short-lived traffic spikes from a user base of hundreds of millions, guaranteeing each registered viewer can cast exactly one vote, and ensuring no votes are lost even under failures. At the same time, the system must prevent bots and bad actors from skewing results, provide near real time aggregated results for on-air presentation.
 
 ### 2. 🎯 Goals
 
-1. Data Integrity & Durability - exactly-once voting, zero data loss, cross-AZ replication
-2. Performance & Scale - handle up to 300M users and 250k RPS peak load
-3. Low Latency - p99 <150 ms write, <200 ms read, UI refresh <1 s
-4. Security & Anti-Fraud - duplicate vote prevention, bot mitigation, rate limiting, CAPTCHA
-5. Observability & Auditability - end-to-end tracing, immutable logs, metrics, dashboards
-6. Fault Tolerance - queue-based backpressure, retries, no dropped votes
-7. Modular Architecture - independently scalable and replaceable components
-8. Cost Efficiency – balance SLA vs operational cost through dynamic scaling
-9. Compliance & Privacy - ensure GDPR/CCPA compliance and data anonymization
-10. Operational Simplicity - IaC, automated deploys, minimal manual ops
+1. **Data Integrity & Durability:** one vote per user, zero data loss, multiple AZ
+2. **Performance & Scale:** handle up to 300M users and 250k RPS peak load
+3. **Low Latency:** p99 <150 ms write, <200 ms read, UI refresh <1 s
+4. **Security & Anti-Fraud:** duplicate vote prevention, bot mitigation, rate limiting, CAPTCHA
+5. **Observability & Auditability:**  logs, metrics, dashboards
+6. **Fault Tolerance:** queue-based backpressure, retries, no dropped votes
+7. **Modular Architecture:** independently scalable and replaceable components
+8. **Cost Efficiency:** balance SLA vs operational cost through dynamic scaling
+9. **Operational Simplicity:** IaC, automated deploys, minimal manual ops
 
 ### 3. 🎯 Non-Goals
 
-1. Detailed UI/UX or native mobile apps (backend scope only)
-2. Legal/government-grade auditing - limited to entertainment context
-3. Indefinite raw data storage - retention policies will apply
-4. Scalability beyond 300M users or 250k RPS
-5. Serverless, MongoDB, OpenShift, mainframes, or monolithic solutions (per restrictions)
-6. ML-based fraud detection - only rule-based protection
-7. Payment or monetary transaction handling
+1. Detailed UI/UX or native mobile apps
+2. Legal/government auditing
+3. Scalability beyond 300M users or 250k RPS
+4. Serverless, MongoDB, OpenShift, mainframes, or monolithic solutions
+5. ML-based fraud detection
 
 ### 📐 3. Principles
 
-```
-1. Isolation & Fault Containment: Must isolate failures using queues and retries. Infrastructure and application components are deployed separately to avoid cascading failures.
-2. Data Integrity: Preventing double voting and data loss has higher priority than raw throughput.
-3. Observability: All critical paths must expose metrics, logs, and traces.
-4. Security: Rate limiting, bot detection, duplicate prevention, and auditability are architectural concerns, not optional add-ons or application-level patches.
-5. Automated Testing: CI pipelines enforce automated tests, including load, integration, and failure scenarios. The system must be continuously validated under degraded conditions.
-```
+1. **Isolation & Fault Containment:** Application components are deployed separately to avoid cascading failures.
+2. **Data Integrity:** Preventing double voting and data loss as high priority.
+3. **Observability:** All critical paths expose metrics, logs, and traces.
+4. **Security:** Rate limiting, bot detection and duplicate prevention.
+5. **Automated Testing:** CI pipelines enforce automated tests, including load, integration, and failure scenarios.
 
 ### 🏗️ 4. Overall Diagrams
 
