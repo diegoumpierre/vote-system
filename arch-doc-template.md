@@ -77,293 +77,39 @@ No migrations.
 
 ### 🖹 8. Testing strategy
 
-#### 8.1 Testing Principles
+#### 8.1 Test Types
 
-1. **Shift-Left Testing** - Testing starts from design phase, not post-development
-2. **Pyramid Approach** - Many unit tests, fewer integration tests, minimal E2E tests
-3. **Production-like Testing** - Test environments mirror production infrastructure
-4. **Chaos Engineering as Standard** - Proactively inject failures to validate resilience
-5. **Performance Testing Continuous** - Load tests run in CI/CD, not just pre-release
-6. **Test Data Isolation** - Each test uses isolated data to prevent cascading failures
-7. **Observability-Driven Testing** - Tests validate metrics, logs, and traces are emitted correctly
+| Type | Technology | Scope | Trigger |
+|------|-----------|-------|---------|
+| **Unit** (70% coverage) | JUnit 5, Mockito | Domain logic, vote validation, election state transitions | Every commit |
+| **Integration** | Testcontainers, WireMock | PostgreSQL, Redis, SQS integration | PR merge |
+| **E2E** | Cypress | Vote submission flow, admin election flow, WebSocket updates | Nightly / pre-deploy |
 
 ---
 
-#### 8.2 Types of Tests
+#### 8.2 Load Testing
 
-##### Unit Tests (70% coverage target)
-**Technology:** JUnit 5, Mockito, AssertJ
-
-**Scope:**
-- Domain logic (vote validation, duplicate detection algorithms)
-- Business rules (exactly-once voting, election state transitions)
-- Data transformations (DTO ↔ Entity mapping)
-
-**Mock Strategy:**
-- Repository interfaces mocked with Mockito
-- Redis/SQS clients mocked to avoid external dependencies
-- Auth0 JWT validation mocked with test tokens
-
-**Key Test Scenarios:**
-- Vote Service: Duplicate detection validation
-- Results Service: Vote aggregation across multiple candidates
-- Error handling: Invalid inputs, missing fields, malformed data
-
-**Execution:**
-- Run on every commit via GitHub Actions
-- Fail build if coverage drops below 70%
-- Execution time target: <5 minutes
-
----
-
-##### Integration Tests (Component-level)
-**Technology:** Testcontainers, Spring Boot Test, WireMock
-
-**Scope:**
-- Service ↔ PostgreSQL integration (vote persistence, transaction rollback)
-- Service ↔ Redis integration (cache invalidation, TTL expiration)
-- Service ↔ SQS integration (message publishing, retry logic, DLQ handling)
-- Auth0 integration (JWT validation with WireMock-stubbed responses)
-
-**Test Environment:**
-- **Testcontainers** - Spin up PostgreSQL 17, Redis 8.4, LocalStack (SQS emulator)
-- **Isolated Docker Network** - Each test suite runs in isolated containers
-- **Data Reset** - Database schema recreated before each test class
-
-**Key Test Scenarios:**
-- Vote persistence to PostgreSQL with Redis counter increment
-- Transaction rollback on failure
-- SQS retry logic with Dead Letter Queue handling
-- Cache invalidation and TTL expiration
-
-**Execution:**
-- Run on PR merge to main branch
-- Execution time target: <10 minutes
-
----
-
-##### Contract Tests
-**Technology:** Spring Cloud Contract, Pact
-
-**Scope:**
-- Validate API contracts between Frontend ↔ Backend
-- Ensure backward compatibility during API changes
-- Test error response schemas (4xx, 5xx formats)
-
-**Contract Definition:**
-- Request: POST /api/v1/votes with JWT authorization, election/candidate/user IDs, CAPTCHA token
-- Response: 200 status with vote ID, acceptance status, timestamp
-- Error schemas: 4xx for validation errors, 5xx for server errors
-
-**Execution:**
-- Run on every API change
-- Publish contracts to shared repository
-- Frontend team validates against published contracts
-
----
-
-##### End-to-End Tests
-**Technology:** Selenium, Cypress
-
-**Scope:**
-- User registration → Login → Vote submission → Results view
-- Admin creates election → Opens voting → Monitors results → Closes voting
-- Validate WebSocket real-time updates appear in UI
-
-**Test Data Strategy:**
-- Dedicated E2E test environment (separate AWS account)
-- Synthetic users (test-user-001@example.com to test-user-100@example.com)
-- Pre-seeded elections and candidates via API
-
-**Key Test Flows:**
-- User registration → Login → Vote submission → Results view
-- Admin creates election → Opens voting → Monitors results → Closes voting
-- WebSocket real-time updates validation
-
-**Execution:**
-- Run nightly against staging environment
-- Run manually before production deployment
-- Execution time target: <30 minutes
-
----
-
-#### 8.3 Performance and Load Testing
-
-##### Load Testing
-**Technology:** Apache JMeter, k6, Gatling
-
-**Objectives:**
-- Validate system handles **250,000 RPS** peak load
-- Verify p99 latency <150ms for writes, <200ms for reads
-- Ensure no vote loss under sustained load
-
-**Test Scenarios:**
+**Technology:** k6
 
 | Scenario | Virtual Users | Duration | Target RPS | Success Criteria |
 |---------|---------------|----------|-----------|------------------|
-| **Baseline Load** | 10,000 | 10 min | 50,000 | p99 <100ms, 0% errors |
+| **Baseline** | 10,000 | 10 min | 50,000 | p99 <100ms, 0% errors |
 | **Peak Traffic** | 100,000 | 5 min | 250,000 | p99 <150ms, <0.01% errors |
-| **Sustained Load** | 50,000 | 2 hours | 100,000 | Memory stable, no leaks |
-| **Traffic Spike** | 0→150,000 (ramp 30s) | 10 min | Variable | Auto-scale triggers, no 503s |
-
-**Load Test Configuration:**
-- Ramp-up stages: 50k users → 100k users → ramp-down
-- Thresholds: p99 <150ms, error rate <0.01%
-- Request validation: Status 200, vote accepted confirmation
-- Rate limiting: 1 second delay between requests per user
-
-**Mock Data Strategy:**
-- **Users:** Generate 1M synthetic user accounts with Auth0 test tenant
-- **Elections:** 10 pre-configured elections with 5 candidates each
-- **JWT Tokens:** Pre-generated 100k valid JWT tokens (rotated every 15 minutes)
-- **CAPTCHA:** Mock CAPTCHA service returns success for load test tokens
-
-**Execution Environment:**
-- Run against dedicated staging environment (identical to production)
-- 3 AWS regions (US-East, EU-West, AP-Southeast)
-- RDS PostgreSQL db.r6g.4xlarge (same as production)
-- Redis cluster (3 nodes per region)
-
-**Metrics Validation:**
-
-Target Metrics (must pass):
-- API Gateway RPS: ≥250,000
-- Vote Service p99 latency: <150ms
-- Results Service p99 latency: <200ms
-- SQS queue lag: <5 seconds
-- Database write throughput: ≥20,000 TPS
-- Redis GET latency: <5ms
-- Error rate: <0.01%
-- Zero vote loss (verify DB count = SQS sent count)
-
-Warning Thresholds:
-- SQS queue depth >10,000 messages
-- Database CPU >80%
-- ECS task CPU >85%
-- Redis memory >75%
-
-**Execution:**
-- Weekly automated runs (every Sunday 2 AM UTC)
-- On-demand before major releases
-- Report published to Grafana dashboard + Slack
+| **Sustained** | 50,000 | 2 hours | 100,000 | Memory stable, no leaks |
+| **Spike** | 0→150,000 (30s ramp) | 10 min | Variable | Auto-scale triggers, no 503s |
 
 ---
 
-##### Stress Testing
-**Objective:** Find the breaking point of the system
+#### 8.3 Chaos Engineering
 
-**Approach:**
-- Gradually increase load beyond 250k RPS until system fails
-- Identify bottleneck (database, SQS, ECS, network)
-- Document failure mode (graceful degradation vs crash)
+**Technology:** AWS Fault Injection Simulator (FIS)
 
-**Expected Breaking Points:**
-- PostgreSQL write throughput: ~50,000 TPS (before connection pool exhaustion)
-- API Gateway per-region limit: 100,000 RPS (hard AWS limit)
-- Redis memory: 25GB (then eviction policy kicks in)
-
-**Stress Test Scenario:**
-```
-Phase 1: 100k RPS (2 min) - Expected: Pass
-Phase 2: 200k RPS (2 min) - Expected: Pass
-Phase 3: 300k RPS (2 min) - Expected: Pass with SQS backlog
-Phase 4: 400k RPS (2 min) - Expected: API Gateway 503 errors
-Phase 5: 500k RPS (2 min) - Expected: Cascading failures
-```
-
-**Recovery Validation:**
-- After stress, reduce load to 100k RPS
-- System should auto-recover within 5 minutes (drain SQS queue)
-- No manual intervention required
-
----
-
-#### 8.4 Chaos Engineering
-
-**Philosophy:** "Break things on purpose to ensure they don't break in production"
-
-**Technology:** AWS Fault Injection Simulator (FIS), Chaos Mesh, custom scripts
-
-##### Chaos Experiments
-
-| Experiment | Chaos Action | Expected Behavior | Pass Criteria |
-|-----------|-------------|-------------------|---------------|
+| Experiment | Action | Expected Behavior | Pass Criteria |
+|-----------|--------|-------------------|---------------|
 | **AZ Failure** | Terminate all ECS tasks in AZ-a | Traffic routes to AZ-b and AZ-c | <5s downtime, no vote loss |
-| **Database Failover** | Force RDS primary failover to standby | Read replicas serve reads, writes pause 30-60s | SQS buffers votes, processing resumes post-failover |
-| **Redis Cluster Node Failure** | Kill 1 of 3 Redis nodes | Redis cluster reshards, reads continue | Cache hit rate drops <20%, no errors |
-| **Network Partition** | Isolate Vote Service from PostgreSQL for 60s | Votes queue in SQS, DLQ triggers after max retries | No votes lost, DLQ processed after recovery |
-| **API Gateway Throttling** | Inject 503 errors at 20% rate | Frontend retries with exponential backoff | User sees "Please retry" message, eventual success |
-| **SQS Delay** | Increase SQS message visibility timeout to 5 min | Vote processing delayed, results lag | UI shows "Results updating..." message |
-| **Auth0 Outage** | Block Auth0 API calls | New logins fail, existing sessions continue (JWT cached) | Existing users can vote, new users see auth error |
-| **Cross-Region Replication Lag** | Delay RDS replication to EU region by 10 minutes | EU reads show stale data | Frontend polls primary region for critical reads |
-| **Memory Pressure** | Stress test ECS task to trigger OOM | ECS restarts task, ALB health check removes from pool | <10s downtime per task, load balances to healthy tasks |
-| **Disk Full** | Fill CloudWatch Logs disk on ECS host | Logs stop writing, application continues | Alert triggers, auto-cleanup old logs |
-
-**Chaos Test Execution:**
-- Use AWS Fault Injection Simulator (FIS) for automated chaos experiments
-- Monitor impact via CloudWatch metrics (ErrorRate, Latency, Throughput)
-- Real-time dashboards track recovery time and system behavior
-
-**Chaos Schedule:**
-- **Weekly:** Random AZ failure (Tuesday 10 AM UTC)
-- **Bi-weekly:** Database failover (Wednesday 3 PM UTC)
-- **Monthly:** Full region failure (first Saturday of month, 2 AM UTC)
-- **Quarterly:** Game Day (simulate live show with injected failures)
-
-**Chaos Goals:**
-1. **Zero Vote Loss** - Even under failures, every vote persisted in SQS must reach the database
-2. **Graceful Degradation** - System slows down but doesn't crash
-3. **Auto-Recovery** - No manual intervention required for common failures
-4. **Alert Accuracy** - Every chaos event triggers correct alert within 60 seconds
-
----
-
-#### 8.5 Security Testing
-
-##### Penetration Testing
-**Scope:**
-- SQL injection attempts on `/api/v1/votes`, `/api/v1/results`
-- JWT token tampering (modified claims, expired tokens, invalid signatures)
-- CAPTCHA bypass attempts (replay attacks, token reuse)
-- Rate limit bypass (distributed IPs, header spoofing)
-- CORS misconfiguration testing
-
-**Tools:**
-- OWASP ZAP, Burp Suite
-- Manual testing by external security firm (annual)
-
-##### Vulnerability Scanning
-**Tools:**
-- **SAST:** SonarQube (static code analysis)
-- **DAST:** OWASP ZAP (dynamic API scanning)
-- **Dependency Scanning:** Snyk, OWASP Dependency-Check
-
-**Execution:**
-- SAST runs on every PR
-- DAST runs weekly against staging
-- Dependency scan runs daily (alerts on critical CVEs)
-
----
-
-#### 8.6 Testing Responsibilities
-
-| Role | Responsibilities |
-|------|----------------|
-| **Developers** | Write unit tests, integration tests; fix failing tests within 1 day |
-| **QA Engineers** | Design E2E tests, execute chaos experiments, analyze performance reports |
-| **DevOps Team** | Maintain test infrastructure (Testcontainers, staging environment), CI/CD pipelines |
-| **Security Team** | Conduct penetration tests, review SAST/DAST findings quarterly |
-| **Product Owner** | Define acceptance criteria, approve test coverage thresholds |
-
----
-
-#### 8.7 Test Environment Strategy
-
-| Environment | Purpose | Data | Refresh Frequency |
-|------------|---------|------|------------------|
-| **Local** | Unit + integration tests | Testcontainers (fresh DB per run) | Per test execution |
-| **Staging** | E2E, load tests, chaos | Synthetic (10M users, 100 elections) | Weekly (Sunday 2 AM UTC) |
-| **Production-Mirror** | Pre-release validation | Anonymized production snapshot | Monthly |
+| **Database Failover** | Force RDS primary failover | Writes pause, SQS buffers votes | Processing resumes post-failover |
+| **Redis Node Failure** | Kill 1 of 3 Redis nodes | Cluster reshards, reads continue | Cache hit rate drops <20%, no errors |
+| **Auth0 Outage** | Block Auth0 API calls | Existing JWT sessions continue | Existing users can vote, new users see auth error |
 
 ### 🖹 9. Observability strategy
 
