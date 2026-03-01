@@ -42,7 +42,7 @@ The problem is to enable a global audience to vote in real time during a Live TV
 | Name | Image |
 |------|-------|
 | Overall Architecture | [Link](diagrams/4.1-overview-diagram.png) |
-| Deployment Diagram | [Link](diagrams/deployment-diagram.png) |
+| Deployment Diagram | [Link](diagrams/4.2-deployment-diagram.png) |
 | Use Cases Diagram | [Link](diagrams/use-cases-diagram.png) |
 
 ### 🧭 5. Trade-offs
