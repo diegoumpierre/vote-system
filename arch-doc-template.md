@@ -43,7 +43,7 @@ The problem is to enable a global audience to vote in real time during a Live TV
 |------|-------|
 | Overall Architecture | [Link](diagrams/4.1-overview-diagram.png) |
 | Deployment Diagram | [Link](diagrams/4.2-deployment-diagram.png) |
-| Use Cases Diagram | [Link](diagrams/use-cases-diagram.png) |
+| Use Cases Diagram | [Link](diagrams/4.3-use-cases-diagram.png) |
 
 ### 🧭 5. Trade-offs
 
@@ -385,7 +385,7 @@ Errors:
 
 ### 🖹 7. Migrations
 
-IF Migrations are required describe the migrations strategy with proper diagrams, text and tradeoffs.
+No migrations.
 
 ### 🖹 8. Testing strategy
 
