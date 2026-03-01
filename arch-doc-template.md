@@ -113,43 +113,56 @@ No migrations.
 
 ### 🖹 9. Observability strategy
 
-Our observability is designed to guarantee end-to-end visibility of the voting journey (ingestion, processing, and counting), focusing on:
+#### 9.1 Tooling
 
-- log vote proccess with objetive to check zero loss;
-- early detection of manipulation at peaks of 250k RPS;
-- audit trail for security and compliance.
-#### 9.1
-1. **Observability by default**: Every critical component should emit logs, metrics, and traces.
-2. **End-to-end correlation**: Each request/event should carry `ID`.
-3. **Alert by user impact**: Prioritize error signals, latency, and queuing before isolated infrastructure.
-4. **Automation first**: Alarms should trigger automatic runbooks whenever possible.
-5. **Cost conscious**: Retention, sampling, and cardinality under control.
+| Pillar | Tool | Purpose |
+|--------|------|---------|
+| **Logs** | CloudWatch Logs | Centralized application and access logs |
+| **Metrics** | CloudWatch Metrics + Container Insights | Infrastructure, ECS task/service/cluster metrics |
+| **Traces** | X-Ray | End-to-end distributed tracing with correlation ID per request |
+| **Dashboards** | Grafana | Unified operational and business visualization |
+| **Alerts** | CloudWatch Alarms → SNS | Threshold-based alerts routed to on-call teams |
+| **Audit** | CloudTrail + S3 | Immutable audit trail with long-term retention |
 
-**For that as part of observability layer we have this services and responsabilities**
+Every request carries a **correlation ID** propagated across API Gateway, Vote Ingestion, SQS, Vote Processor, DB, so we can trace full vote lifecycle.
 
-- **CloudWatch Logs**: centralizes application, access, and audit logs.
-- **CloudWatch Metrics**: infrastructure, platform, and business metrics.
-- **Container Insights**: detailed view of ECS (task/service/cluster).
-- **X-Ray**: end-to-end distributed tracing.
-- **CloudWatch Alarms**: threshold/anomaly deviation detection.
-- **EventBridge + Systems Manager**: event routing and response automation.
-- **SNS**: alerts for teams (on-call, security, product).
-- **Grafana**: unified visualization and operational analysis.
-- **CloudTrail + S3**: audit trail and long-term retention.
+#### 9.2 Key Metrics and Alerts
 
-**Critical events to log**
-- **Vote Service**: accepted vote (queued), deduplication, idempotence, publish SQS, persistence failure.
-- **Results Service**: aggregate update, cache invalidation, update delay.
-- **Auth Service**: login, authentication/authorization failures, token refresh.
-- **Infrastructure**: 5xx API Gateway/ALB, ECS task failures, RDS failover, integration errors with Auth0.
+| Metric | Source | Alert Threshold |
+|--------|--------|----------------|
+| API Gateway 5xx rate | CloudWatch | > 0.1% |
+| Vote Ingestion p99 latency | X-Ray | > 150ms |
+| Results Service p99 latency | X-Ray | > 200ms |
+| SQS queue age (oldest message) | CloudWatch | > 30 seconds |
+| SQS DLQ message count | CloudWatch | > 0 (immediate) |
+| RDS CPU utilization | CloudWatch | > 80% |
+| ECS task CPU | Container Insights | > 85% |
+| Redis memory usage | CloudWatch | > 75% |
+| Vote loss (SQS sent - DB rows) | Custom metric | > 0 |
 
-**Observability Flow:**
-ECS Services + API Gateway + ALB + SQS + RDS + Redis
-→ CloudWatch Logs / CloudWatch Metrics / X-Ray / Container Insights
-→ CloudWatch Alarms
-→ EventBridge
-→ Systems Manager (self-remediation) + SNS (notification)
-→ Grafana (operational and business dashboards)
+#### 9.3 What Gets Logged
+
+| Service | Events |
+|---------|--------|
+| **Vote Ingestion** | Vote accepted (queued), duplicate rejected, CAPTCHA failed, election not found |
+| **Vote Processor** | Vote persisted, Redis counter incremented, DB write failed, message sent to DLQ |
+| **Results Service** | Cache miss, aggregation served |
+| **Infrastructure** | 5xx from API Gateway/ALB, ECS task restart, RDS failover, Auth0 integration error |
+
+#### 9.4 Dashboards
+
+| Dashboard | Audience | Key Panels |
+|-----------|----------|------------|
+| **Live Voting** | Operations | RPS, SQS queue depth, p99 latency, error rate, votes/second |
+| **Vote Integrity** | Operations + Audit | SQS sent vs DB persisted, DLQ count, duplicate rejection rate |
+| **Infrastructure** | DevOps | ECS CPU/memory, RDS connections/CPU, Redis memory, ALB health |
+
+#### 9.5 Zero Vote Loss Reconciliation
+
+- Vote Ingestion publishes `votes.accepted` metric on every SQS send
+- Vote Processor publishes `votes.persisted` on every successful DB write
+- CloudWatch alarm triggers if `votes.accepted - votes.persisted > 0` for more than 5 minutes
+- DLQ count > 0 triggers immediate alert for manual investigation
 
 ### 🖹 10. Data Store Designs
 
