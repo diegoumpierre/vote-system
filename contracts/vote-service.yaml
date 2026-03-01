@@ -2,8 +2,8 @@ openapi: 3.0.4
 info:
   title: Vote Service API
   description: |
-    API for vote submission and verifccation
-    
+    API for vote submission, verification, and election/candidate administration.
+    Combines voting operations (public) with admin management endpoints.
   version: 1.0.0
   contact:
     name: Vote System Team
@@ -19,10 +19,11 @@ servers:
 
 tags:
   - name: Votes
-    description: Vote submission and verification operations
-
-security:
-  - bearerAuth: []
+    description: Vote submission and verification
+  - name: Elections
+    description: Election management (ADMIN only)
+  - name: Candidates
+    description: Candidate management (ADMIN only)
 
 paths:
   /api/v1/votes:
@@ -31,9 +32,10 @@ paths:
         - Votes
       summary: Submit a vote
       description: |
-        Submit a vote for elections.
-
+        Submit a vote for an active election. UserId is extracted from JWT token.
       operationId: submitVote
+      security:
+        - bearerAuth: []
       requestBody:
         required: true
         content:
@@ -46,7 +48,6 @@ paths:
                 value:
                   electionId: "550e8400-e29b-41d4-a716-446655440000"
                   candidateId: "660e8400-e29b-41d4-a716-446655440000"
-                  userId: "770e8400-e29b-41d4-a716-446655440000"
                   captchaToken: "03AGdBq27X8kJYZ9..."
       responses:
         '200':
@@ -59,21 +60,54 @@ paths:
                 voteId: "880e8400-e29b-41d4-a716-446655440000"
                 status: "accepted"
                 acceptedAt: "2026-01-15T10:30:00Z"
+        '400':
+          description: Invalid request payload
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Duplicate vote
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                code: "DUPLICATE_VOTE"
+                message: "User has already voted in this election"
+                traceId: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+        '429':
+          description: Too many attempts
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
 
-  /api/v1/votes/status/{userId}:
+  /api/v1/votes/status/{electionId}/{userId}:
     get:
       tags:
         - Votes
       summary: Check vote status
       description: |
         Verify if a user has already voted in a specific election.
-        
-        **Use Cases:**
-        - Prevent duplicate vote attempts on UI
-        - Audit user voting history
-        - Display voting confirmation
       operationId: getVoteStatus
+      security:
+        - bearerAuth: []
       parameters:
+        - name: electionId
+          in: path
+          required: true
+          description: Unique identifier of the election
+          schema:
+            type: string
+            format: uuid
+            example: "550e8400-e29b-41d4-a716-446655440000"
         - name: userId
           in: path
           required: true
@@ -82,14 +116,6 @@ paths:
             type: string
             format: uuid
             example: "770e8400-e29b-41d4-a716-446655440000"
-        - name: electionId
-          in: query
-          required: true
-          description: Unique identifier of the election
-          schema:
-            type: string
-            format: uuid
-            example: "550e8400-e29b-41d4-a716-446655440000"
       responses:
         '200':
           description: Vote status retrieved successfully
@@ -112,6 +138,367 @@ paths:
                     electionId: "550e8400-e29b-41d4-a716-446655440000"
                     userId: "770e8400-e29b-41d4-a716-446655440000"
                     hasVoted: false
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Too many attempts
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/v1/admin/elections:
+    get:
+      tags:
+        - Elections
+      summary: List all elections
+      description: Retrieve a paginated list of all elections
+      operationId: listElections
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/SizeParam'
+        - name: status
+          in: query
+          description: Filter by election status
+          schema:
+            type: string
+            enum: [DRAFT, SCHEDULED, ACTIVE, CLOSED, CANCELLED]
+      responses:
+        '200':
+          description: Paginated list of elections
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ElectionListPage'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+    post:
+      tags:
+        - Elections
+      summary: Create a new election
+      operationId: createElection
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateElectionRequest'
+      responses:
+        '201':
+          description: Election created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Election'
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/v1/admin/elections/{electionId}:
+    put:
+      tags:
+        - Elections
+      summary: Update an election
+      description: Update election details (not allowed once voting has started)
+      operationId: updateElection
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/ElectionIdParam'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateElectionRequest'
+      responses:
+        '200':
+          description: Election updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Election'
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Election not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+    delete:
+      tags:
+        - Elections
+      summary: Delete an election
+      description: Soft delete an election (changes status to CANCELLED)
+      operationId: deleteElection
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/ElectionIdParam'
+      responses:
+        '204':
+          description: Election successfully deleted
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Election not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/v1/admin/elections/{electionId}/status:
+    patch:
+      tags:
+        - Elections
+      summary: Open or close voting window
+      description: Change election status to ACTIVE (open) or CLOSED (close)
+      operationId: updateElectionStatus
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/ElectionIdParam'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - status
+              properties:
+                status:
+                  type: string
+                  enum: [ACTIVE, CLOSED]
+                  description: New election status
+            examples:
+              openVoting:
+                summary: Open voting
+                value:
+                  status: "ACTIVE"
+              closeVoting:
+                summary: Close voting
+                value:
+                  status: "CLOSED"
+      responses:
+        '200':
+          description: Election status updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Election'
+        '400':
+          description: Invalid status transition
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Election not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/v1/admin/elections/{electionId}/candidates:
+    post:
+      tags:
+        - Candidates
+      summary: Add a candidate to an election
+      description: Add a new candidate (not allowed once voting has started)
+      operationId: addCandidate
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/ElectionIdParam'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCandidateRequest'
+      responses:
+        '201':
+          description: Candidate added
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Candidate'
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Election not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/v1/admin/elections/{electionId}/candidates/{candidateId}:
+    put:
+      tags:
+        - Candidates
+      summary: Update candidate information
+      description: Update candidate details (not allowed once voting has started)
+      operationId: updateCandidate
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/ElectionIdParam'
+        - $ref: '#/components/parameters/CandidateIdParam'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateCandidateRequest'
+      responses:
+        '200':
+          description: Candidate updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Candidate'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Election or candidate not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+    delete:
+      tags:
+        - Candidates
+      summary: Remove a candidate
+      description: Remove a candidate from an election (not allowed once voting has started)
+      operationId: deleteCandidate
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/ElectionIdParam'
+        - $ref: '#/components/parameters/CandidateIdParam'
+      responses:
+        '204':
+          description: Candidate successfully removed
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Election or candidate not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
 
 components:
   securitySchemes:
@@ -121,13 +508,52 @@ components:
       bearerFormat: JWT
       description: JWT token obtained from Auth0
 
+  parameters:
+    ElectionIdParam:
+      name: electionId
+      in: path
+      required: true
+      description: Unique identifier of the election
+      schema:
+        type: string
+        format: uuid
+        example: "550e8400-e29b-41d4-a716-446655440000"
+
+    CandidateIdParam:
+      name: candidateId
+      in: path
+      required: true
+      description: Unique identifier of the candidate
+      schema:
+        type: string
+        format: uuid
+        example: "660e8400-e29b-41d4-a716-446655440000"
+
+    PageParam:
+      name: page
+      in: query
+      description: Page number (0-based)
+      schema:
+        type: integer
+        minimum: 0
+        default: 0
+
+    SizeParam:
+      name: size
+      in: query
+      description: Number of items per page
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 20
+
   schemas:
     VoteRequest:
       type: object
       required:
         - electionId
         - candidateId
-        - userId
         - captchaToken
       properties:
         electionId:
@@ -140,17 +566,12 @@ components:
           format: uuid
           description: Unique identifier of the candidate being voted for
           example: "660e8400-e29b-41d4-a716-446655440000"
-        userId:
-          type: string
-          format: uuid
-          description: Unique identifier of the voter
-          example: "770e8400-e29b-41d4-a716-446655440000"
         captchaToken:
           type: string
-          description: Google reCAPTCHA v3 token for fraud prevention
+          description: reCAPTCHA token for bot prevention
           minLength: 20
           example: "03AGdBq27X8kJYZ9..."
-    
+
     VoteResult:
       type: object
       required:
@@ -161,19 +582,16 @@ components:
         voteId:
           type: string
           format: uuid
-          description: Unique identifier of the submitted vote
           example: "880e8400-e29b-41d4-a716-446655440000"
         status:
           type: string
-          description: Current status of the vote
-          enum: [accepted, processing]
+          enum: [accepted]
           example: "accepted"
         acceptedAt:
           type: string
           format: date-time
-          description: Timestamp when vote was accepted
           example: "2026-01-15T10:30:00Z"
-    
+
     VoteStatus:
       type: object
       required:
@@ -184,24 +602,197 @@ components:
         electionId:
           type: string
           format: uuid
-          description: Unique identifier of the election
           example: "550e8400-e29b-41d4-a716-446655440000"
         userId:
           type: string
           format: uuid
-          description: Unique identifier of the user
           example: "770e8400-e29b-41d4-a716-446655440000"
         hasVoted:
           type: boolean
-          description: Whether user has voted in this election
           example: true
         voteId:
           type: string
           format: uuid
-          description: Unique identifier of the vote (only present if hasVoted is true)
           example: "880e8400-e29b-41d4-a716-446655440000"
         timestamp:
           type: string
           format: date-time
-          description: Timestamp when vote was submitted (only present if hasVoted is true)
           example: "2026-01-15T10:30:00Z"
+
+    CreateElectionRequest:
+      type: object
+      required:
+        - title
+        - description
+        - startDate
+        - endDate
+      properties:
+        title:
+          type: string
+          minLength: 3
+          maxLength: 200
+          example: "Presidential Election 2026"
+        description:
+          type: string
+          maxLength: 2000
+          example: "National presidential election for the term 2026-2030"
+        startDate:
+          type: string
+          format: date-time
+          example: "2026-11-01T08:00:00Z"
+        endDate:
+          type: string
+          format: date-time
+          example: "2026-11-01T20:00:00Z"
+
+    UpdateElectionRequest:
+      type: object
+      properties:
+        title:
+          type: string
+          minLength: 3
+          maxLength: 200
+        description:
+          type: string
+          maxLength: 2000
+        startDate:
+          type: string
+          format: date-time
+        endDate:
+          type: string
+          format: date-time
+
+    Election:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: "550e8400-e29b-41d4-a716-446655440000"
+        title:
+          type: string
+          example: "Presidential Election 2026"
+        description:
+          type: string
+          example: "National presidential election for the term 2026-2030"
+        status:
+          type: string
+          enum: [DRAFT, SCHEDULED, ACTIVE, CLOSED, CANCELLED]
+          example: "SCHEDULED"
+        startDate:
+          type: string
+          format: date-time
+          example: "2026-11-01T08:00:00Z"
+        endDate:
+          type: string
+          format: date-time
+          example: "2026-11-01T20:00:00Z"
+        candidates:
+          type: array
+          items:
+            $ref: '#/components/schemas/Candidate'
+        createdAt:
+          type: string
+          format: date-time
+          example: "2026-01-15T10:00:00Z"
+        updatedAt:
+          type: string
+          format: date-time
+          example: "2026-01-15T10:00:00Z"
+
+    ElectionListPage:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/Election'
+        page:
+          type: integer
+          example: 0
+        size:
+          type: integer
+          example: 20
+        totalElements:
+          type: integer
+          example: 150
+        totalPages:
+          type: integer
+          example: 8
+
+    CreateCandidateRequest:
+      type: object
+      required:
+        - name
+        - party
+      properties:
+        name:
+          type: string
+          minLength: 3
+          maxLength: 200
+          example: "Jane Doe"
+        party:
+          type: string
+          maxLength: 100
+          example: "Progressive Party"
+        photoUrl:
+          type: string
+          format: uri
+          example: "https://cdn.votesystem.com/candidates/jane-doe.jpg"
+
+    UpdateCandidateRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 3
+          maxLength: 200
+        party:
+          type: string
+          maxLength: 100
+        photoUrl:
+          type: string
+          format: uri
+
+    Candidate:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: "660e8400-e29b-41d4-a716-446655440000"
+        electionId:
+          type: string
+          format: uuid
+          example: "550e8400-e29b-41d4-a716-446655440000"
+        name:
+          type: string
+          example: "Jane Doe"
+        party:
+          type: string
+          example: "Progressive Party"
+        photoUrl:
+          type: string
+          format: uri
+          example: "https://cdn.votesystem.com/candidates/jane-doe.jpg"
+        createdAt:
+          type: string
+          format: date-time
+          example: "2026-01-15T10:00:00Z"
+
+    ErrorResponse:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: string
+          example: "INVALID_REQUEST"
+        message:
+          type: string
+          example: "Invalid request payload"
+        traceId:
+          type: string
+          format: uuid
+          example: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"

@@ -62,92 +62,21 @@ What is a majore component? A service, a lambda, a important ui, a generalized a
 6.4 - Algorithms/Data Structures : Spesific algos that need to be used, along size with spesific data structures.
 ```
 
-#### 6.2 Contract documentation
+#### 6.2 Contract Documentation
 
 ---
 
-#### **Auth Service**
-##### **Operations**
-
-| Operation | Method | Endpoint | Description |
-|-----------|--------|----------|-------------|
-| Login | POST | `/api/v1/auth/login` | Authenticate user and return JWT token |
-| Register | POST | `/api/v1/auth/register` | Create new user account |
-| Logout | POST | `/api/v1/auth/logout` | Invalidate token and clear session |
-| Validate Token | GET | `/api/v1/auth/validate` | Validate JWT and return user info |
-| Refresh Token | POST | `/api/v1/auth/refresh` | Generate new access token |
----
-
-##### **Operations**
-
-| Operation | Method | Endpoint | Description |
-|-----------|--------|----------|-------------|
-| Submit Vote | POST | `/api/v1/votes` | Submit a vote for an election |
-| Check Vote Status | GET | `/api/v1/votes/status/{userId}` | Verify if user voted |
-
-**Input:**
-```json
-{
-  "electionId": "550e8400-e29b-41d4-a716-446655440000",
-  "candidateId": "660e8400-e29b-41d4-a716-446655440000",
-  "userId": "770e8400-e29b-41d4-a716-446655440000",
-  "captchaToken": "03AGdBq27X8kJYZ9..."
-}
-```
-
-**Output (Success - 200):**
-```json
-{
-  "voteId": "880e8400-e29b-41d4-a716-446655440000",
-  "status": "accepted",
-  "acceptedAt": "2026-01-15T10:30:00Z"
-}
-```
-
-**Submit vote Logic flow:**
-1. Validate JWT token
-2. Verify CAPTCHA token
-3. Check duplicate vote
-4. Submit to SQS queue for async processing
-5. Return acceptance confirmation
-
-**Notes:**
-- Vote status is "accepted" (queued), not "counted"
-- Actual database write happens asynchronously
-- SQS ensures zero vote loss even under failures
-
-#### **Results Service**
-
-**Authentication:** Public endpoints (GET results), JWT required for statistics and WebSocket
-
-##### **Operations**
-
-| Operation | Method | Endpoint | Description |
-|-----------|--------|----------|-------------|
-| Get Election Results | GET | `/api/v1/results/{electionId}` | Get aggregated results |
-| Get Live Count | GET | `/api/v1/results/live/{electionId}` | Get current vote count (polling) |
-| Stream Results | WebSocket | `/api/v1/results/stream/{electionId}` | Real-time results via WebSocket |
-| Get Statistics | GET | `/api/v1/results/statistics/{electionId}` | Detailed analytics (admin only) |
-
-Exemplos of other components: Batch jobs, Events, 3rd Party Integrations, Streaming, ML Models, ChatBots, etc... 
-
-Recommended Reading: http://diego-pacheco.blogspot.com/2018/05/internal-system-design-forgotten.html
-
-#### 6.1 Contract Documentation
-
+#### **Vote Ingestion Service**
 
 ```
-Component:Vote Service
-
 OPERATION: Submit a vote
-Purpose: Submit a vote for elections.
+Method: POST /api/v1/votes
 Preconditions: user authenticated
-Postconditions: vote accounted
+Postconditions: vote queued in SQS
 
 INPUTS:
-- ElectionId
-- CandidateId
-- UserId
+- electionId
+- candidateId
 - captchaToken
 
 OUTPUTS:
@@ -158,22 +87,20 @@ Success (200):
 
 Errors:
 - 400: Bad Request
-- 401: Invalid credentials
+- 401: Unauthorized
+- 409: Duplicate vote
 - 429: Too many attempts
-
 ```
 
 ```
-Component:Vote Service
-
 OPERATION: Check vote status
-Purpose: Check vote status for election.
+Method: GET /api/v1/votes/status/{electionId}/{userId}
 Preconditions: user authenticated
 Postconditions:
 
 INPUTS:
-- ElectionId
-- UserId
+- electionId (path)
+- userId (path)
 
 OUTPUTS:
 Success (200):
@@ -185,22 +112,97 @@ Success (200):
 
 Errors:
 - 400: Bad Request
-- 401: Invalid credentials
+- 401: Unauthorized
 - 429: Too many attempts
-
 ```
 
 ```
-Component:Results Service
-
-OPERATION:  getElectionResults
-Purpose:  Get aggregated election results
-Preconditions:
-Postconditions: Results are cached in Redis for 5 minutes
+OPERATION: Create election
+Method: POST /api/v1/admin/elections
+Preconditions: ADMIN role
+Postconditions: election created in DB
 
 INPUTS:
+- title
+- description
+- scheduledStart
+- scheduledEnd
+
+OUTPUTS:
+Success (201):
 - electionId
-- includePercentages
+- title
+- status
+- createdAt
+
+Errors:
+- 400: Bad Request
+- 401: Unauthorized
+- 403: Forbidden
+```
+
+```
+OPERATION: Manage candidates
+Method: POST /api/v1/admin/elections/{electionId}/candidates
+Preconditions: ADMIN role, election exists and is not active
+Postconditions: candidate added to election
+
+INPUTS:
+- electionId (path)
+- name
+- party
+- photoUrl
+
+OUTPUTS:
+Success (201):
+- candidateId
+- name
+- party
+- electionId
+
+Errors:
+- 400: Bad Request
+- 401: Unauthorized
+- 403: Forbidden
+- 404: Election not found
+```
+
+```
+OPERATION: Open/Close voting window
+Method: PATCH /api/v1/admin/elections/{electionId}/status
+Preconditions: ADMIN role, election exists
+Postconditions: election status updated
+
+INPUTS:
+- electionId (path)
+- status (OPEN | CLOSED)
+
+OUTPUTS:
+Success (200):
+- electionId
+- status
+- updatedAt
+
+Errors:
+- 400: Bad Request
+- 401: Unauthorized
+- 403: Forbidden
+- 404: Election not found
+```
+
+---
+
+#### **Results Service**
+
+```
+OPERATION: getElectionResults
+Method: GET /api/v1/results/{electionId}
+Preconditions:
+Postconditions: Results are cached in Redis
+
+INPUTS:
+- electionId (path)
+- includePercentages (query)
 
 OUTPUTS:
 Success (200):
@@ -214,19 +216,16 @@ Success (200):
 Errors:
 - 400: Bad Request
 - 429: Too many attempts
-
 ```
 
 ```
-Component:Results Service
-
-OPERATION:  getLiveCount
-Purpose:  Retrieve current vote count for an active election (polling-based).
+OPERATION: getLiveCount
+Method: GET /api/v1/results/live/{electionId}
 Preconditions:
 Postconditions:
 
 INPUTS:
-- electionId
+- electionId (path)
 
 OUTPUTS:
 Success (200):
@@ -237,20 +236,17 @@ Success (200):
 Errors:
 - 400: Bad Request
 - 429: Too many attempts
-
 ```
 
 ```
-Component:Results Service
-
 OPERATION: streamResults
-Purpose:  WebSocket endpoint for real-time election result updates.
+Method: WebSocket /api/v1/results/stream/{electionId}
 Preconditions:
 Postconditions:
 
 INPUTS:
-- electionId
-- token
+- electionId (path)
+- token (query)
 
 OUTPUTS:
 Success (101):
@@ -258,29 +254,25 @@ Success (101):
 - electionId
 - timestamp
 - candidates
-- candidates
 
 Errors:
 - 400: Bad Request
 - 429: Too many attempts
-
 ```
 
 ```
-Component:Results Service
-
 OPERATION: getElectionStatistics
-Purpose:  Retrieve comprehensive statistical analysis for an election.
-Preconditions: Requires authentication (ADMIN or AUDITOR role)
+Method: GET /api/v1/results/statistics/{electionId}
+Preconditions: ADMIN role
 Postconditions:
 
 INPUTS:
-- electionId
-- includeHourly
-- includeRegional
+- electionId (path)
+- includeHourly (query)
+- includeRegional (query)
 
 OUTPUTS:
-Success (101):
+Success (200):
 - electionId
 - timestamp
 - candidates
@@ -288,8 +280,9 @@ Success (101):
 
 Errors:
 - 400: Bad Request
+- 401: Unauthorized
+- 403: Forbidden
 - 429: Too many attempts
-
 ```
 
 ### 🖹 7. Migrations
