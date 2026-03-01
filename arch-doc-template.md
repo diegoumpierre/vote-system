@@ -39,46 +39,11 @@ The problem is to enable a global audience to vote in real time during a Live TV
 
 ### 🏗️ 4. Overall Diagrams
 
-Here there will be a bunch of diagrams, to understand the solution.
-```
-🗂️ 4.1 Overall architecture: Show the big picture, relationship between macro components.
-🗂️ 4.2 Deployment: Show the infra in a big picture. 
-🗂️ 4.3 Use Cases: Make 1 macro use case diagram that list the main capability that needs to be covered. 
-```
-Recommended Reading: http://diego-pacheco.blogspot.com/2020/10/uml-hidden-gems.html
-
----
-
-#### 🗂️ 4.2 Deployment Diagram
-
-**Full document:** [diagrams/4.2-deployment-diagram.md](diagrams/4.2-deployment-diagram.md)
-
-**Summary:** AWS multi-region infrastructure (US-East, EU-West, AP-Southeast) to reach 250k RPS.
-
-| Component | Per Region |
-|----------|------------|
-| API Gateway | 100k RPS |
-| ECS on EC2 | Auth, Vote, Results Services |
-| RDS PostgreSQL | Primary + 2 Read Replicas |
-| ElastiCache Redis | Vote aggregates + Session |
-| SQS | Vote buffering + DLQ |
-
----
-
-#### 🗂️ 4.3 Use Cases Diagram
-
-**Full document:** [diagrams/4.3-use-cases-diagram.md](diagrams/4.3-use-cases-diagram.md)
-
-**Summary:** 21 Use Cases organized by 4 actors.
-
-| Actor | Use Cases |
-|-------|-----------|
-| Viewer | Register, Login, Submit Vote, View Results |
-| Admin | Create Election, Manage Candidates, Audit Logs |
-| TV Host | Open/Close Voting, Stream Results |
-| System | Process Queue, Aggregate Counts, Auto-scale |
-
----
+| Name | Image |
+|------|-------|
+| Overall Architecture | [Link](diagrams/4.1-overview-diagram.png) |
+| Deployment Diagram | [Link](diagrams/deployment-diagram.png) |
+| Use Cases Diagram | [Link](diagrams/use-cases-diagram.png) |
 
 ### 🧭 5. Trade-offs
 
@@ -177,8 +142,6 @@ CONS (-)
 * Queue lag monitoring: Must track SQS ApproximateAgeOfOldestMessage metric; 5-minute lag means votes not reflected in live results, violating real-time requirement.
 * Message ordering: Standard SQS doesn't guarantee FIFO; user's second vote (candidate change) might process before first vote, creating wrong final state.
 * Dead-letter queue handling: Votes failing maxReceiveCount attempts move to DLQ; requires manual intervention or batch job to replay, risking data loss if ignored.
-
-<BR/>Recommended reading: http://diego-pacheco.blogspot.com/2023/07/tradeoffs.html
 
 ### 🌏 6. For each key major component
 
