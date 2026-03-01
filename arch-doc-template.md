@@ -102,10 +102,10 @@ PROS (+)
 * 250k RPS achievable: 3 regions × 100k API Gateway RPS each = 300k total capacity, exceeding peak requirement with 20% headroom for traffic spikes.
 * Geographic latency reduction: US-East, EU-West, AP-Southeast placement ensures <100ms response time for almost 100% of global user base.
 * Disaster recovery built-in: Region failure automatically routes traffic to healthy regions via Route53 failover, maintaining 99.95% availability SLA.
-* Regulatory compliance: EU user data processed in EU region satisfies GDPR data residency requirements without custom routing logic.
+* Regulatory compliance: EU user requests are received in EU region, reducing PII exposure in transit. Full GDPR data residency requires additional controls since writes go to the US-East-1 primary.
 
 CONS (-)
-* Cross-region data synchronization: RDS Multi-Region replication introduces 100-500ms lag; vote totals may briefly diverge between regions during peak traffic.
+* Single-writer dependency: All writes go to US-East-1 primary; EU and AP regions add 80-150ms cross-region latency per write. If US-East-1 fails, write capability is lost until a replica is promoted.
 * 3x infrastructure cost: Running full stack (ECS, RDS, ALB) in 3 regions triples baseline costs even during low-traffic periods outside voting windows.
 * Deployment complexity: Schema migrations and application releases must coordinate across 3 regions; rollback requires orchestrating 3 separate actions.
 * DNS failover limitations: Route53 health checks have 30-second detection window; region outage may expose users to 30s of errors before failover completes.
@@ -135,7 +135,6 @@ PROS (+)
 CONS (-)
 * Eventual consistency: User receives "Vote submitted" response before database write; cannot guarantee "Your vote is counted" until SQS message processed.
 * Queue lag monitoring: Must track SQS ApproximateAgeOfOldestMessage metric; 5-minute lag means votes not reflected in live results, violating real-time requirement.
-* Message ordering: Standard SQS doesn't guarantee FIFO; user's second vote (candidate change) might process before first vote, creating wrong final state.
 * Dead-letter queue handling: Votes failing maxReceiveCount attempts move to DLQ; requires manual intervention or batch job to replay, risking data loss if ignored.
 
 ### 🌏 6. For each key major component
