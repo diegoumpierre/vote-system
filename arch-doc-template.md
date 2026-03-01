@@ -96,7 +96,7 @@ No migrations.
 | **Baseline** | 10,000 | 10 min | 50,000 | p99 <100ms, 0% errors |
 | **Peak Traffic** | 100,000 | 5 min | 250,000 | p99 <150ms, <0.01% errors |
 | **Sustained** | 50,000 | 2 hours | 100,000 | Memory stable, no leaks |
-| **Spike** | 0→150,000 (30s ramp) | 10 min | Variable | Auto-scale triggers, no 503s |
+| **Spike** | 0 to 150,000 (30s ramp) | 10 min | Variable | Auto-scale triggers, no 503s |
 
 ---
 
@@ -121,7 +121,7 @@ No migrations.
 | **Metrics** | CloudWatch Metrics + Container Insights | Infrastructure, ECS task/service/cluster metrics |
 | **Traces** | X-Ray | End-to-end distributed tracing with correlation ID per request |
 | **Dashboards** | Grafana | Unified operational and business visualization |
-| **Alerts** | CloudWatch Alarms → SNS | Threshold-based alerts routed to on-call teams |
+| **Alerts** | CloudWatch Alarms > SNS | Threshold-based alerts routed to on-call teams |
 | **Audit** | CloudTrail + S3 | Immutable audit trail with long-term retention |
 
 Every request carries a **correlation ID** propagated across API Gateway, Vote Ingestion, SQS, Vote Processor, DB, so we can trace full vote lifecycle.
@@ -193,7 +193,7 @@ Every request carries a **correlation ID** propagated across API Gateway, Vote I
 | Column | Type | Nullable | Description |
 |--------|------|----------|-------------|
 | id | UUID | No | Primary key |
-| election_id | UUID | No | FK → elections.id (CASCADE DELETE) |
+| election_id | UUID | No | FK toelections.id (CASCADE DELETE) |
 | name | VARCHAR(255) | No | Candidate display name |
 | party | VARCHAR(100) | Yes | Party or group affiliation |
 | photo_url | VARCHAR(500) | Yes | URL to candidate photo in S3 |
@@ -204,8 +204,8 @@ Every request carries a **correlation ID** propagated across API Gateway, Vote I
 | Column | Type | Nullable | Description |
 |--------|------|----------|-------------|
 | id | UUID | No | Primary key |
-| election_id | UUID | No | FK → elections.id |
-| candidate_id | UUID | No | FK → candidates.id |
+| election_id | UUID | No | FK toelections.id |
+| candidate_id | UUID | No | FK tocandidates.id |
 | user_id | VARCHAR(255) | No | Auth0 subject identifier |
 | accepted_at | TIMESTAMP | No | Time vote was accepted by Vote Ingestion |
 
@@ -230,93 +230,31 @@ Every request carries a **correlation ID** propagated across API Gateway, Vote I
 
 ### 🖹 11. Technology Stack
 
-#### Backend
-Language: Java 25 (LTS)
-* Strong performance under high concurrency.
-* Modern language features improve domain expressiveness.
-* Virtual Threads (Project Loom) enable high throughput using a simple blocking programming model.
-
-Framework: Spring Boot 4.0.1
-* Orchestrates use cases.
-* Coordinates domain logic through clearly defined ports.
-* Thread-per-request using Virtual Threads.
-
-REST API: Spring MVC 7.0.2
-* Exposes HTTP endpoints.
-* Translates external requests into domain use case calls.
-
-API Contracts: OpenAPI (Swagger) 3.0.4
-
-Database: PostgreSQL 17.6 (Amazon RDS)
-* Spring Data JPA + Hibernate.
-* ACID guarantees ensure vote integrity and exactness.
-
-Cache: Redis 8.4
-* Cached vote aggregates.
-* Session data.
-
-Messaging: Amazon SQS
-* Buffers vote submissions.
-* Decouples ingestion from processing.
-* Protects the system from traffic spikes.
-
-Security:
-* Spring Security
-* JWT
-* Auth0
-
-#### Frontend
-Framework: React.js
-
-State Management: Redux Toolkit
-
-Styling: Tailwind CSS
-
-Data Fetching: Axios
-
-#### Infrastructure & Deployment
-Containerization: Docker
-
-Orchestration: Amazon ECS on EC2
-
-Load Balancing / Gateway:
-
-* AWS Application Load Balancer
-* AWS API Gateway (rate limiting, edge security)
-
-Secrets & Configuration: AWS Secrets Manager
-
-#### Security
-* JWT authentication
-* TLS for all communications
-* AWS WAF for DDoS and abuse protection
-
-#### Observability & Operations
-* Metrics: Prometheus
-* Dashboards: Grafana
-
-#### Development & CI/CD
-Build Tools: Maven
-
-CI/CD: GitHub Actions
-
-#### Architectural Rationale
-
-Hexagonal Architecture:
-* Ensures business logic is independent of frameworks and infrastructure.
-* Simplifies testing by mocking ports instead of infrastructure.
-
-Scalability:
-* Stateless Spring Boot services scale horizontally under load.
-
-Reliability:
-* PostgreSQL transactions + SQS buffering prevent vote loss or duplication.
-
-Maintainability:
-* Clear separation of concerns reduces long-term complexity.
-
-Frontend Decoupling:
-* React frontend interacts exclusively through APIs, enabling independent evolution.
+| Category | Technology | Purpose |
+|----------|-----------|---------|
+| Language | Java (LTS) | Virtual Threads for high-throughput blocking model |
+| Framework | Spring Boot | Hexagonal architecture, dependency injection, REST |
+| REST | Spring MVC | HTTP endpoints with thread-per-request via Virtual Threads |
+| ORM | Spring Data JPA + Hibernate | Database access with ACID guarantees |
+| API Contracts | OpenAPI (Swagger) | Contract-first API design |
+| Database | PostgreSQL (Amazon RDS) | Source of truth for votes, elections, candidates |
+| Cache | Redis (Amazon ElastiCache) | Dedup check, live vote counters, election metadata cache |
+| Messaging | Amazon SQS | Buffers vote submissions, decouples ingestion from processing |
+| Auth | Auth0 + Spring Security | JWT-based authentication, no custom auth service |
+| Frontend | React.js | PWA client application |
+| State | Redux Toolkit | Client-side state management |
+| Styling | Tailwind CSS | Utility-first CSS framework |
+| HTTP Client | Axios | API communication from frontend |
+| Containers | Docker | Application packaging |
+| Orchestration | Amazon ECS on EC2 | Container orchestration across 3 regions |
+| Routing | AWS Route 53 | Latency-based DNS routing to nearest region |
+| Gateway | AWS API Gateway | Rate limiting, JWT validation, edge security |
+| Load Balancer | AWS ALB | Per-service traffic distribution within each region |
+| Security | AWS WAF | DDoS and bot protection |
+| Secrets | AWS Secrets Manager | Credentials and configuration management |
+| Observability | AWS CloudWatch + X-Ray | Metrics, logs, dashboards, distributed tracing |
+| Build | Maven | Dependency management and build lifecycle |
+| CI/CD | GitHub Actions | Automated build, test, and deploy pipeline |
 
 ### 🖹 12. References
 
