@@ -62,6 +62,12 @@ What is a majore component? A service, a lambda, a important ui, a generalized a
 6.4 - Algorithms/Data Structures : Spesific algos that need to be used, along size with spesific data structures.
 ```
 
+#### 6.1 Class Diagram
+
+| Diagram | Image |
+|---------|-------|
+| [6.1-class-diagram.drawio](diagrams/6.1-class-diagram.drawio) | [6.1-class-diagram.png](diagrams/6.1-class-diagram.png) |
+
 #### 6.2 Contract Documentation
 
 | Service | Swagger UI | Source |
