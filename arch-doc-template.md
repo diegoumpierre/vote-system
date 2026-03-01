@@ -42,100 +42,15 @@ The problem is to enable a global audience to vote in real time during a Live TV
 
 ### 🧭 5. Trade-offs
 
-Major Decisions:
-```
-1. ECS on EC2 for containerized microservices
-2. Auth0 for managed authentication and authorization
-3. RDS (PostgreSQL) as primary datastore over NoSQL alternatives
-4. Multi-region deployment to handle 250k RPS requirement
-5. API Gateway with ALB per service for traffic management
-6. SQS for asynchronous vote processing and traffic buffering
-```
 
-Tradeoffs:
-
-**1. ECS on EC2 vs (EKS with Kubernetes)**
-
-PROS (+)
-* Operational simplicity: ECS is AWS-native with less operational overhead than managing Kubernetes clusters, control plane, and the K8s ecosystem (Helm, Operators, RBAC).
-* Cost efficiency: No EKS control plane fee ($0.10/hr per cluster). EC2 Reserved Instances or Savings Plans reduce compute cost by 40-60% for predictable baseline workloads.
-* Native AWS integration: Deep integration with ALB, CloudWatch, IAM, Secrets Manager, and ECS Capacity Providers without needing additional controllers or operators.
-* Two-level auto-scaling: EC2 Auto Scaling Groups scale instances while ECS Service Auto Scaling scales tasks independently, providing fine-grained control over capacity.
-* Zero cold start: EC2 instances are pre-provisioned and warm; new tasks start in seconds on existing instances, avoiding Fargate's 30-60s cold start penalty.
-
-CONS (-)
-* Infrastructure management: Team must manage EC2 instances, including AMI patching, instance type selection, and capacity planning across 3 AZs per region.
-* Less portability: ECS is AWS-only; migrating to another cloud or on-premises would require rearchitecting the orchestration layer (unlike Kubernetes which is portable).
-* Limited ecosystem: ECS lacks the rich Kubernetes ecosystem of Helm charts, custom operators, service mesh (Istio/Linkerd), and GitOps tools (ArgoCD/Flux).
-* Scaling lag: Adding new EC2 instances takes 2-5 minutes; requires Predictive Scaling or pre-warming before live TV events to avoid capacity gaps during sudden traffic spikes.
-
-**2. Auth0 vs (Custom-built authentication with Cognito or self-hosted Keycloak)**
-
-PROS (+)
-* Accelerated time-to-market: Pre-built OAuth2/OIDC flows, MFA, social logins eliminate months of authentication development and security hardening.
-* Enterprise-grade security: SOC 2, ISO 27001 compliance, automatic breach detection, and credential stuffing prevention offload critical security responsibilities.
-* Advanced features out-of-box: Passwordless authentication, device fingerprinting, anomaly detection, and user management UI require zero custom development.
-* Reduced liability: Security incidents (credential leaks, token compromise) are Auth0's contractual responsibility, limiting organizational legal exposure.
-
-CONS (-)
-* Vendor lock-in: Migrating 300M user profiles away from Auth0 would require complex data export, password re-hashing, and session migration strategies.
-* Recurring licensing costs: Enterprise tier for millions of users has a significant cost compared to self-hosted alternatives.
-* Availability dependency: Auth0 outage directly impacts authentication; their 99.99% SLA still allows ~52 minutes downtime/year, potentially during peak voting windows.
-* Data sovereignty concerns: User PII stored in Auth0's infrastructure may conflict with GDPR/CCPA residency requirements in certain jurisdictions.
-
-**3. RDS PostgreSQL vs (NoSQL: DynamoDB, MongoDB, Cassandra)**
-
-PROS (+)
-* ACID guarantees: Transactions ensure exactly-once vote recording even under concurrent requests or network retries, preventing duplicate votes without application-level coordination.
-* Strong consistency: Read-after-write guarantees allow immediate vote count queries without eventual consistency delays that could show incorrect results on live TV.
-* SQL analytics: Complex post-event queries (JOIN across users, candidates, regions) use standard SQL instead of custom MapReduce jobs or denormalized table copies.
-* Familiar tooling: Standard PostgreSQL ecosystem reduces learning curve and onboarding time for development teams.
-
-CONS (-)
-* Write throughput ceiling: PostgreSQL caps at ~20-50k writes/sec even with tuning; requires SQS buffering to handle 250k RPS peaks without overwhelming database.
-* Vertical scaling limits: Cannot horizontally partition votes table easily; must scale up instance size (expensive r6g.16xlarge at $4.50/hr) instead of adding cheap nodes.
-* Connection pool constraints: Each ECS task holds DB connections; 1000 concurrent tasks × 10 connections = 10k connections approaches PostgreSQL max_connections limit.
-
-**4. Multi-Region Deployment vs (Single Region with Quota Increase)**
-
-PROS (+)
-* 250k RPS achievable: 3 regions × 100k API Gateway RPS each = 300k total capacity, exceeding peak requirement with 20% headroom for traffic spikes.
-* Geographic latency reduction: US-East, EU-West, AP-Southeast placement ensures <100ms response time for almost 100% of global user base.
-* Disaster recovery built-in: Region failure automatically routes traffic to healthy regions via Route53 failover, maintaining 99.95% availability SLA.
-* Regulatory compliance: EU user requests are received in EU region, reducing PII exposure in transit. Full GDPR data residency requires additional controls since writes go to the US-East-1 primary.
-
-CONS (-)
-* Single-writer dependency: All writes go to US-East-1 primary; EU and AP regions add 80-150ms cross-region latency per write. If US-East-1 fails, write capability is lost until a replica is promoted.
-* 3x infrastructure cost: Running full stack (ECS, RDS, ALB) in 3 regions triples baseline costs even during low-traffic periods outside voting windows.
-* Deployment complexity: Schema migrations and application releases must coordinate across 3 regions; rollback requires orchestrating 3 separate actions.
-* DNS failover limitations: Route53 health checks have 30-second detection window; region outage may expose users to 30s of errors before failover completes.
-
-**5. API Gateway + ALB per Service vs (Direct ALB Exposure or API Gateway Only)**
-
-PROS (+)
-* Centralized authentication: API Gateway native JWT Authorizer validates JWT tokens once before routing (configured with Auth0 issuer + audience), preventing duplicate auth logic in each service.
-* Request throttling: API Gateway enforces per-user rate limits, blocking abuse before it consumes backend resources.
-* Protocol flexibility: API Gateway handles HTTP/HTTPS/WebSocket unification while ALBs focus on health-checked load distribution to ECS tasks.
-* Cost efficiency for low traffic: API Gateway's cost per requests is cheaper than ALB's cost for services with <10 RPS baseline.
-
-CONS (-)
-* Double hop latency: Request traverses API Gateway → ALB → ECS instead of direct ALB → ECS, inflating p99 latency.
-* Increased complexity: Managing both API Gateway stages (dev/prod) and ALB target groups doubles the configuration surface area for errors.
-* API Gateway RPS bottleneck: Even with multi-region, each region's API Gateway caps at 100k RPS, forcing traffic sharding logic if single service exceeds limit.
-* Higher cost at scale: At 250k sustained RPS, API Gateway costs + ALB costs exceed direct ALB-only approach.
-
-**6. SQS for Async Vote Processing vs (Synchronous Direct-to-Database Writes)**
-
-PROS (+)
-* Traffic buffering: SQS absorbs 250k RPS spikes without overwhelming Vote Service or RDS; queue acts as shock absorber between ingestion and processing.
-* Guaranteed delivery: Messages persist in SQS until successfully processed; Vote Service crashes don't lose votes, just delay processing until recovery.
-* Decoupled scaling: API Gateway can scale to 250k RPS while Vote Service processes at sustainable 20k/sec rate; no forced coupling between tiers.
-* Retry logic built-in: Failed votes automatically retry (up to maxReceiveCount) without custom application code; handles transient RDS connection errors gracefully.
-
-CONS (-)
-* Eventual consistency: User receives "Vote submitted" response before database write; cannot guarantee "Your vote is counted" until SQS message processed.
-* Queue lag monitoring: Must track SQS ApproximateAgeOfOldestMessage metric; 5-minute lag means votes not reflected in live results, violating real-time requirement.
-* Dead-letter queue handling: Votes failing maxReceiveCount attempts move to DLQ; requires manual intervention or batch job to replay, risking data loss if ignored.
+| Decision | Alternative | Pros | Cons |
+|----------|-------------|------|------|
+| **ECS on EC2** | EKS with Kubernetes | AWS-native, less ops overhead; No EKS control plane fee, EC2 RI saves 40-60%; Deep ALB/CloudWatch/IAM integration; Two-level auto-scaling (ASG + ECS Service); Zero cold start, tasks start in seconds | Must manage EC2 instances, AMI patching, capacity planning; AWS-only, no cloud portability; Lacks K8s ecosystem (Helm, service mesh, GitOps); EC2 scaling takes 2-5 min, needs pre-warming before events |
+| **Auth0** | Cognito or self-hosted Keycloak | Pre-built OAuth2/OIDC, MFA, social logins; SOC 2, ISO 27001 compliant, breach detection built-in; Passwordless auth, device fingerprinting, anomaly detection; Reduced security liability | Vendor lock-in, migrating 300M profiles is complex; High licensing cost at enterprise scale; Auth0 outage blocks authentication (~52 min/year allowed by SLA) |
+| **RDS PostgreSQL** | DynamoDB, Cassandra | ACID guarantees for exactly-once vote recording; Strong consistency for immediate vote count queries; Standard SQL for post-event analytics (JOINs, aggregations); Familiar tooling, low learning curve | Write throughput caps at ~20-50k TPS, needs SQS buffering; Vertical scaling only, expensive large instances; Connection pool pressure at high ECS task count |
+| **Multi-Region (3 regions)** | Single region with quota increase | 3 × 100k API Gateway RPS = 300k capacity with 20% headroom; <100ms latency for global users; Built-in DR via Route53 failover | Single-writer in US-East-1, 80-150ms cross-region write latency; 3x infrastructure cost; Coordinated deployments and rollbacks across regions; Route53 failover has 30s detection window |
+| **API Gateway + ALB per service** | Direct ALB or API Gateway only | Centralized JWT validation via Auth0; Per-user rate limiting before hitting backend; HTTP/HTTPS/WebSocket unification; Cost-efficient at low traffic | Double hop latency (API GW → ALB → ECS); Double config surface (stages + target groups); 100k RPS per-region API Gateway cap; More expensive than ALB-only at sustained high RPS |
+| **SQS async processing** | Synchronous direct-to-DB writes | Absorbs 250k RPS spikes, buffers for DB throughput; Guaranteed delivery, no vote loss on crashes; Decoupled scaling between ingestion and processing; Built-in retry with configurable maxReceiveCount | Eventual consistency, user gets "accepted" before DB write; Must monitor queue lag to stay within real-time SLA; DLQ requires manual intervention or batch replay |
 
 ### 🌏 6. For each key major component
 
