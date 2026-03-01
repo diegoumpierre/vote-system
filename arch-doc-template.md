@@ -166,7 +166,67 @@ Every request carries a **correlation ID** propagated across API Gateway, Vote I
 
 ### 🖹 10. Data Store Designs
 
-For each different kind of data store i.e (Postgres, Memcached, Elasticache, S3, Neo4J etc...) describe the schemas, what would be stored there and why, main queries, expectations on performance. Diagrams are welcome but you really need some dictionaries.
+#### 10.1 Store Overview
+
+| Store | Service | Role | Topology |
+|-------|---------|------|----------|
+| PostgreSQL (RDS) | Vote Processor | Source of truth for votes, elections, candidates | Primary in US-East-1, read replicas in EU-West-1 and AP-Southeast-1 |
+| Redis (ElastiCache) | Vote Ingestion, Vote Processor, Result Service | Dedup check, live vote counters, election metadata cache | Primary in US-East-1, replicas in EU-West-1 and AP-Southeast-1 |
+
+#### 10.2 Data Dictionary — PostgreSQL
+
+**elections**
+
+| Column | Type | Nullable | Description |
+|--------|------|----------|-------------|
+| id | UUID | No | Primary key |
+| title | VARCHAR(255) | No | Election display name |
+| description | VARCHAR(1000) | Yes | Optional description |
+| status | VARCHAR(20) | No | DRAFT, SCHEDULED, ACTIVE, CLOSED, CANCELLED |
+| start_date | TIMESTAMP | No | Voting window start (UTC) |
+| end_date | TIMESTAMP | No | Voting window end (UTC) |
+| created_at | TIMESTAMP | No | Row creation time |
+| updated_at | TIMESTAMP | No | Last modification time |
+
+**candidates**
+
+| Column | Type | Nullable | Description |
+|--------|------|----------|-------------|
+| id | UUID | No | Primary key |
+| election_id | UUID | No | FK → elections.id (CASCADE DELETE) |
+| name | VARCHAR(255) | No | Candidate display name |
+| party | VARCHAR(100) | Yes | Party or group affiliation |
+| photo_url | VARCHAR(500) | Yes | URL to candidate photo in S3 |
+| created_at | TIMESTAMP | No | Row creation time |
+
+**votes**
+
+| Column | Type | Nullable | Description |
+|--------|------|----------|-------------|
+| id | UUID | No | Primary key |
+| election_id | UUID | No | FK → elections.id |
+| candidate_id | UUID | No | FK → candidates.id |
+| user_id | VARCHAR(255) | No | Auth0 subject identifier |
+| accepted_at | TIMESTAMP | No | Time vote was accepted by Vote Ingestion |
+
+#### 10.3 Data Dictionary — Redis
+
+| Key Pattern | Type | TTL | Written By | Read By |
+|-------------|------|-----|------------|---------|
+| `vote:{electionId}:{userId}` | STRING | 48h | Vote Ingestion | Vote Ingestion |
+| `results:{electionId}:{candidateId}` | STRING (counter) | None | Vote Processor | Result Service |
+| `election:{electionId}` | HASH | 1h | Vote Ingestion | Vote Ingestion, Result Service |
+
+#### 10.4 Performance Expectations
+
+| Store | Operation | Expected Throughput | Latency Target |
+|-------|-----------|--------------------:|----------------|
+| Redis | EXISTS (dedup check) | 250k ops/s | < 2ms |
+| Redis | INCR (vote counter) | 50k ops/s | < 2ms |
+| Redis | HGETALL (election metadata) | 10k ops/s | < 2ms |
+| PostgreSQL | INSERT vote (from SQS consumer) | 20–50k rows/s | < 50ms |
+| PostgreSQL | SELECT aggregation (results) | 100 req/s | < 200ms |
+| PostgreSQL | CRUD elections/candidates (admin) | < 100 req/s | < 100ms |
 
 ### 🖹 11. Technology Stack
 
