@@ -118,7 +118,7 @@ CONS (-)
 **5. API Gateway + ALB per Service vs (Direct ALB Exposure or API Gateway Only)**
 
 PROS (+)
-* Centralized authentication: API Gateway Lambda Authorizer validates JWT tokens once before routing, preventing duplicate auth logic in each service.
+* Centralized authentication: API Gateway native JWT Authorizer validates JWT tokens once before routing (configured with Auth0 issuer + audience), preventing duplicate auth logic in each service.
 * Request throttling: API Gateway enforces per-user rate limits, blocking abuse before it consumes backend resources.
 * Protocol flexibility: API Gateway handles HTTP/HTTPS/WebSocket unification while ALBs focus on health-checked load distribution to ECS tasks.
 * Cost efficiency for low traffic: API Gateway's cost per requests is cheaper than ALB's cost for services with <10 RPS baseline.
