@@ -433,19 +433,19 @@
         <mxCell id="cmdovSPi8JeMJFclsmpq-1" parent="1" style="rounded=1;arcSize=10;dashed=1;strokeColor=#F59D56;fillColor=none;gradientColor=none;dashPattern=8 4;strokeWidth=2;" value="" vertex="1">
           <mxGeometry height="530" width="410.05" x="-260" y="390" as="geometry" />
         </mxCell>
-        <mxCell id="cmdovSPi8JeMJFclsmpq-2" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="&lt;font style=&quot;font-size: 11px;&quot;&gt;Availability Zones&lt;/font&gt;" vertex="1">
+        <mxCell id="cmdovSPi8JeMJFclsmpq-2" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="&lt;font style=&quot;font-size: 11px;&quot;&gt;A..Z&lt;/font&gt;" vertex="1">
           <mxGeometry height="30" width="90" x="-235.5" y="390" as="geometry" />
         </mxCell>
         <mxCell id="cmdovSPi8JeMJFclsmpq-3" parent="1" style="rounded=1;arcSize=10;dashed=1;strokeColor=#F59D56;fillColor=none;gradientColor=none;dashPattern=8 4;strokeWidth=2;" value="" vertex="1">
           <mxGeometry height="530" width="390" x="180" y="390" as="geometry" />
         </mxCell>
-        <mxCell id="cmdovSPi8JeMJFclsmpq-4" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="&lt;font style=&quot;font-size: 11px;&quot;&gt;Availability Zones&lt;/font&gt;" vertex="1">
+        <mxCell id="cmdovSPi8JeMJFclsmpq-4" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="&lt;font style=&quot;font-size: 11px;&quot;&gt;A..Z&lt;/font&gt;" vertex="1">
           <mxGeometry height="30" width="90" x="199.16000000000003" y="390" as="geometry" />
         </mxCell>
         <mxCell id="cmdovSPi8JeMJFclsmpq-5" parent="1" style="rounded=1;arcSize=10;dashed=1;strokeColor=#F59D56;fillColor=none;gradientColor=none;dashPattern=8 4;strokeWidth=2;" value="" vertex="1">
           <mxGeometry height="530" width="404.45" x="595.55" y="390" as="geometry" />
         </mxCell>
-        <mxCell id="cmdovSPi8JeMJFclsmpq-6" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="&lt;font style=&quot;font-size: 11px;&quot;&gt;Availability Zones&lt;/font&gt;" vertex="1">
+        <mxCell id="cmdovSPi8JeMJFclsmpq-6" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="&lt;font style=&quot;font-size: 11px;&quot;&gt;A..Z&lt;/font&gt;" vertex="1">
           <mxGeometry height="30" width="90" x="614.45" y="400" as="geometry" />
         </mxCell>
       </root>
